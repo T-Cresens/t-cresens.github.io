@@ -7,219 +7,235 @@
 <style>
 /* ── Tokens ───────────────────────────────────────────────────────────────── */
 :root {
-  --bg:        #f6f8fa;
-  --surface:   #ffffff;
-  --border:    #d0d7de;
-  --text:      #1c2128;
-  --muted:     #57606a;
-  --faint:     #8b949e;
-  --accent:    #b86f00;
-  --accent-hi: #e08800;
-  --trace:     rgba(180,108,0,0.80);
-  --tag-bg:    #fff0d4;
-  --tag-text:  #7a4800;
-  --skill-bg:  #f0f2f5;
+  --bg:       #f6f8fa;
+  --surface:  #ffffff;
+  --border:   #d0d7de;
+  --text:     #1c2128;
+  --muted:    #57606a;
+  --faint:    #8b949e;
+  --accent:   #b86f00;
+  --accent-h: #e08800;
+  --trace:    rgba(180,108,0,.82);
+  --tag-bg:   #fff0d4;
+  --tag-text: #7a4800;
+  --chip-bg:  #f0f2f5;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:        #0d1117;
-    --surface:   #161b22;
-    --border:    #30363d;
-    --text:      #e6edf3;
-    --muted:     #8b949e;
-    --faint:     #484f58;
-    --accent:    #f0a500;
-    --accent-hi: #ffc633;
-    --trace:     rgba(240,165,0,0.88);
-    --tag-bg:    rgba(240,165,0,0.08);
-    --tag-text:  #f0a500;
-    --skill-bg:  #1f2630;
-  }
-}
-:root[data-theme="dark"] {
+@media (prefers-color-scheme: dark) { :root {
   --bg:#0d1117; --surface:#161b22; --border:#30363d;
   --text:#e6edf3; --muted:#8b949e; --faint:#484f58;
-  --accent:#f0a500; --accent-hi:#ffc633;
-  --trace:rgba(240,165,0,0.88);
-  --tag-bg:rgba(240,165,0,0.08); --tag-text:#f0a500;
-  --skill-bg:#1f2630;
+  --accent:#f0a500; --accent-h:#ffc633;
+  --trace:rgba(240,165,0,.88);
+  --tag-bg:rgba(240,165,0,.08); --tag-text:#f0a500;
+  --chip-bg:#1f2630;
+}}
+:root[data-theme="dark"]  {
+  --bg:#0d1117; --surface:#161b22; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e; --faint:#484f58;
+  --accent:#f0a500; --accent-h:#ffc633;
+  --trace:rgba(240,165,0,.88);
+  --tag-bg:rgba(240,165,0,.08); --tag-text:#f0a500;
+  --chip-bg:#1f2630;
 }
 :root[data-theme="light"] {
   --bg:#f6f8fa; --surface:#ffffff; --border:#d0d7de;
   --text:#1c2128; --muted:#57606a; --faint:#8b949e;
-  --accent:#b86f00; --accent-hi:#e08800;
-  --trace:rgba(180,108,0,0.80);
+  --accent:#b86f00; --accent-h:#e08800;
+  --trace:rgba(180,108,0,.82);
   --tag-bg:#fff0d4; --tag-text:#7a4800;
-  --skill-bg:#f0f2f5;
+  --chip-bg:#f0f2f5;
 }
 
 /* ── Reset ────────────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
-body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.7; background: var(--bg); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.7;background:var(--bg);min-height:100vh}
+a{color:inherit;text-decoration:none}
 
-/* ── Page shell ───────────────────────────────────────────────────────────── */
-.page { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 2rem}
 
-/* ── Two-column content grid ──────────────────────────────────────────────── */
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 4rem;
-  align-items: start;
+/* ── Theme btn ────────────────────────────────────────────────────────────── */
+.theme-btn{
+  position:fixed;top:1rem;right:1rem;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface);color:var(--muted);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;z-index:200;transition:color .15s,border-color .15s
 }
-.content-grid > .full-width { grid-column: 1 / -1; }
-@media (max-width: 720px) {
-  .content-grid { grid-template-columns: 1fr; }
-  .content-grid > .full-width { grid-column: 1; }
-}
+.theme-btn:hover{color:var(--accent);border-color:var(--accent)}
+.theme-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* ── Theme toggle ─────────────────────────────────────────────────────────── */
-.theme-btn {
-  position: fixed; top: 1rem; right: 1rem;
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid var(--border); background: var(--surface);
-  color: var(--muted); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: .95rem; z-index: 100; transition: color .15s, border-color .15s;
-}
-.theme-btn:hover { color: var(--accent); border-color: var(--accent); }
-.theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* ── EEG header ───────────────────────────────────────────────────────────── */
+.eeg-header{width:100%;background:var(--bg);padding-top:2.5rem}
+#eeg{display:block;width:100%;height:110px}
+@media(min-width:600px){#eeg{height:145px}}
+@media(min-width:960px){#eeg{height:168px}}
 
-/* ── EEG canvas ───────────────────────────────────────────────────────────── */
-.eeg-wrap { width: 100%; padding-top: 3rem; }
-#eeg { display: block; width: 100%; height: 110px; }
-@media (min-width: 540px) { #eeg { height: 150px; } }
-@media (min-width: 900px) { #eeg { height: 170px; } }
+/* ── Tab nav ──────────────────────────────────────────────────────────────── */
+.tab-bar{
+  border-bottom:1px solid var(--border);
+  background:var(--bg);
+  position:sticky;top:0;z-index:100;
+}
+.tab-bar-inner{
+  display:flex;align-items:flex-end;gap:0;
+  max-width:1160px;margin:0 auto;padding:0 2rem;
+}
+.tab-btn{
+  padding:.75rem 1.4rem;font-size:.8rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);background:none;border:none;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 
-/* ── Header ───────────────────────────────────────────────────────────────── */
-.site-header { padding: 1.5rem 0 3rem; }
-.eyebrow {
-  font-size: .68rem; font-weight: 600; letter-spacing: .2em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: .55rem;
-}
-.site-name {
-  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-  font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 400;
-  letter-spacing: -.02em; line-height: 1.1; text-wrap: balance;
-  margin-bottom: .8rem;
-}
-.site-bio { font-size: .92rem; color: var(--muted); max-width: 54ch; line-height: 1.75; }
+/* ── Tab panels ───────────────────────────────────────────────────────────── */
+.tab-panel{display:none;padding-top:3rem;padding-bottom:4rem}
+.tab-panel.active{display:block}
 
 /* ── Section ──────────────────────────────────────────────────────────────── */
-section { padding-bottom: 3rem; }
-.section-label {
-  font-size: .66rem; font-weight: 600; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--muted);
-  margin-bottom: 1.2rem; padding-bottom: .65rem;
-  border-bottom: 1px solid var(--border);
+section{margin-bottom:3rem}
+.sec-label{
+  font-size:.66rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:1.1rem;padding-bottom:.6rem;
+  border-bottom:1px solid var(--border)
 }
 
-/* ── Timeline (work / education) ─────────────────────────────────────────── */
-.timeline { display: flex; flex-direction: column; gap: 1.5rem; }
-.tl-item { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0 1rem; align-items: start; }
-@media (max-width: 420px) {
-  .tl-item { grid-template-columns: 1fr; gap: .15rem; }
-  .tl-year { font-size: .68rem; }
+/* ── Two-col grid ─────────────────────────────────────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:0 4rem;align-items:start}
+.two-col>.full{grid-column:1/-1}
+@media(max-width:720px){.two-col{grid-template-columns:1fr}.two-col>.full{grid-column:1}}
+
+/* ── About hero ───────────────────────────────────────────────────────────── */
+.about-hero{padding-bottom:2.5rem;max-width:680px}
+.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.site-name{
+  font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  font-size:clamp(2rem,6vw,3.2rem);font-weight:400;
+  letter-spacing:-.02em;line-height:1.1;text-wrap:balance;margin-bottom:.8rem
 }
-.tl-year {
-  font-size: .72rem; font-weight: 600; letter-spacing: .06em;
-  color: var(--faint); font-variant-numeric: tabular-nums;
-  padding-top: .18rem; white-space: nowrap;
+.site-bio{font-size:.92rem;color:var(--muted);max-width:54ch;line-height:1.75}
+
+/* ── Contact grid ─────────────────────────────────────────────────────────── */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.contact-item{
+  background:var(--surface);padding:1rem 1.2rem;
+  display:flex;flex-direction:column;gap:.2rem
 }
-.tl-body {}
-.tl-role { font-size: .82rem; color: var(--muted); margin-bottom: .05rem; }
-.tl-org { font-size: .95rem; font-weight: 600; color: var(--text); }
-.tl-detail { font-size: .82rem; color: var(--muted); margin-top: .2rem; max-width: 48ch; }
+.contact-label{font-size:.63rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.contact-value{font-size:.88rem;color:var(--text);font-weight:500}
+.contact-sub{font-size:.75rem;color:var(--muted)}
+.contact-item a{color:var(--text)}
+.contact-item a:hover{color:var(--accent)}
+
+/* ── Timeline ─────────────────────────────────────────────────────────────── */
+.timeline{display:flex;flex-direction:column;gap:1.4rem}
+.tl-item{display:grid;grid-template-columns:5.5rem 1fr;gap:0 1rem;align-items:start}
+@media(max-width:420px){.tl-item{grid-template-columns:1fr;gap:.1rem}}
+.tl-year{font-size:.71rem;font-weight:600;letter-spacing:.05em;color:var(--faint);padding-top:.18rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tl-role{font-size:.8rem;color:var(--muted);margin-bottom:.04rem}
+.tl-org{font-size:.93rem;font-weight:600;color:var(--text)}
+.tl-detail{font-size:.8rem;color:var(--muted);margin-top:.2rem;max-width:46ch}
 
 /* ── Skills ───────────────────────────────────────────────────────────────── */
-.skill-group { margin-bottom: 1.1rem; }
-.skill-group-label {
-  font-size: .68rem; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--faint); margin-bottom: .5rem;
-}
-.skill-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
-.chip {
-  font-size: .78rem; color: var(--muted); background: var(--skill-bg);
-  border: 1px solid var(--border); padding: .2rem .65rem; line-height: 1.5;
-}
-
-/* ── Project card ─────────────────────────────────────────────────────────── */
-.project-card {
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 1.5rem 1.5rem 1.5rem 1.8rem; position: relative; overflow: hidden;
-}
-.project-card::before {
-  content: ''; position: absolute; top: 0; left: 0;
-  width: 3px; height: 100%; background: var(--accent);
-}
-.project-title {
-  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-  font-size: 1.25rem; font-weight: 400; letter-spacing: -.01em;
-  margin-bottom: .2rem;
-}
-.project-version {
-  font-family: 'Courier New', monospace; font-size: .7rem; font-weight: 600;
-  letter-spacing: .08em; color: var(--tag-text); background: var(--tag-bg);
-  padding: 1px 7px; display: inline-block; margin-bottom: .8rem;
-}
-.project-desc { font-size: .88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.1rem; max-width: 54ch; }
-.project-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.25rem; }
-.tag {
-  font-size: .7rem; font-weight: 500; color: var(--faint);
-  background: var(--bg); border: 1px solid var(--border); padding: 2px 9px;
-}
-.btn-row { display: flex; gap: .65rem; flex-wrap: wrap; }
-.btn-primary {
-  display: inline-flex; align-items: center; gap: .4rem;
-  background: var(--accent); color: #fff;
-  font-size: .8rem; font-weight: 600; letter-spacing: .04em;
-  padding: .5rem 1rem; text-decoration: none; border: none; cursor: pointer;
-  transition: background .15s;
-}
-.btn-primary:hover { background: var(--accent-hi); }
-.btn-primary:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
-.btn-secondary {
-  display: inline-flex; align-items: center; gap: .4rem;
-  background: transparent; color: var(--accent);
-  font-size: .8rem; font-weight: 600; letter-spacing: .04em;
-  padding: .5rem 1rem; text-decoration: none; border: 1px solid var(--accent);
-  transition: background .15s, color .15s;
-}
-.btn-secondary:hover { background: var(--accent); color: #fff; }
-.btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-/* ── Links grid ───────────────────────────────────────────────────────────── */
-.link-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-}
-@media (max-width: 380px) { .link-grid { grid-template-columns: 1fr; } }
-.link-card {
-  background: var(--surface); padding: 1.1rem 1.2rem;
-  text-decoration: none; display: flex; flex-direction: column; gap: .2rem;
-  transition: background .12s;
-}
-.link-card:hover { background: var(--bg); }
-.link-card:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.link-label { font-size: .65rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
-.link-name { font-size: .92rem; font-weight: 500; color: var(--text); }
-.link-sub { font-size: .76rem; color: var(--muted); }
-.link-arrow { margin-top: .5rem; font-size: .85rem; color: var(--accent); transition: transform .15s; }
-.link-card:hover .link-arrow { transform: translateX(3px); }
+.skill-group{margin-bottom:1rem}
+.skill-group-label{font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.chip{font-size:.77rem;color:var(--muted);background:var(--chip-bg);border:1px solid var(--border);padding:.18rem .65rem}
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
-footer {
-  border-top: 1px solid var(--border); padding: 1.75rem 0 3rem;
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
+.site-footer{
+  border-top:1px solid var(--border);margin-top:1rem;padding:1.75rem 0 3rem;
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap
 }
-.footer-copy { font-size: .76rem; color: var(--muted); }
-.footer-note { font-size: .73rem; color: var(--faint); font-style: italic; }
+.footer-copy{font-size:.76rem;color:var(--muted)}
+.footer-note{font-size:.73rem;color:var(--faint);font-style:italic}
 
-@media (prefers-reduced-motion: reduce) { *, canvas { animation: none !important; transition: none !important; } }
+/* ══ PROJECT PAGES ════════════════════════════════════════════════════════════ */
+
+/* ── Project hero ─────────────────────────────────────────────────────────── */
+.proj-hero{padding-bottom:2.5rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
+.proj-eyebrow{font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
+.proj-title{
+  font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  font-size:clamp(1.8rem,5vw,2.8rem);font-weight:400;letter-spacing:-.02em;
+  line-height:1.1;text-wrap:balance;margin-bottom:.6rem
+}
+.proj-version{
+  font-family:'Courier New',monospace;font-size:.7rem;font-weight:600;
+  letter-spacing:.08em;color:var(--tag-text);background:var(--tag-bg);
+  padding:1px 8px;display:inline-block;margin-bottom:.9rem
+}
+.proj-tagline{font-size:.95rem;color:var(--muted);max-width:60ch;line-height:1.7;margin-bottom:1.4rem}
+.btn-row{display:flex;gap:.65rem;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--accent);color:#fff;
+  font-size:.8rem;font-weight:600;letter-spacing:.04em;
+  padding:.5rem 1.1rem;border:none;cursor:pointer;transition:background .15s
+}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-primary:focus-visible{outline:2px solid var(--accent-h);outline-offset:2px}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:transparent;color:var(--accent);
+  font-size:.8rem;font-weight:600;letter-spacing:.04em;
+  padding:.5rem 1.1rem;border:1px solid var(--accent);transition:background .15s,color .15s
+}
+.btn-secondary:hover{background:var(--accent);color:#fff}
+.btn-secondary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── Project details ──────────────────────────────────────────────────────── */
+.proj-details{font-size:.9rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;max-width:64ch}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.8rem}
+.tag{font-size:.7rem;font-weight:500;color:var(--faint);background:var(--bg);border:1px solid var(--border);padding:2px 9px}
+
+/* ── Screenshot gallery ───────────────────────────────────────────────────── */
+.gallery-label{
+  font-size:.66rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:1rem;padding-bottom:.6rem;
+  border-bottom:1px solid var(--border)
+}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.gallery-slot{
+  background:var(--chip-bg);border:1px dashed var(--border);
+  aspect-ratio:16/9;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.4rem;
+  color:var(--faint);font-size:.78rem;text-align:center;padding:1rem
+}
+.gallery-slot svg{opacity:.4}
+/* Real screenshots replace the slots */
+.gallery img{
+  width:100%;height:auto;display:block;
+  border:1px solid var(--border);aspect-ratio:16/9;object-fit:cover
+}
+
+/* ── Collaborator card ────────────────────────────────────────────────────── */
+.collab-card{
+  display:inline-flex;align-items:center;gap:.9rem;
+  border:1px solid var(--border);padding:.8rem 1.2rem;
+  background:var(--surface);text-decoration:none;
+  transition:background .12s
+}
+.collab-card:hover{background:var(--bg)}
+.collab-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.collab-name{font-size:.9rem;font-weight:600;color:var(--text)}
+.collab-sub{font-size:.76rem;color:var(--muted)}
+.collab-arrow{color:var(--accent);transition:transform .15s}
+.collab-card:hover .collab-arrow{transform:translateX(3px)}
+
+/* ── Disclaimer ───────────────────────────────────────────────────────────── */
+.disclaimer{
+  font-size:.8rem;color:var(--muted);
+  border-left:2px solid var(--border);
+  padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6
+}
+
+@media(prefers-reduced-motion:reduce){*,canvas{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -234,339 +250,429 @@ footer {
   </svg>
 </button>
 
-<div class="page">
+<!-- EEG — always visible -->
+<div class="eeg-header">
+  <canvas id="eeg" aria-hidden="true"></canvas>
+</div>
 
-  <!-- EEG hero -->
-  <div class="eeg-wrap">
-    <canvas id="eeg" aria-hidden="true"></canvas>
+<!-- Tab navigation -->
+<nav class="tab-bar" aria-label="Site sections">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" data-tab="about"  aria-selected="true">About</button>
+    <button class="tab-btn"        data-tab="creya"  aria-selected="false">Creya</button>
+    <button class="tab-btn"        data-tab="spike"  aria-selected="false">SPIKE</button>
   </div>
+</nav>
 
-  <!-- Name -->
-  <header class="site-header">
+<!-- ══ ABOUT ══════════════════════════════════════════════════════════════════ -->
+<div id="tab-about" class="tab-panel active" role="tabpanel">
+<div class="wrap">
+
+  <div class="about-hero">
     <p class="eyebrow">Pelt, Belgium</p>
     <h1 class="site-name">Tijl Cresens</h1>
     <p class="site-bio">
       3rd-year Business Economics student at KU Leuven (Production &amp; Logistics,
       Finance &amp; Accountancy). Working toward a master in data science &amp; statistics.
     </p>
-  </header>
+  </div>
 
-  <div class="content-grid">
+  <div class="two-col">
 
-  <!-- Work -->
-  <section aria-labelledby="work-label">
-    <p class="section-label" id="work-label">Work</p>
-    <div class="timeline">
+    <!-- Left: Work + Education -->
+    <div>
 
-      <div class="tl-item">
-        <span class="tl-year">2026 – now</span>
-        <div class="tl-body">
-          <p class="tl-role">Co-founder</p>
-          <p class="tl-org">Creya.be</p>
-          <p class="tl-detail">Networking and financial analysis platform for Belgians — built together with Yenthe Jannis.</p>
+      <section aria-labelledby="work-lbl">
+        <p class="sec-label" id="work-lbl">Work</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <span class="tl-year">2026 – now</span>
+            <div>
+              <p class="tl-role">Co-founder</p>
+              <p class="tl-org">Creya.be</p>
+              <p class="tl-detail">Networking and financial analysis platform for Belgians — built with Yenthe Jannis.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <span class="tl-year">2023 – 2026</span>
+            <div>
+              <p class="tl-role">Receptionist — job student</p>
+              <p class="tl-org">Basic-Fit, Noord-Limburg</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <span class="tl-year">2020 – 2023</span>
+            <div>
+              <p class="tl-role">IT technician — job student</p>
+              <p class="tl-org">Vip Computers BV</p>
+              <p class="tl-detail">Hardware repair and client support.</p>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="tl-item">
-        <span class="tl-year">2023 – 2026</span>
-        <div class="tl-body">
-          <p class="tl-role">Receptionist — job student</p>
-          <p class="tl-org">Basic-Fit, Noord-Limburg</p>
+      <section aria-labelledby="edu-lbl">
+        <p class="sec-label" id="edu-lbl">Education</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <span class="tl-year">2023 – 2026</span>
+            <div>
+              <p class="tl-role">Bachelor of Business Economics (TEW)</p>
+              <p class="tl-org">KU Leuven</p>
+              <p class="tl-detail">Major 1: Production &amp; Logistics · Major 2: Finance &amp; Accountancy</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <span class="tl-year">– 2023</span>
+            <div>
+              <p class="tl-role">Secondary — Science &amp; Mathematics</p>
+              <p class="tl-org">Wico Neerpelt</p>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="tl-item">
-        <span class="tl-year">2020 – 2023</span>
-        <div class="tl-body">
-          <p class="tl-role">IT technician — job student</p>
-          <p class="tl-org">Vip Computers BV</p>
-          <p class="tl-detail">Hardware repair and client support.</p>
-        </div>
-      </div>
+      </section>
 
     </div>
-  </section>
 
-  <!-- Education -->
-  <section aria-labelledby="edu-label">
-    <p class="section-label" id="edu-label">Education</p>
-    <div class="timeline">
+    <!-- Right: Contact + Skills -->
+    <div>
 
-      <div class="tl-item">
-        <span class="tl-year">2023 – 2026</span>
-        <div class="tl-body">
-          <p class="tl-role">Bachelor of Business Economics (TEW)</p>
-          <p class="tl-org">KU Leuven</p>
-          <p class="tl-detail">Major 1: Production &amp; Logistics · Major 2: Finance &amp; Accountancy</p>
+      <section aria-labelledby="contact-lbl">
+        <p class="sec-label" id="contact-lbl">Contact</p>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <span class="contact-label">Phone</span>
+            <a class="contact-value" href="tel:+32483658946">+32 483 658 946</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Email — Creya</span>
+            <a class="contact-value" href="mailto:tijl@creya.be">tijl@creya.be</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Email — SPIKE / KU Leuven</span>
+            <a class="contact-value" href="mailto:tijl.cresens@student.kuleuven.be">tijl.cresens@student.kuleuven.be</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Email — Other</span>
+            <a class="contact-value" href="mailto:tijl@ts33.be">tijl@ts33.be</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">LinkedIn</span>
+            <a class="contact-value" href="https://www.linkedin.com/in/tijl-cresens-044b8a363/" target="_blank" rel="noopener">Tijl Cresens</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">GitHub</span>
+            <a class="contact-value" href="https://github.com/T-Cresens" target="_blank" rel="noopener">T-Cresens</a>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="tl-item">
-        <span class="tl-year">– 2023</span>
-        <div class="tl-body">
-          <p class="tl-role">Secondary — Science &amp; Mathematics</p>
-          <p class="tl-org">Wico Neerpelt</p>
+      <section aria-labelledby="skills-lbl">
+        <p class="sec-label" id="skills-lbl">Skills</p>
+        <div class="skill-group">
+          <p class="skill-group-label">Comfortable with</p>
+          <div class="chips">
+            <span class="chip">Excel — solver, PowerQuery</span>
+            <span class="chip">Linear programming (Lindo)</span>
+            <span class="chip">STATA-SE</span>
+            <span class="chip">Power BI</span>
+            <span class="chip">Computer hardware</span>
+            <span class="chip">Dutch — native</span>
+            <span class="chip">English — fluent</span>
+          </div>
         </div>
-      </div>
+        <div class="skill-group">
+          <p class="skill-group-label">Learning</p>
+          <div class="chips">
+            <span class="chip">Python 3</span>
+            <span class="chip">Econometrics</span>
+            <span class="chip">Machine learning</span>
+            <span class="chip">Real analysis</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="proj-lbl">
+        <p class="sec-label" id="proj-lbl">Projects</p>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <button class="btn-primary" onclick="switchTab('creya')" style="justify-content:space-between;width:100%;max-width:280px">
+            <span>Creya.be</span><span>→</span>
+          </button>
+          <button class="btn-secondary" onclick="switchTab('spike')" style="justify-content:space-between;width:100%;max-width:280px">
+            <span>SPIKE</span><span>→</span>
+          </button>
+        </div>
+      </section>
 
     </div>
-  </section>
 
-  <!-- Skills -->
-  <section aria-labelledby="skills-label">
-    <p class="section-label" id="skills-label">Skills</p>
+    <footer class="site-footer full">
+      <span class="footer-copy">© 2026 Tijl Cresens</span>
+      <span class="footer-note">Belgian bench-press champion 2023</span>
+    </footer>
 
-    <div class="skill-group">
-      <p class="skill-group-label">Comfortable with</p>
-      <div class="skill-chips">
-        <span class="chip">Excel — solver, PowerQuery</span>
-        <span class="chip">Linear programming (Lindo)</span>
-        <span class="chip">STATA-SE</span>
-        <span class="chip">Power BI</span>
-        <span class="chip">Computer hardware</span>
-        <span class="chip">Dutch — native</span>
-        <span class="chip">English — fluent</span>
-      </div>
-    </div>
+  </div><!-- /two-col -->
+</div><!-- /wrap -->
+</div><!-- /tab-about -->
 
-    <div class="skill-group">
-      <p class="skill-group-label">Learning</p>
-      <div class="skill-chips">
-        <span class="chip">Python 3</span>
-        <span class="chip">Econometrics</span>
-        <span class="chip">Machine learning</span>
-        <span class="chip">Real analysis / measure theory</span>
-      </div>
-    </div>
-  </section>
 
-  <!-- Project -->
-  <section aria-labelledby="proj-label">
-    <p class="section-label" id="proj-label">Side project</p>
+<!-- ══ CREYA ══════════════════════════════════════════════════════════════════ -->
+<div id="tab-creya" class="tab-panel" role="tabpanel">
+<div class="wrap">
 
-    <div class="project-card">
-      <h2 class="project-title">SPIKE</h2>
-      <span class="project-version">v1.0.001</span>
-      <p class="project-desc">
-        A personal research project — a Windows desktop tool that reads clinical EEG recordings,
-        runs pattern detection models trained on open-access datasets, and produces an epilepsy
-        probability estimate with a conformal prediction interval. Includes a decision-support
-        tab for AED selection based on Belgian and NICE guidelines. Not validated for clinical use.
-      </p>
-      <div class="project-tags">
-        <span class="tag">Python</span>
-        <span class="tag">MNE-Python</span>
-        <span class="tag">LightGBM</span>
-        <span class="tag">MAPIE</span>
-        <span class="tag">NiceGUI</span>
-        <span class="tag">Windows</span>
-      </div>
-      <div class="btn-row">
-        <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_1.0.001/releases">
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/>
-            <path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/>
-          </svg>
-          Download — Windows
-        </a>
-        <a class="btn-secondary" href="https://github.com/T-Cresens/SPIKE_1.0.001" target="_blank" rel="noopener">
-          GitHub
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Connect — spans both columns -->
-  <section aria-labelledby="connect-label" class="full-width">
-    <p class="section-label" id="connect-label">Connect</p>
-    <div class="link-grid">
-
-      <a class="link-card" href="https://www.linkedin.com/in/tijl-cresens-044b8a363/" target="_blank" rel="noopener">
-        <span class="link-label">LinkedIn</span>
-        <span class="link-name">Tijl Cresens</span>
-        <span class="link-sub">KU Leuven · TEW</span>
-        <span class="link-arrow">→</span>
+  <div class="proj-hero">
+    <p class="proj-eyebrow">Project — 2026</p>
+    <h2 class="proj-title">Creya.be</h2>
+    <p class="proj-tagline">
+      Networking and financial analysis platform for and by Belgians.
+      Built together with Yenthe Jannis.
+    </p>
+    <div class="btn-row">
+      <a class="btn-primary" href="https://creya.be" target="_blank" rel="noopener">
+        Visit Creya.be →
       </a>
+    </div>
+  </div>
 
-      <a class="link-card" href="https://creya.be" target="_blank" rel="noopener">
-        <span class="link-label">Project</span>
-        <span class="link-name">Creya.be</span>
-        <span class="link-sub">Networking &amp; financial analysis</span>
-        <span class="link-arrow">→</span>
-      </a>
-
-      <a class="link-card" href="https://www.linkedin.com/in/yenthe-jannis-0979272a1/" target="_blank" rel="noopener">
-        <span class="link-label">LinkedIn</span>
-        <span class="link-name">Yenthe Jannis</span>
-        <span class="link-sub">Creya.be co-founder</span>
-        <span class="link-arrow">→</span>
-      </a>
-
-      <a class="link-card" href="https://github.com/T-Cresens" target="_blank" rel="noopener">
-        <span class="link-label">GitHub</span>
-        <span class="link-name">T-Cresens</span>
-        <span class="link-sub">SPIKE &amp; other projects</span>
-        <span class="link-arrow">→</span>
-      </a>
-
+  <section>
+    <p class="gallery-label">Screenshots</p>
+    <div class="gallery" id="creya-gallery">
+      <!-- Placeholders — replaced when screenshots arrive -->
+      <div class="gallery-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Screenshot coming soon
+      </div>
+      <div class="gallery-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Screenshot coming soon
+      </div>
+      <div class="gallery-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Screenshot coming soon
+      </div>
     </div>
   </section>
 
-  <footer class="full-width">
-    <span class="footer-copy">© 2026 Tijl Cresens · tijl@creya.be</span>
-    <span class="footer-note">Belgian bench-press champion 2023</span>
-  </footer>
+  <section style="margin-top:2rem">
+    <p class="sec-label">Built with</p>
+    <div class="chips">
+      <!-- Add tech stack when known -->
+      <span class="chip">Details coming soon</span>
+    </div>
+  </section>
 
-  </div><!-- /content-grid -->
+  <section style="margin-top:2rem">
+    <p class="sec-label">Collaborator</p>
+    <a class="collab-card" href="https://www.linkedin.com/in/yenthe-jannis-0979272a1/" target="_blank" rel="noopener">
+      <div>
+        <p class="collab-name">Yenthe Jannis</p>
+        <p class="collab-sub">Co-founder · LinkedIn</p>
+      </div>
+      <span class="collab-arrow">→</span>
+    </a>
+  </section>
 
-</div><!-- /page -->
+</div>
+</div><!-- /tab-creya -->
+
+
+<!-- ══ SPIKE ══════════════════════════════════════════════════════════════════ -->
+<div id="tab-spike" class="tab-panel" role="tabpanel">
+<div class="wrap">
+
+  <div class="proj-hero">
+    <p class="proj-eyebrow">Side project — 2026</p>
+    <h2 class="proj-title">SPIKE</h2>
+    <span class="proj-version">v1.0.001</span>
+    <p class="proj-tagline">
+      Seizure Pattern Intelligence &amp; Knowledge Engine — a Windows desktop tool
+      for EEG pattern analysis and epilepsy decision support.
+    </p>
+    <div class="btn-row">
+      <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_1.0.001/releases">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
+        Download — Windows
+      </a>
+      <a class="btn-secondary" href="https://github.com/T-Cresens/SPIKE_1.0.001" target="_blank" rel="noopener">
+        GitHub
+      </a>
+    </div>
+  </div>
+
+  <section>
+    <p class="sec-label">What it does</p>
+    <p class="proj-details">
+      Reads clinical EEG files (.edf), applies pattern detection models trained on public
+      datasets (TUH, CHB-MIT, Siena, TUEP), and produces an epilepsy probability estimate
+      with a conformal prediction interval. Includes a decision-support tab for AED selection
+      based on Belgian and NICE guidelines. Built in Python with MNE-Python, LightGBM, and MAPIE.
+    </p>
+    <div class="proj-tags">
+      <span class="tag">Python</span>
+      <span class="tag">MNE-Python</span>
+      <span class="tag">LightGBM</span>
+      <span class="tag">MAPIE</span>
+      <span class="tag">NiceGUI</span>
+      <span class="tag">Windows 10 / 11</span>
+    </div>
+  </section>
+
+  <section>
+    <p class="gallery-label">Screenshots</p>
+    <div class="gallery" id="spike-gallery">
+      <div class="gallery-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Screenshot coming soon
+      </div>
+      <div class="gallery-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Screenshot coming soon
+      </div>
+      <div class="gallery-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Screenshot coming soon
+      </div>
+    </div>
+  </section>
+
+  <p class="disclaimer">
+    Personal research project. Not validated as a clinical diagnostic tool.
+    Contact: <a href="mailto:tijl.cresens@student.kuleuven.be" style="color:var(--accent)">tijl.cresens@student.kuleuven.be</a>
+  </p>
+
+</div>
+</div><!-- /tab-spike -->
+
 
 <script>
 /* ── Theme ───────────────────────────────────────────────────────────────── */
-(function () {
-  const root = document.documentElement;
-  const btn  = document.getElementById('themeToggle');
-  const stored = localStorage.getItem('tc-theme');
-  if (stored) root.setAttribute('data-theme', stored);
-  btn.addEventListener('click', () => {
-    const cur  = root.getAttribute('data-theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const next = cur === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('tc-theme', next);
+(function(){
+  const root=document.documentElement,btn=document.getElementById('themeToggle');
+  const s=localStorage.getItem('tc-theme');
+  if(s) root.setAttribute('data-theme',s);
+  btn.addEventListener('click',()=>{
+    const cur=root.getAttribute('data-theme')||
+      (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    const next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('tc-theme',next);
   });
 })();
 
-/* ── EEG canvas with JME IED simulation ──────────────────────────────────── */
-(function () {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+/* ── Tab switching ───────────────────────────────────────────────────────── */
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    const on=b.dataset.tab===id;
+    b.classList.toggle('active',on);
+    b.setAttribute('aria-selected',on);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active',p.id==='tab-'+id);
+  });
+  history.replaceState(null,'','#'+id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-  const canvas = document.getElementById('eeg');
-  const ctx    = canvas.getContext('2d');
-  let W, H, t = 0, raf;
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
+});
 
-  /* 5 channels — simulate resting EEG background rhythms */
-  const CH = [
-    { freq: 0.018, amp: 0.30, phase: 0.00, noise: 0.55 },
-    { freq: 0.022, amp: 0.24, phase: 1.30, noise: 0.50 },
-    { freq: 0.015, amp: 0.34, phase: 2.60, noise: 0.60 },
-    { freq: 0.025, amp: 0.20, phase: 3.90, noise: 0.45 },
-    { freq: 0.019, amp: 0.27, phase: 5.20, noise: 0.50 },
+/* Restore tab from URL hash */
+(function(){
+  const hash=(location.hash||'#about').slice(1);
+  if(['about','creya','spike'].includes(hash)) switchTab(hash);
+})();
+
+/* ── EEG canvas + JME IED simulation ────────────────────────────────────── */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const canvas=document.getElementById('eeg');
+  const ctx=canvas.getContext('2d');
+  let W,H,t=0,raf;
+
+  const CH=[
+    {freq:.018,amp:.30,phase:0.0, noise:.55},
+    {freq:.022,amp:.24,phase:1.3, noise:.50},
+    {freq:.015,amp:.34,phase:2.6, noise:.60},
+    {freq:.025,amp:.20,phase:3.9, noise:.45},
+    {freq:.019,amp:.27,phase:5.2, noise:.50},
   ];
 
-  /* Stable noise lookup — seeded deterministic */
-  const NOISE = new Float32Array(8192);
-  for (let i = 0; i < NOISE.length; i++)
-    NOISE[i] = ((Math.sin(i * 127.1 + 311.7) * 43758.5453123) % 1 + 1) % 1 * 2 - 1;
-  const noise = x => NOISE[((Math.floor(x * 3) % NOISE.length) + NOISE.length) % NOISE.length];
+  const NOISE=new Float32Array(8192);
+  for(let i=0;i<NOISE.length;i++)
+    NOISE[i]=((Math.sin(i*127.1+311.7)*43758.5453)%1+1)%1*2-1;
+  const noise=x=>NOISE[((Math.floor(x*3)%NOISE.length)+NOISE.length)%NOISE.length];
 
-  /* ── IED (JME polyspike-wave) ─────────────────────────────────────────── *
-   * JME hallmark: generalised 4-6 Hz polyspike-wave discharge.
-   * Simulated as: 3 rapid spikes (decreasing amplitude) + broad slow wave.
-   */
-  const IED_LEN = 110;   // px span of one discharge
-  let iedEvents = [];    // { tx0: number }  — tx value at IED onset (right edge)
-
-  function iedShape(dt) {
-    if (dt <= 0 || dt >= IED_LEN) return 0;
-    /* Three polyspikes at ~dt 6, 20, 32 */
-    const spike = (center, peak) => {
-      const d = dt - center;
-      return peak * Math.exp(-d * d / 9);
-    };
-    const poly = spike(6, 3.4) + spike(20, 2.2) + spike(33, 1.3);
-    /* Slow wave: negative, onset ~dt 42 */
-    const dtw  = dt - 42;
-    const slow = dtw > 0 ? -1.9 * Math.exp(-dtw * dtw / 900) : 0;
-    return poly + slow;
+  /* JME polyspike-wave IED */
+  const IED_LEN=110;
+  let iedEvents=[];
+  function iedShape(dt){
+    if(dt<=0||dt>=IED_LEN) return 0;
+    const spike=(c,p)=>{const d=dt-c;return p*Math.exp(-d*d/9)};
+    const poly=spike(6,3.4)+spike(20,2.2)+spike(33,1.3);
+    const dtw=dt-42;
+    const slow=dtw>0?-1.9*Math.exp(-dtw*dtw/900):0;
+    return poly+slow;
   }
-
-  function scheduleIED() {
-    const delay = 9000 + Math.random() * 14000;   // every 9-23 s
-    setTimeout(() => {
-      /* Trigger at right edge — tx0 = t + W */
-      iedEvents.push({ tx0: t + W });
-      if (iedEvents.length > 6) iedEvents.shift();
+  function scheduleIED(){
+    setTimeout(()=>{
+      iedEvents.push({tx0:t+W});
+      if(iedEvents.length>6) iedEvents.shift();
       scheduleIED();
-    }, delay);
+    },9000+Math.random()*14000);
   }
   scheduleIED();
 
-  /* ── Colour helper ────────────────────────────────────────────────────── */
-  function traceColor(alpha) {
-    const dark = document.documentElement.getAttribute('data-theme') === 'dark' ||
-      (!document.documentElement.getAttribute('data-theme') &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches);
-    return dark ? `rgba(240,165,0,${alpha})` : `rgba(160,96,0,${alpha})`;
+  function traceColor(a){
+    const dark=document.documentElement.getAttribute('data-theme')==='dark'||
+      (!document.documentElement.getAttribute('data-theme')&&
+        window.matchMedia('(prefers-color-scheme:dark)').matches);
+    return dark?`rgba(240,165,0,${a})`:`rgba(160,96,0,${a})`;
   }
 
-  /* ── Resize ───────────────────────────────────────────────────────────── */
-  function resize() {
-    const dpr  = Math.min(window.devicePixelRatio || 1, 2);
-    const rect = canvas.getBoundingClientRect();
-    W = rect.width;
-    H = rect.height;
-    canvas.width  = W * dpr;
-    canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const r=canvas.getBoundingClientRect();
+    W=r.width; H=r.height;
+    canvas.width=W*dpr; canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
   }
 
-  /* ── Draw ─────────────────────────────────────────────────────────────── */
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    const slotH = H / CH.length;
-
-    CH.forEach((ch, ci) => {
-      const cy  = slotH * ci + slotH * 0.5;
-      const amp = slotH * 0.36 * ch.amp;
-
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const slotH=H/CH.length;
+    CH.forEach((ch,ci)=>{
+      const cy=slotH*ci+slotH*.5;
+      const amp=slotH*.36*ch.amp;
       ctx.beginPath();
-
-      for (let px = 0; px <= W; px += 1.5) {
-        const tx = px + t;
-
-        /* Background EEG rhythm */
-        const bg = Math.sin(tx * ch.freq * Math.PI * 2 + ch.phase)
-                 + 0.32 * Math.sin(tx * ch.freq * 5.2 * Math.PI * 2 + ch.phase * 0.6)
-                 + 0.12 * Math.sin(tx * ch.freq * 11.7 * Math.PI * 2)
-                 + noise(tx * 0.38) * ch.noise * 0.18;
-
-        /* IED contribution — generalised (all channels), slight per-channel jitter */
-        let ied = 0;
-        for (const ev of iedEvents) {
-          const dt = tx - ev.tx0;
-          if (dt > 0 && dt < IED_LEN) {
-            const jitter = 1.0 - ci * 0.06;   // frontal channels slightly larger
-            ied += iedShape(dt) * jitter;
-          }
+      for(let px=0;px<=W;px+=1.5){
+        const tx=px+t;
+        const bg=Math.sin(tx*ch.freq*Math.PI*2+ch.phase)
+                +.32*Math.sin(tx*ch.freq*5.2*Math.PI*2+ch.phase*.6)
+                +.12*Math.sin(tx*ch.freq*11.7*Math.PI*2)
+                +noise(tx*.38)*ch.noise*.18;
+        let ied=0;
+        for(const ev of iedEvents){
+          const dt=tx-ev.tx0;
+          if(dt>0&&dt<IED_LEN) ied+=iedShape(dt)*(1-ci*.06);
         }
-
-        const y = cy + (bg + ied) * amp;
-        if (px === 0) ctx.moveTo(px, y); else ctx.lineTo(px, y);
+        const y=cy+(bg+ied)*amp;
+        if(px===0) ctx.moveTo(px,y); else ctx.lineTo(px,y);
       }
-
-      ctx.strokeStyle = traceColor(0.58 - ci * 0.05);
-      ctx.lineWidth   = 1.1;
+      ctx.strokeStyle=traceColor(.58-ci*.05);
+      ctx.lineWidth=1.1;
       ctx.stroke();
     });
-
-    t  += 0.85;
-    raf = requestAnimationFrame(draw);
+    t+=.85;
+    raf=requestAnimationFrame(draw);
   }
 
-  /* ── Init ─────────────────────────────────────────────────────────────── */
   let resizeTimer;
-  window.addEventListener('resize', () => {
+  window.addEventListener('resize',()=>{
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      cancelAnimationFrame(raf);
-      resize();
-      draw();
-    }, 80);
+    resizeTimer=setTimeout(()=>{cancelAnimationFrame(raf);resize();draw();},80);
   });
-
-  resize();
-  draw();
+  resize(); draw();
 })();
 </script>
 </body>
