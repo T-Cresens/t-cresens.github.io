@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,7 @@
   --tag-bg:rgba(240,165,0,.08); --tag-text:#f0a500;
   --chip-bg:#1f2630;
 }}
-:root[data-theme="dark"]  {
+:root[data-theme="dark"] {
   --bg:#0d1117; --surface:#161b22; --border:#30363d;
   --text:#e6edf3; --muted:#8b949e; --faint:#484f58;
   --accent:#f0a500; --accent-h:#ffc633;
@@ -71,15 +71,8 @@ a{color:inherit;text-decoration:none}
 @media(min-width:960px){#eeg{height:168px}}
 
 /* ── Tab nav ──────────────────────────────────────────────────────────────── */
-.tab-bar{
-  border-bottom:1px solid var(--border);
-  background:var(--bg);
-  position:sticky;top:0;z-index:100;
-}
-.tab-bar-inner{
-  display:flex;align-items:flex-end;gap:0;
-  max-width:1160px;margin:0 auto;padding:0 2rem;
-}
+.tab-bar{border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100}
+.tab-bar-inner{display:flex;align-items:flex-end;gap:0;max-width:1160px;margin:0 auto;padding:0 2rem}
 .tab-btn{
   padding:.75rem 1.4rem;font-size:.8rem;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;
@@ -95,8 +88,7 @@ a{color:inherit;text-decoration:none}
 .tab-panel{display:none;padding-top:3rem;padding-bottom:4rem}
 .tab-panel.active{display:block}
 
-/* ── Section ──────────────────────────────────────────────────────────────── */
-section{margin-bottom:3rem}
+/* ── Section label ────────────────────────────────────────────────────────── */
 .sec-label{
   font-size:.66rem;font-weight:600;letter-spacing:.18em;
   text-transform:uppercase;color:var(--muted);
@@ -121,13 +113,9 @@ section{margin-bottom:3rem}
 
 /* ── Contact grid ─────────────────────────────────────────────────────────── */
 .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
-.contact-item{
-  background:var(--surface);padding:1rem 1.2rem;
-  display:flex;flex-direction:column;gap:.2rem
-}
+.contact-item{background:var(--surface);padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.2rem}
 .contact-label{font-size:.63rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .contact-value{font-size:.88rem;color:var(--text);font-weight:500}
-.contact-sub{font-size:.75rem;color:var(--muted)}
 .contact-item a{color:var(--text)}
 .contact-item a:hover{color:var(--accent)}
 
@@ -156,7 +144,6 @@ section{margin-bottom:3rem}
 
 /* ══ PROJECT PAGES ════════════════════════════════════════════════════════════ */
 
-/* ── Project hero ─────────────────────────────────────────────────────────── */
 .proj-hero{padding-bottom:2.5rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
 .proj-eyebrow{font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
 .proj-title{
@@ -188,10 +175,19 @@ section{margin-bottom:3rem}
 .btn-secondary:hover{background:var(--accent);color:#fff}
 .btn-secondary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* ── Project details ──────────────────────────────────────────────────────── */
-.proj-details{font-size:.9rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;max-width:64ch}
-.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.8rem}
-.tag{font-size:.7rem;font-weight:500;color:var(--faint);background:var(--bg);border:1px solid var(--border);padding:2px 9px}
+/* ── Feature list ─────────────────────────────────────────────────────────── */
+.feature-intro{font-size:.92rem;color:var(--muted);line-height:1.75;margin-bottom:1rem;max-width:64ch}
+.feature-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.3rem .8rem;margin-bottom:1.6rem}
+.feature-list li{font-size:.85rem;color:var(--muted);padding:.25rem 0;display:flex;align-items:baseline;gap:.5rem}
+.feature-list li::before{content:"—";color:var(--accent);flex-shrink:0;font-size:.8rem}
+
+/* ── Trust block ──────────────────────────────────────────────────────────── */
+.trust-block{
+  border:1px solid var(--border);padding:1.2rem 1.4rem;margin-bottom:1.8rem;
+  background:var(--surface);max-width:680px
+}
+.trust-block p{font-size:.87rem;color:var(--muted);line-height:1.7}
+.trust-block p+p{margin-top:.6rem}
 
 /* ── Screenshot gallery ───────────────────────────────────────────────────── */
 .gallery-label{
@@ -201,28 +197,22 @@ section{margin-bottom:3rem}
   border-bottom:1px solid var(--border)
 }
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.gallery-slot{
+.gallery img{width:100%;height:auto;display:block;border:1px solid var(--border);transition:opacity .15s}
+.gallery img:hover{opacity:.88}
+.gallery-placeholder{
   background:var(--chip-bg);border:1px dashed var(--border);
   aspect-ratio:16/9;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:.4rem;
   color:var(--faint);font-size:.78rem;text-align:center;padding:1rem
 }
-.gallery-slot svg{opacity:.4}
-/* Real screenshots replace the slots */
-.gallery img{
-  width:100%;height:auto;display:block;
-  border:1px solid var(--border);aspect-ratio:16/9;object-fit:cover
-}
 
-/* ── Collaborator card ────────────────────────────────────────────────────── */
+/* ── Collab card ──────────────────────────────────────────────────────────── */
 .collab-card{
   display:inline-flex;align-items:center;gap:.9rem;
   border:1px solid var(--border);padding:.8rem 1.2rem;
-  background:var(--surface);text-decoration:none;
-  transition:background .12s
+  background:var(--surface);text-decoration:none;transition:background .12s
 }
 .collab-card:hover{background:var(--bg)}
-.collab-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .collab-name{font-size:.9rem;font-weight:600;color:var(--text)}
 .collab-sub{font-size:.76rem;color:var(--muted)}
 .collab-arrow{color:var(--accent);transition:transform .15s}
@@ -235,12 +225,17 @@ section{margin-bottom:3rem}
   padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6
 }
 
+/* ── Tags ─────────────────────────────────────────────────────────────────── */
+.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.8rem}
+.tag{font-size:.7rem;font-weight:500;color:var(--faint);background:var(--bg);border:1px solid var(--border);padding:2px 9px}
+.proj-details{font-size:.9rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;max-width:64ch}
+
 @media(prefers-reduced-motion:reduce){*,canvas{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<button class="theme-btn" id="themeToggle" aria-label="Toggle colour theme">
+<button class="theme-btn" id="themeToggle" aria-label="Kleurthema wisselen">
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
     <circle cx="8" cy="8" r="3.2"/>
     <line x1="8" y1="1" x2="8" y2="2.4"/><line x1="8" y1="13.6" x2="8" y2="15"/>
@@ -250,82 +245,84 @@ section{margin-bottom:3rem}
   </svg>
 </button>
 
-<!-- EEG — always visible -->
+<!-- EEG — altijd zichtbaar -->
 <div class="eeg-header">
   <canvas id="eeg" aria-hidden="true"></canvas>
 </div>
 
-<!-- Tab navigation -->
-<nav class="tab-bar" aria-label="Site sections">
+<!-- Tabbladbalk -->
+<nav class="tab-bar" aria-label="Sitesecties">
   <div class="tab-bar-inner">
-    <button class="tab-btn active" data-tab="about"  aria-selected="true">About</button>
-    <button class="tab-btn"        data-tab="creya"  aria-selected="false">Creya</button>
-    <button class="tab-btn"        data-tab="spike"  aria-selected="false">SPIKE</button>
+    <button class="tab-btn active" data-tab="over"  aria-selected="true">Over mij</button>
+    <button class="tab-btn"        data-tab="creya" aria-selected="false">Creya</button>
+    <button class="tab-btn"        data-tab="spike" aria-selected="false">SPIKE</button>
   </div>
 </nav>
 
-<!-- ══ ABOUT ══════════════════════════════════════════════════════════════════ -->
-<div id="tab-about" class="tab-panel active" role="tabpanel">
+
+<!-- ══ OVER MIJ ═══════════════════════════════════════════════════════════════ -->
+<div id="tab-over" class="tab-panel active" role="tabpanel">
 <div class="wrap">
 
   <div class="about-hero">
-    <p class="eyebrow">Pelt, Belgium</p>
+    <p class="eyebrow">Pelt, België</p>
     <h1 class="site-name">Tijl Cresens</h1>
     <p class="site-bio">
-      3rd-year Business Economics student at KU Leuven (Production &amp; Logistics,
-      Finance &amp; Accountancy). Working toward a master in data science &amp; statistics.
+      3de bachelorstudent Toegepaste Economische Wetenschappen aan de KU Leuven
+      (Productie &amp; Logistiek, Financiering &amp; Accountancy).
+      Op weg naar een master in data science &amp; statistiek.
     </p>
   </div>
 
   <div class="two-col">
 
-    <!-- Left: Work + Education -->
+    <!-- Links: Werk + Opleiding -->
     <div>
 
-      <section aria-labelledby="work-lbl">
-        <p class="sec-label" id="work-lbl">Work</p>
+      <section aria-labelledby="werk-lbl">
+        <p class="sec-label" id="werk-lbl">Werk</p>
         <div class="timeline">
           <div class="tl-item">
-            <span class="tl-year">2026 – now</span>
+            <span class="tl-year">2026 – heden</span>
             <div>
-              <p class="tl-role">Co-founder</p>
+              <p class="tl-role">Medeoprichter</p>
               <p class="tl-org">Creya.be</p>
-              <p class="tl-detail">Networking and financial analysis platform for Belgians — built with Yenthe Jannis.</p>
+              <p class="tl-detail">Financieel analyseplatform voor Belgische bedrijven — opgericht samen met Yenthe Jannis.</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-year">2023 – 2026</span>
             <div>
-              <p class="tl-role">Receptionist — job student</p>
+              <p class="tl-role">Receptionist — jobstudent</p>
               <p class="tl-org">Basic-Fit, Noord-Limburg</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-year">2020 – 2023</span>
             <div>
-              <p class="tl-role">IT technician — job student</p>
+              <p class="tl-role">IT-technicus — jobstudent</p>
               <p class="tl-org">Vip Computers BV</p>
-              <p class="tl-detail">Hardware repair and client support.</p>
+              <p class="tl-detail">Hardwareherstelling en klantenondersteuning.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section aria-labelledby="edu-lbl">
-        <p class="sec-label" id="edu-lbl">Education</p>
+      <section aria-labelledby="opl-lbl">
+        <p class="sec-label" id="opl-lbl">Opleiding</p>
         <div class="timeline">
           <div class="tl-item">
             <span class="tl-year">2023 – 2026</span>
             <div>
-              <p class="tl-role">Bachelor of Business Economics (TEW)</p>
+              <p class="tl-role">Bachelor Toegepaste Economische Wetenschappen (TEW)</p>
               <p class="tl-org">KU Leuven</p>
-              <p class="tl-detail">Major 1: Production &amp; Logistics · Major 2: Finance &amp; Accountancy</p>
+              <p class="tl-detail">Majors: Productie &amp; Logistiek · Financiering &amp; Accountancy</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-year">– 2023</span>
             <div>
-              <p class="tl-role">Secondary — Science &amp; Mathematics</p>
+              <p class="tl-role">Secundair — Wetenschappen &amp; Wiskunde</p>
               <p class="tl-org">Wico Neerpelt</p>
             </div>
           </div>
@@ -334,26 +331,26 @@ section{margin-bottom:3rem}
 
     </div>
 
-    <!-- Right: Contact + Skills -->
+    <!-- Rechts: Contact + Vaardigheden + Projecten -->
     <div>
 
       <section aria-labelledby="contact-lbl">
         <p class="sec-label" id="contact-lbl">Contact</p>
         <div class="contact-grid">
           <div class="contact-item">
-            <span class="contact-label">Phone</span>
+            <span class="contact-label">Telefoon</span>
             <a class="contact-value" href="tel:+32483658946">+32 483 658 946</a>
           </div>
           <div class="contact-item">
-            <span class="contact-label">Email — Creya</span>
+            <span class="contact-label">E-mail — Creya</span>
             <a class="contact-value" href="mailto:tijl@creya.be">tijl@creya.be</a>
           </div>
           <div class="contact-item">
-            <span class="contact-label">Email — SPIKE / KU Leuven</span>
+            <span class="contact-label">E-mail — SPIKE / KU Leuven</span>
             <a class="contact-value" href="mailto:tijl.cresens@student.kuleuven.be">tijl.cresens@student.kuleuven.be</a>
           </div>
           <div class="contact-item">
-            <span class="contact-label">Email — Other</span>
+            <span class="contact-label">E-mail — Overig</span>
             <a class="contact-value" href="mailto:tijl@ts33.be">tijl@ts33.be</a>
           </div>
           <div class="contact-item">
@@ -367,33 +364,33 @@ section{margin-bottom:3rem}
         </div>
       </section>
 
-      <section aria-labelledby="skills-lbl">
-        <p class="sec-label" id="skills-lbl">Skills</p>
+      <section aria-labelledby="vaard-lbl">
+        <p class="sec-label" id="vaard-lbl">Vaardigheden</p>
         <div class="skill-group">
-          <p class="skill-group-label">Comfortable with</p>
+          <p class="skill-group-label">Vertrouwd met</p>
           <div class="chips">
             <span class="chip">Excel — solver, PowerQuery</span>
-            <span class="chip">Linear programming (Lindo)</span>
+            <span class="chip">Lineair programmeren (Lindo)</span>
             <span class="chip">STATA-SE</span>
             <span class="chip">Power BI</span>
-            <span class="chip">Computer hardware</span>
-            <span class="chip">Dutch — native</span>
-            <span class="chip">English — fluent</span>
+            <span class="chip">Computerhardware</span>
+            <span class="chip">Nederlands — moedertaal</span>
+            <span class="chip">Engels — vloeiend</span>
           </div>
         </div>
         <div class="skill-group">
-          <p class="skill-group-label">Learning</p>
+          <p class="skill-group-label">Aan het leren</p>
           <div class="chips">
             <span class="chip">Python 3</span>
-            <span class="chip">Econometrics</span>
+            <span class="chip">Econometrie</span>
             <span class="chip">Machine learning</span>
-            <span class="chip">Real analysis</span>
+            <span class="chip">Reële analyse</span>
           </div>
         </div>
       </section>
 
       <section aria-labelledby="proj-lbl">
-        <p class="sec-label" id="proj-lbl">Projects</p>
+        <p class="sec-label" id="proj-lbl">Projecten</p>
         <div style="display:flex;flex-direction:column;gap:.6rem">
           <button class="btn-primary" onclick="switchTab('creya')" style="justify-content:space-between;width:100%;max-width:280px">
             <span>Creya.be</span><span>→</span>
@@ -408,12 +405,12 @@ section{margin-bottom:3rem}
 
     <footer class="site-footer full">
       <span class="footer-copy">© 2026 Tijl Cresens</span>
-      <span class="footer-note">Belgian bench-press champion 2023</span>
+      <span class="footer-note">Belgisch kampioen bankdrukken 2023</span>
     </footer>
 
-  </div><!-- /two-col -->
-</div><!-- /wrap -->
-</div><!-- /tab-about -->
+  </div>
+</div>
+</div>
 
 
 <!-- ══ CREYA ══════════════════════════════════════════════════════════════════ -->
@@ -424,56 +421,65 @@ section{margin-bottom:3rem}
     <p class="proj-eyebrow">Project — 2026</p>
     <h2 class="proj-title">Creya.be</h2>
     <p class="proj-tagline">
-      Networking and financial analysis platform for and by Belgians.
-      Built together with Yenthe Jannis.
+      Een webservice die financiële inzichten biedt in Belgische bedrijven —
+      gebouwd samen met Yenthe Jannis.
     </p>
     <div class="btn-row">
       <a class="btn-primary" href="https://creya.be" target="_blank" rel="noopener">
-        Visit Creya.be →
+        Bezoek Creya.be →
       </a>
     </div>
   </div>
 
+  <section style="margin-bottom:2.5rem">
+    <p class="sec-label">Wat biedt Creya?</p>
+    <p class="feature-intro">
+      Met enkel een BTW-nummer of bedrijfsnaam krijg je onmiddellijk toegang tot:
+    </p>
+    <ul class="feature-list">
+      <li>20+ ratio's en kerngegevens</li>
+      <li>Waarderingen (DCF, multiples, NAV)</li>
+      <li>Kredietrange en aanbevolen kredietlimiet</li>
+      <li>Horizontale evolutie doorheen de jaren</li>
+      <li>Gezondheids- en outperformancescore (SOPR)</li>
+      <li>Tijdlijn van neerleggingen en events</li>
+      <li>Sectorvergelijking via boxplots</li>
+      <li>Diagnose + oplossingenvenster (AI)</li>
+      <li>Financiële structuursimulator</li>
+      <li>Optimalisatietool voor financiële structuur</li>
+      <li>Kerninfo: revisor, participaties, bestuurders</li>
+      <li>AI-analyse per bedrijf of situatie</li>
+    </ul>
+
+    <div class="trust-block">
+      <p><strong>Vertrouwensnetwerk</strong> — zoals LinkedIn maar voor bedrijven. Bedrijven en bestuurders kunnen zichzelf verifiëren en relaties vastleggen: leverancier, moeder, dochter, ...</p>
+      <p>Geverifieerde partijen kunnen extra data opladen — zoals tussentijdse balansen — zichtbaar voor het publiek, hun vertrouwelingen, of enkel voor zichzelf. Zo overbrugt Creya de tijdskloof van officiële neerleggingen.</p>
+    </div>
+  </section>
+
+  <section style="margin-bottom:2.5rem">
+    <p class="gallery-label">Schermafbeeldingen</p>
+    <div class="gallery">
+      <img src="c1.png" alt="Creya — analyseoverzicht van een Belgisch bedrijf" loading="lazy">
+      <img src="c2.png" alt="Creya — financiële ratiotabel per jaar" loading="lazy">
+      <img src="c3.png" alt="Creya — sectorvergelijking en evolutie" loading="lazy">
+      <img src="c4.png" alt="Creya — diagnose en gezondheidsscore" loading="lazy">
+    </div>
+  </section>
+
   <section>
-    <p class="gallery-label">Screenshots</p>
-    <div class="gallery" id="creya-gallery">
-      <!-- Placeholders — replaced when screenshots arrive -->
-      <div class="gallery-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Screenshot coming soon
-      </div>
-      <div class="gallery-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Screenshot coming soon
-      </div>
-      <div class="gallery-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Screenshot coming soon
-      </div>
-    </div>
-  </section>
-
-  <section style="margin-top:2rem">
-    <p class="sec-label">Built with</p>
-    <div class="chips">
-      <!-- Add tech stack when known -->
-      <span class="chip">Details coming soon</span>
-    </div>
-  </section>
-
-  <section style="margin-top:2rem">
-    <p class="sec-label">Collaborator</p>
+    <p class="sec-label">Medeoprichter</p>
     <a class="collab-card" href="https://www.linkedin.com/in/yenthe-jannis-0979272a1/" target="_blank" rel="noopener">
       <div>
         <p class="collab-name">Yenthe Jannis</p>
-        <p class="collab-sub">Co-founder · LinkedIn</p>
+        <p class="collab-sub">Medeoprichter · LinkedIn</p>
       </div>
       <span class="collab-arrow">→</span>
     </a>
   </section>
 
 </div>
-</div><!-- /tab-creya -->
+</div>
 
 
 <!-- ══ SPIKE ══════════════════════════════════════════════════════════════════ -->
@@ -481,17 +487,17 @@ section{margin-bottom:3rem}
 <div class="wrap">
 
   <div class="proj-hero">
-    <p class="proj-eyebrow">Side project — 2026</p>
+    <p class="proj-eyebrow">Nevenproject — 2026</p>
     <h2 class="proj-title">SPIKE</h2>
     <span class="proj-version">v1.0.001</span>
     <p class="proj-tagline">
-      Seizure Pattern Intelligence &amp; Knowledge Engine — a Windows desktop tool
-      for EEG pattern analysis and epilepsy decision support.
+      Seizure Pattern Intelligence &amp; Knowledge Engine — een Windows-desktopapplicatie
+      voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.
     </p>
     <div class="btn-row">
       <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_1.0.001/releases">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
-        Download — Windows
+        Downloaden — Windows
       </a>
       <a class="btn-secondary" href="https://github.com/T-Cresens/SPIKE_1.0.001" target="_blank" rel="noopener">
         GitHub
@@ -500,12 +506,13 @@ section{margin-bottom:3rem}
   </div>
 
   <section>
-    <p class="sec-label">What it does</p>
+    <p class="sec-label">Wat doet SPIKE?</p>
     <p class="proj-details">
-      Reads clinical EEG files (.edf), applies pattern detection models trained on public
-      datasets (TUH, CHB-MIT, Siena, TUEP), and produces an epilepsy probability estimate
-      with a conformal prediction interval. Includes a decision-support tab for AED selection
-      based on Belgian and NICE guidelines. Built in Python with MNE-Python, LightGBM, and MAPIE.
+      Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op
+      publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid
+      met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor
+      AED-selectie op basis van Belgische en NICE-richtlijnen.
+      Gebouwd in Python met MNE-Python, LightGBM en MAPIE.
     </p>
     <div class="proj-tags">
       <span class="tag">Python</span>
@@ -518,34 +525,34 @@ section{margin-bottom:3rem}
   </section>
 
   <section>
-    <p class="gallery-label">Screenshots</p>
-    <div class="gallery" id="spike-gallery">
-      <div class="gallery-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Screenshot coming soon
+    <p class="gallery-label">Schermafbeeldingen</p>
+    <div class="gallery">
+      <div class="gallery-placeholder">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Schermafbeelding volgt
       </div>
-      <div class="gallery-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Screenshot coming soon
+      <div class="gallery-placeholder">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Schermafbeelding volgt
       </div>
-      <div class="gallery-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Screenshot coming soon
+      <div class="gallery-placeholder">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Schermafbeelding volgt
       </div>
     </div>
   </section>
 
   <p class="disclaimer">
-    Personal research project. Not validated as a clinical diagnostic tool.
+    Persoonlijk onderzoeksproject. Niet gevalideerd als klinisch diagnostisch hulpmiddel.
     Contact: <a href="mailto:tijl.cresens@student.kuleuven.be" style="color:var(--accent)">tijl.cresens@student.kuleuven.be</a>
   </p>
 
 </div>
-</div><!-- /tab-spike -->
+</div>
 
 
 <script>
-/* ── Theme ───────────────────────────────────────────────────────────────── */
+/* ── Thema ───────────────────────────────────────────────────────────────── */
 (function(){
   const root=document.documentElement,btn=document.getElementById('themeToggle');
   const s=localStorage.getItem('tc-theme');
@@ -559,7 +566,7 @@ section{margin-bottom:3rem}
   });
 })();
 
-/* ── Tab switching ───────────────────────────────────────────────────────── */
+/* ── Tabbladen ───────────────────────────────────────────────────────────── */
 function switchTab(id){
   document.querySelectorAll('.tab-btn').forEach(b=>{
     const on=b.dataset.tab===id;
@@ -577,13 +584,12 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
 });
 
-/* Restore tab from URL hash */
 (function(){
-  const hash=(location.hash||'#about').slice(1);
-  if(['about','creya','spike'].includes(hash)) switchTab(hash);
+  const hash=(location.hash||'#over').slice(1);
+  if(['over','creya','spike'].includes(hash)) switchTab(hash);
 })();
 
-/* ── EEG canvas + JME IED simulation ────────────────────────────────────── */
+/* ── EEG canvas + JME IED ────────────────────────────────────────────────── */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   const canvas=document.getElementById('eeg');
@@ -591,11 +597,11 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   let W,H,t=0,raf;
 
   const CH=[
-    {freq:.018,amp:.30,phase:0.0, noise:.55},
-    {freq:.022,amp:.24,phase:1.3, noise:.50},
-    {freq:.015,amp:.34,phase:2.6, noise:.60},
-    {freq:.025,amp:.20,phase:3.9, noise:.45},
-    {freq:.019,amp:.27,phase:5.2, noise:.50},
+    {freq:.018,amp:.30,phase:0.0,noise:.55},
+    {freq:.022,amp:.24,phase:1.3,noise:.50},
+    {freq:.015,amp:.34,phase:2.6,noise:.60},
+    {freq:.025,amp:.20,phase:3.9,noise:.45},
+    {freq:.019,amp:.27,phase:5.2,noise:.50},
   ];
 
   const NOISE=new Float32Array(8192);
@@ -603,11 +609,9 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     NOISE[i]=((Math.sin(i*127.1+311.7)*43758.5453)%1+1)%1*2-1;
   const noise=x=>NOISE[((Math.floor(x*3)%NOISE.length)+NOISE.length)%NOISE.length];
 
-  /* JME polyspike-wave IED */
-  const IED_LEN=110;
   let iedEvents=[];
   function iedShape(dt){
-    if(dt<=0||dt>=IED_LEN) return 0;
+    if(dt<=0||dt>=110) return 0;
     const spike=(c,p)=>{const d=dt-c;return p*Math.exp(-d*d/9)};
     const poly=spike(6,3.4)+spike(20,2.2)+spike(33,1.3);
     const dtw=dt-42;
@@ -654,7 +658,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
         let ied=0;
         for(const ev of iedEvents){
           const dt=tx-ev.tx0;
-          if(dt>0&&dt<IED_LEN) ied+=iedShape(dt)*(1-ci*.06);
+          if(dt>0&&dt<110) ied+=iedShape(dt)*(1-ci*.06);
         }
         const y=cy+(bg+ied)*amp;
         if(px===0) ctx.moveTo(px,y); else ctx.lineTo(px,y);
