@@ -5,433 +5,359 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tijl Cresens</title>
 <style>
-/* ── Token system ─────────────────────────────────────────────────────────── */
+/* ── Tokens ───────────────────────────────────────────────────────────────── */
 :root {
-  --bg:          #f6f8fa;
-  --bg-alt:      #ffffff;
-  --surface:     #ffffff;
-  --border:      #d0d7de;
-  --text:        #1c2128;
-  --muted:       #57606a;
-  --accent:      #c77600;
-  --accent-hi:   #f0a500;
-  --trace:       rgba(199, 118, 0, 0.85);
-  --trace-glow:  rgba(199, 118, 0, 0.15);
-  --tag-bg:      #fff3cd;
-  --tag-text:    #7d4e00;
+  --bg:        #f6f8fa;
+  --surface:   #ffffff;
+  --border:    #d0d7de;
+  --text:      #1c2128;
+  --muted:     #57606a;
+  --faint:     #8b949e;
+  --accent:    #b86f00;
+  --accent-hi: #e08800;
+  --trace:     rgba(180,108,0,0.80);
+  --tag-bg:    #fff0d4;
+  --tag-text:  #7a4800;
+  --skill-bg:  #f0f2f5;
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:          #0d1117;
-    --bg-alt:      #0d1117;
-    --surface:     #161b22;
-    --border:      #30363d;
-    --text:        #e6edf3;
-    --muted:       #8b949e;
-    --accent:      #f0a500;
-    --accent-hi:   #ffc633;
-    --trace:       rgba(240, 165, 0, 0.9);
-    --trace-glow:  rgba(240, 165, 0, 0.12);
-    --tag-bg:      rgba(240, 165, 0, 0.1);
-    --tag-text:    #f0a500;
+    --bg:        #0d1117;
+    --surface:   #161b22;
+    --border:    #30363d;
+    --text:      #e6edf3;
+    --muted:     #8b949e;
+    --faint:     #484f58;
+    --accent:    #f0a500;
+    --accent-hi: #ffc633;
+    --trace:     rgba(240,165,0,0.88);
+    --tag-bg:    rgba(240,165,0,0.08);
+    --tag-text:  #f0a500;
+    --skill-bg:  #1f2630;
   }
 }
-
 :root[data-theme="dark"] {
-  --bg:          #0d1117;
-  --bg-alt:      #0d1117;
-  --surface:     #161b22;
-  --border:      #30363d;
-  --text:        #e6edf3;
-  --muted:       #8b949e;
-  --accent:      #f0a500;
-  --accent-hi:   #ffc633;
-  --trace:       rgba(240, 165, 0, 0.9);
-  --trace-glow:  rgba(240, 165, 0, 0.12);
-  --tag-bg:      rgba(240, 165, 0, 0.1);
-  --tag-text:    #f0a500;
+  --bg:#0d1117; --surface:#161b22; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e; --faint:#484f58;
+  --accent:#f0a500; --accent-hi:#ffc633;
+  --trace:rgba(240,165,0,0.88);
+  --tag-bg:rgba(240,165,0,0.08); --tag-text:#f0a500;
+  --skill-bg:#1f2630;
 }
-
 :root[data-theme="light"] {
-  --bg:          #f6f8fa;
-  --bg-alt:      #ffffff;
-  --surface:     #ffffff;
-  --border:      #d0d7de;
-  --text:        #1c2128;
-  --muted:       #57606a;
-  --accent:      #c77600;
-  --accent-hi:   #f0a500;
-  --trace:       rgba(199, 118, 0, 0.85);
-  --trace-glow:  rgba(199, 118, 0, 0.15);
-  --tag-bg:      #fff3cd;
-  --tag-text:    #7d4e00;
+  --bg:#f6f8fa; --surface:#ffffff; --border:#d0d7de;
+  --text:#1c2128; --muted:#57606a; --faint:#8b949e;
+  --accent:#b86f00; --accent-hi:#e08800;
+  --trace:rgba(180,108,0,0.80);
+  --tag-bg:#fff0d4; --tag-text:#7a4800;
+  --skill-bg:#f0f2f5;
 }
 
-/* ── Reset & base ─────────────────────────────────────────────────────────── */
+/* ── Reset ────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; line-height: 1.7; background: var(--bg); }
 
-html {
-  font-size: 16px;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  line-height: 1.7;
-  background: var(--bg);
-  min-height: 100vh;
-}
-
-/* ── Layout shell ─────────────────────────────────────────────────────────── */
-.page {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
+/* ── Page shell ───────────────────────────────────────────────────────────── */
+.page { max-width: 660px; margin: 0 auto; padding: 0 1.25rem; }
 
 /* ── Theme toggle ─────────────────────────────────────────────────────────── */
 .theme-btn {
-  position: fixed;
-  top: 1.25rem;
-  right: 1.25rem;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  z-index: 100;
-  transition: color 0.2s, border-color 0.2s;
+  position: fixed; top: 1rem; right: 1rem;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem; z-index: 100; transition: color .15s, border-color .15s;
 }
 .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
 .theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ── EEG canvas hero ─────────────────────────────────────────────────────── */
-.eeg-wrap {
-  width: 100%;
-  padding-top: 4rem;
-  padding-bottom: 0.25rem;
-  position: relative;
-}
+/* ── EEG canvas ───────────────────────────────────────────────────────────── */
+.eeg-wrap { width: 100%; padding-top: 3rem; }
+#eeg { display: block; width: 100%; height: 100px; }
+@media (min-width: 540px) { #eeg { height: 130px; } }
 
-canvas#eeg {
-  display: block;
-  width: 100%;
-  height: 120px;
-  opacity: 0.95;
-}
-
-/* ── Header / name ───────────────────────────────────────────────────────── */
-.site-header {
-  padding-top: 1.75rem;
-  padding-bottom: 3.5rem;
-}
-
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.site-header { padding: 1.5rem 0 3rem; }
 .eyebrow {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.6rem;
+  font-size: .68rem; font-weight: 600; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: .55rem;
 }
-
 .site-name {
   font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-  font-size: clamp(2.4rem, 6vw, 3.4rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--text);
-  text-wrap: balance;
-  margin-bottom: 0.9rem;
+  font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 400;
+  letter-spacing: -.02em; line-height: 1.1; text-wrap: balance;
+  margin-bottom: .8rem;
 }
+.site-bio { font-size: .92rem; color: var(--muted); max-width: 54ch; line-height: 1.75; }
 
-.site-bio {
-  font-size: 0.95rem;
-  color: var(--muted);
-  max-width: 52ch;
-  line-height: 1.7;
-}
-
-/* ── Section ─────────────────────────────────────────────────────────────── */
-section {
-  padding-bottom: 3.5rem;
-}
-
+/* ── Section ──────────────────────────────────────────────────────────────── */
+section { padding-bottom: 3rem; }
 .section-label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
+  font-size: .66rem; font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 1.2rem; padding-bottom: .65rem;
   border-bottom: 1px solid var(--border);
 }
 
-/* ── Project card ────────────────────────────────────────────────────────── */
+/* ── Timeline (work / education) ─────────────────────────────────────────── */
+.timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+.tl-item { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0 1rem; align-items: start; }
+@media (max-width: 420px) {
+  .tl-item { grid-template-columns: 1fr; gap: .15rem; }
+  .tl-year { font-size: .68rem; }
+}
+.tl-year {
+  font-size: .72rem; font-weight: 600; letter-spacing: .06em;
+  color: var(--faint); font-variant-numeric: tabular-nums;
+  padding-top: .18rem; white-space: nowrap;
+}
+.tl-body {}
+.tl-role { font-size: .82rem; color: var(--muted); margin-bottom: .05rem; }
+.tl-org { font-size: .95rem; font-weight: 600; color: var(--text); }
+.tl-detail { font-size: .82rem; color: var(--muted); margin-top: .2rem; max-width: 48ch; }
+
+/* ── Skills ───────────────────────────────────────────────────────────────── */
+.skill-group { margin-bottom: 1.1rem; }
+.skill-group-label {
+  font-size: .68rem; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--faint); margin-bottom: .5rem;
+}
+.skill-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip {
+  font-size: .78rem; color: var(--muted); background: var(--skill-bg);
+  border: 1px solid var(--border); padding: .2rem .65rem; line-height: 1.5;
+}
+
+/* ── Project card ─────────────────────────────────────────────────────────── */
 .project-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 1.75rem;
-  position: relative;
-  overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 1.5rem 1.5rem 1.5rem 1.8rem; position: relative; overflow: hidden;
 }
-
 .project-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--accent);
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--accent);
 }
-
-.project-card-inner { padding-left: 0.5rem; }
-
 .project-title {
   font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  margin-bottom: 0.25rem;
+  font-size: 1.25rem; font-weight: 400; letter-spacing: -.01em;
+  margin-bottom: .2rem;
 }
-
 .project-version {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--tag-text);
-  background: var(--tag-bg);
-  padding: 2px 8px;
-  display: inline-block;
-  margin-bottom: 0.85rem;
-  font-family: 'Courier New', monospace;
+  font-family: 'Courier New', monospace; font-size: .7rem; font-weight: 600;
+  letter-spacing: .08em; color: var(--tag-text); background: var(--tag-bg);
+  padding: 1px 7px; display: inline-block; margin-bottom: .8rem;
 }
-
-.project-desc {
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 1.25rem;
-  max-width: 56ch;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1.4rem;
-}
-
+.project-desc { font-size: .88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.1rem; max-width: 54ch; }
+.project-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.25rem; }
 .tag {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-  background: var(--bg);
-  border: 1px solid var(--border);
-  padding: 3px 10px;
+  font-size: .7rem; font-weight: 500; color: var(--faint);
+  background: var(--bg); border: 1px solid var(--border); padding: 2px 9px;
 }
-
-.btn-row {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
+.btn-row { display: flex; gap: .65rem; flex-wrap: wrap; }
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.55rem 1.1rem;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: background 0.15s;
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--accent); color: #fff;
+  font-size: .8rem; font-weight: 600; letter-spacing: .04em;
+  padding: .5rem 1rem; text-decoration: none; border: none; cursor: pointer;
+  transition: background .15s;
 }
 .btn-primary:hover { background: var(--accent-hi); }
 .btn-primary:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
-
 .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  background: transparent;
-  color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.55rem 1.1rem;
-  text-decoration: none;
-  border: 1px solid var(--accent);
-  transition: background 0.15s, color 0.15s;
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: transparent; color: var(--accent);
+  font-size: .8rem; font-weight: 600; letter-spacing: .04em;
+  padding: .5rem 1rem; text-decoration: none; border: 1px solid var(--accent);
+  transition: background .15s, color .15s;
 }
-.btn-secondary:hover {
-  background: var(--accent);
-  color: #fff;
-}
+.btn-secondary:hover { background: var(--accent); color: #fff; }
 .btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ── Links grid ──────────────────────────────────────────────────────────── */
+/* ── Links grid ───────────────────────────────────────────────────────────── */
 .link-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--border);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--border);
   border: 1px solid var(--border);
 }
-
+@media (max-width: 380px) { .link-grid { grid-template-columns: 1fr; } }
 .link-card {
-  background: var(--surface);
-  padding: 1.25rem 1.35rem;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  transition: background 0.12s;
+  background: var(--surface); padding: 1.1rem 1.2rem;
+  text-decoration: none; display: flex; flex-direction: column; gap: .2rem;
+  transition: background .12s;
 }
 .link-card:hover { background: var(--bg); }
 .link-card:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.link-label { font-size: .65rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.link-name { font-size: .92rem; font-weight: 500; color: var(--text); }
+.link-sub { font-size: .76rem; color: var(--muted); }
+.link-arrow { margin-top: .5rem; font-size: .85rem; color: var(--accent); transition: transform .15s; }
+.link-card:hover .link-arrow { transform: translateX(3px); }
 
-.link-card-label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.link-card-name {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text);
-}
-
-.link-card-sub {
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
-.link-card-arrow {
-  margin-top: 0.6rem;
-  font-size: 0.9rem;
-  color: var(--accent);
-  transition: transform 0.15s;
-}
-.link-card:hover .link-card-arrow { transform: translateX(3px); }
-
-/* ── Footer ──────────────────────────────────────────────────────────────── */
+/* ── Footer ───────────────────────────────────────────────────────────────── */
 footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem 0 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  border-top: 1px solid var(--border); padding: 1.75rem 0 3rem;
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
 }
+.footer-copy { font-size: .76rem; color: var(--muted); }
+.footer-note { font-size: .73rem; color: var(--faint); font-style: italic; }
 
-.footer-copy {
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-
-.footer-mono {
-  font-family: 'Courier New', monospace;
-  font-size: 0.72rem;
-  color: var(--muted);
-  opacity: 0.6;
-}
-
-/* ── Reduced motion ──────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { *, canvas { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
 
-<button class="theme-btn" id="themeToggle" aria-label="Toggle colour theme" title="Toggle theme">
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-    <circle cx="8" cy="8" r="3.5"/>
-    <line x1="8" y1="1" x2="8" y2="2.5"/>
-    <line x1="8" y1="13.5" x2="8" y2="15"/>
-    <line x1="1" y1="8" x2="2.5" y2="8"/>
-    <line x1="13.5" y1="8" x2="15" y2="8"/>
-    <line x1="3.05" y1="3.05" x2="4.11" y2="4.11"/>
-    <line x1="11.89" y1="11.89" x2="12.95" y2="12.95"/>
-    <line x1="12.95" y1="3.05" x2="11.89" y2="4.11"/>
-    <line x1="4.11" y1="11.89" x2="3.05" y2="12.95"/>
+<button class="theme-btn" id="themeToggle" aria-label="Toggle colour theme">
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+    <circle cx="8" cy="8" r="3.2"/>
+    <line x1="8" y1="1" x2="8" y2="2.4"/><line x1="8" y1="13.6" x2="8" y2="15"/>
+    <line x1="1" y1="8" x2="2.4" y2="8"/><line x1="13.6" y1="8" x2="15" y2="8"/>
+    <line x1="3.2" y1="3.2" x2="4.2" y2="4.2"/><line x1="11.8" y1="11.8" x2="12.8" y2="12.8"/>
+    <line x1="12.8" y1="3.2" x2="11.8" y2="4.2"/><line x1="4.2" y1="11.8" x2="3.2" y2="12.8"/>
   </svg>
 </button>
 
 <div class="page">
 
-  <!-- EEG signal canvas -->
+  <!-- EEG hero -->
   <div class="eeg-wrap">
     <canvas id="eeg" aria-hidden="true"></canvas>
   </div>
 
-  <!-- Name + bio -->
+  <!-- Name -->
   <header class="site-header">
-    <p class="eyebrow">Portfolio</p>
+    <p class="eyebrow">Pelt, Belgium</p>
     <h1 class="site-name">Tijl Cresens</h1>
     <p class="site-bio">
-      Student researching the intersection of quantitative methods and clinical neurology —
-      currently focused on automated EEG analysis and decision-support systems for epilepsy diagnostics.
+      3rd-year Business Economics student at KU Leuven (Production &amp; Logistics,
+      Finance &amp; Accountancy). Working toward a master in data science &amp;
+      statistics — self-studying the mathematics to get there.
+      Disciplined, no-nonsense, curious.
     </p>
   </header>
 
-  <!-- SPIKE project -->
+  <!-- Work -->
+  <section aria-labelledby="work-label">
+    <p class="section-label" id="work-label">Work</p>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <span class="tl-year">2026 – now</span>
+        <div class="tl-body">
+          <p class="tl-role">Co-founder</p>
+          <p class="tl-org">Creya.be</p>
+          <p class="tl-detail">Networking and financial analysis platform for Belgians — built together with Yenthe Jannis.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-year">2023 – 2026</span>
+        <div class="tl-body">
+          <p class="tl-role">Receptionist — job student</p>
+          <p class="tl-org">Basic-Fit, Noord-Limburg</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-year">2020 – 2023</span>
+        <div class="tl-body">
+          <p class="tl-role">IT technician — job student</p>
+          <p class="tl-org">Vip Computers BV</p>
+          <p class="tl-detail">Hardware repair and client support.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section aria-labelledby="edu-label">
+    <p class="section-label" id="edu-label">Education</p>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <span class="tl-year">2023 – 2026</span>
+        <div class="tl-body">
+          <p class="tl-role">Bachelor of Business Economics (TEW)</p>
+          <p class="tl-org">KU Leuven</p>
+          <p class="tl-detail">Major 1: Production &amp; Logistics · Major 2: Finance &amp; Accountancy</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-year">– 2023</span>
+        <div class="tl-body">
+          <p class="tl-role">Secondary — Science &amp; Mathematics</p>
+          <p class="tl-org">Wico Neerpelt</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section aria-labelledby="skills-label">
+    <p class="section-label" id="skills-label">Skills</p>
+
+    <div class="skill-group">
+      <p class="skill-group-label">Comfortable with</p>
+      <div class="skill-chips">
+        <span class="chip">Excel — solver, PowerQuery</span>
+        <span class="chip">Linear programming (Lindo)</span>
+        <span class="chip">STATA-SE</span>
+        <span class="chip">Power BI</span>
+        <span class="chip">Computer hardware</span>
+        <span class="chip">Dutch — native</span>
+        <span class="chip">English — fluent</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <p class="skill-group-label">Learning</p>
+      <div class="skill-chips">
+        <span class="chip">Python 3</span>
+        <span class="chip">Econometrics</span>
+        <span class="chip">Machine learning</span>
+        <span class="chip">Real analysis / measure theory</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project -->
   <section aria-labelledby="proj-label">
-    <p class="section-label" id="proj-label">Project</p>
+    <p class="section-label" id="proj-label">Side project</p>
 
     <div class="project-card">
-      <div class="project-card-inner">
-        <h2 class="project-title">SPIKE</h2>
-        <span class="project-version">v1.0.001</span>
-        <p class="project-desc">
-          Seizure Pattern Intelligence &amp; Knowledge Engine. A desktop application that reads
-          clinical EEG recordings, detects over 20 electrographic phenomena using trained machine
-          learning models, estimates epilepsy probability with conformal prediction intervals,
-          and generates AED decision support grounded in Belgian and NICE guidelines.
-        </p>
-        <div class="project-tags">
-          <span class="tag">MNE-Python</span>
-          <span class="tag">LightGBM</span>
-          <span class="tag">Conformal prediction</span>
-          <span class="tag">NiceGUI</span>
-          <span class="tag">Windows 10/11</span>
-        </div>
-        <div class="btn-row">
-          <!-- UPDATE: replace href with the direct release asset URL once a GitHub Release is created -->
-          <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_1.0.001/releases" download>
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/>
-              <path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/>
-            </svg>
-            Download for Windows
-          </a>
-          <a class="btn-secondary" href="https://github.com/T-Cresens/SPIKE_1.0.001" target="_blank" rel="noopener">
-            Source
-          </a>
-        </div>
+      <h2 class="project-title">SPIKE</h2>
+      <span class="project-version">v1.0.001</span>
+      <p class="project-desc">
+        A personal research project — a Windows desktop tool that reads clinical EEG recordings,
+        runs pattern detection models trained on open-access datasets, and produces an epilepsy
+        probability estimate with a conformal prediction interval. Includes a decision-support
+        tab for AED selection based on Belgian and NICE guidelines. Not validated for clinical use.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">MNE-Python</span>
+        <span class="tag">LightGBM</span>
+        <span class="tag">MAPIE</span>
+        <span class="tag">NiceGUI</span>
+        <span class="tag">Windows</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_1.0.001/releases">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/>
+            <path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/>
+          </svg>
+          Download — Windows
+        </a>
+        <a class="btn-secondary" href="https://github.com/T-Cresens/SPIKE_1.0.001" target="_blank" rel="noopener">
+          GitHub
+        </a>
       </div>
     </div>
   </section>
@@ -439,147 +365,193 @@ footer {
   <!-- Connect -->
   <section aria-labelledby="connect-label">
     <p class="section-label" id="connect-label">Connect</p>
-
     <div class="link-grid">
+
       <a class="link-card" href="https://www.linkedin.com/in/tijl-cresens-044b8a363/" target="_blank" rel="noopener">
-        <span class="link-card-label">LinkedIn</span>
-        <span class="link-card-name">Tijl Cresens</span>
-        <span class="link-card-sub">Student · researcher</span>
-        <span class="link-card-arrow">→</span>
+        <span class="link-label">LinkedIn</span>
+        <span class="link-name">Tijl Cresens</span>
+        <span class="link-sub">KU Leuven · TEW</span>
+        <span class="link-arrow">→</span>
       </a>
 
       <a class="link-card" href="https://creya.be" target="_blank" rel="noopener">
-        <span class="link-card-label">Project</span>
-        <span class="link-card-name">Creya.be</span>
-        <span class="link-card-sub">Web</span>
-        <span class="link-card-arrow">→</span>
+        <span class="link-label">Project</span>
+        <span class="link-name">Creya.be</span>
+        <span class="link-sub">Networking &amp; financial analysis</span>
+        <span class="link-arrow">→</span>
       </a>
 
       <a class="link-card" href="https://www.linkedin.com/in/yenthe-jannis-0979272a1/" target="_blank" rel="noopener">
-        <span class="link-card-label">LinkedIn</span>
-        <span class="link-card-name">Yenthe Jannis</span>
-        <span class="link-card-sub">Creya.be</span>
-        <span class="link-card-arrow">→</span>
+        <span class="link-label">LinkedIn</span>
+        <span class="link-name">Yenthe Jannis</span>
+        <span class="link-sub">Creya.be co-founder</span>
+        <span class="link-arrow">→</span>
       </a>
 
       <a class="link-card" href="https://github.com/T-Cresens" target="_blank" rel="noopener">
-        <span class="link-card-label">GitHub</span>
-        <span class="link-card-name">T-Cresens</span>
-        <span class="link-card-sub">Open source</span>
-        <span class="link-card-arrow">→</span>
+        <span class="link-label">GitHub</span>
+        <span class="link-name">T-Cresens</span>
+        <span class="link-sub">SPIKE &amp; other projects</span>
+        <span class="link-arrow">→</span>
       </a>
+
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <span class="footer-copy">© 2026 Tijl Cresens</span>
-    <span class="footer-mono">tijl.cresens1@gmail.com</span>
+    <span class="footer-copy">© 2026 Tijl Cresens · tijl@creya.be</span>
+    <span class="footer-note">Belgian bench-press champion 2023</span>
   </footer>
 
-</div>
+</div><!-- /page -->
 
 <script>
-/* ── Theme toggle ─────────────────────────────────────────────────────────── */
+/* ── Theme ───────────────────────────────────────────────────────────────── */
 (function () {
   const root = document.documentElement;
   const btn  = document.getElementById('themeToggle');
-  const stored = localStorage.getItem('theme');
+  const stored = localStorage.getItem('tc-theme');
   if (stored) root.setAttribute('data-theme', stored);
-
   btn.addEventListener('click', () => {
-    const current = root.getAttribute('data-theme') ||
+    const cur  = root.getAttribute('data-theme') ||
       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const next = current === 'dark' ? 'light' : 'dark';
+    const next = cur === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+    localStorage.setItem('tc-theme', next);
   });
 })();
 
-/* ── EEG canvas ───────────────────────────────────────────────────────────── */
+/* ── EEG canvas with JME IED simulation ──────────────────────────────────── */
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const canvas = document.getElementById('eeg');
   const ctx    = canvas.getContext('2d');
-  let W, H, t = 0, animId;
+  let W, H, t = 0, raf;
 
-  // 5 EEG-like channels with different oscillation profiles
-  const channels = [
-    { freq: 0.018, amp: 0.28, phase: 0.0,  noise: 0.6 },
-    { freq: 0.022, amp: 0.22, phase: 1.2,  noise: 0.5 },
-    { freq: 0.015, amp: 0.32, phase: 2.4,  noise: 0.7 },
-    { freq: 0.025, amp: 0.18, phase: 3.8,  noise: 0.4 },
-    { freq: 0.019, amp: 0.25, phase: 5.0,  noise: 0.55 },
+  /* 5 channels — simulate resting EEG background rhythms */
+  const CH = [
+    { freq: 0.018, amp: 0.30, phase: 0.00, noise: 0.55 },
+    { freq: 0.022, amp: 0.24, phase: 1.30, noise: 0.50 },
+    { freq: 0.015, amp: 0.34, phase: 2.60, noise: 0.60 },
+    { freq: 0.025, amp: 0.20, phase: 3.90, noise: 0.45 },
+    { freq: 0.019, amp: 0.27, phase: 5.20, noise: 0.50 },
   ];
 
-  // Seeded pseudo-random for stable noise per x position
-  const noiseArr = new Float32Array(4000);
-  for (let i = 0; i < noiseArr.length; i++) {
-    noiseArr[i] = (Math.sin(i * 127.1 + 311.7) * 43758.5453) % 1;
-  }
-  function noise(x) {
-    const i = ((Math.floor(x * 3) % noiseArr.length) + noiseArr.length) % noiseArr.length;
-    return noiseArr[i] * 2 - 1;
+  /* Stable noise lookup — seeded deterministic */
+  const NOISE = new Float32Array(8192);
+  for (let i = 0; i < NOISE.length; i++)
+    NOISE[i] = ((Math.sin(i * 127.1 + 311.7) * 43758.5453123) % 1 + 1) % 1 * 2 - 1;
+  const noise = x => NOISE[((Math.floor(x * 3) % NOISE.length) + NOISE.length) % NOISE.length];
+
+  /* ── IED (JME polyspike-wave) ─────────────────────────────────────────── *
+   * JME hallmark: generalised 4-6 Hz polyspike-wave discharge.
+   * Simulated as: 3 rapid spikes (decreasing amplitude) + broad slow wave.
+   */
+  const IED_LEN = 110;   // px span of one discharge
+  let iedEvents = [];    // { tx0: number }  — tx value at IED onset (right edge)
+
+  function iedShape(dt) {
+    if (dt <= 0 || dt >= IED_LEN) return 0;
+    /* Three polyspikes at ~dt 6, 20, 32 */
+    const spike = (center, peak) => {
+      const d = dt - center;
+      return peak * Math.exp(-d * d / 9);
+    };
+    const poly = spike(6, 3.4) + spike(20, 2.2) + spike(33, 1.3);
+    /* Slow wave: negative, onset ~dt 42 */
+    const dtw  = dt - 42;
+    const slow = dtw > 0 ? -1.9 * Math.exp(-dtw * dtw / 900) : 0;
+    return poly + slow;
   }
 
-  function getTraceColor() {
-    const theme = document.documentElement.getAttribute('data-theme');
-    const dark  = theme === 'dark' ||
-      (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    return dark ? 'rgba(240,165,0,' : 'rgba(158,90,0,';
+  function scheduleIED() {
+    const delay = 9000 + Math.random() * 14000;   // every 9-23 s
+    setTimeout(() => {
+      /* Trigger at right edge — tx0 = t + W */
+      iedEvents.push({ tx0: t + W });
+      if (iedEvents.length > 6) iedEvents.shift();
+      scheduleIED();
+    }, delay);
+  }
+  scheduleIED();
+
+  /* ── Colour helper ────────────────────────────────────────────────────── */
+  function traceColor(alpha) {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+      (!document.documentElement.getAttribute('data-theme') &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches);
+    return dark ? `rgba(240,165,0,${alpha})` : `rgba(160,96,0,${alpha})`;
   }
 
+  /* ── Resize ───────────────────────────────────────────────────────────── */
   function resize() {
-    const dpr = window.devicePixelRatio || 1;
+    const dpr  = Math.min(window.devicePixelRatio || 1, 2);
     const rect = canvas.getBoundingClientRect();
-    W = canvas.width  = rect.width  * dpr;
-    H = canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
     W = rect.width;
     H = rect.height;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  /* ── Draw ─────────────────────────────────────────────────────────────── */
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    const slotH = H / channels.length;
-    const base  = getTraceColor();
+    const slotH = H / CH.length;
 
-    channels.forEach((ch, ci) => {
-      const cy = slotH * ci + slotH * 0.5;
-      const amp = slotH * 0.38 * ch.amp;
+    CH.forEach((ch, ci) => {
+      const cy  = slotH * ci + slotH * 0.5;
+      const amp = slotH * 0.36 * ch.amp;
 
       ctx.beginPath();
+
       for (let px = 0; px <= W; px += 1.5) {
-        const x   = px;
-        const tx  = px + t;
-        const sig = Math.sin(tx * ch.freq * 2 * Math.PI + ch.phase)
-                  + 0.35 * Math.sin(tx * ch.freq * 5.1 * 2 * Math.PI + ch.phase * 0.7)
-                  + 0.15 * Math.sin(tx * ch.freq * 12.3 * 2 * Math.PI)
-                  + noise(tx * 0.4) * ch.noise * 0.2;
-        const y = cy + sig * amp;
-        if (px === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        const tx = px + t;
+
+        /* Background EEG rhythm */
+        const bg = Math.sin(tx * ch.freq * Math.PI * 2 + ch.phase)
+                 + 0.32 * Math.sin(tx * ch.freq * 5.2 * Math.PI * 2 + ch.phase * 0.6)
+                 + 0.12 * Math.sin(tx * ch.freq * 11.7 * Math.PI * 2)
+                 + noise(tx * 0.38) * ch.noise * 0.18;
+
+        /* IED contribution — generalised (all channels), slight per-channel jitter */
+        let ied = 0;
+        for (const ev of iedEvents) {
+          const dt = tx - ev.tx0;
+          if (dt > 0 && dt < IED_LEN) {
+            const jitter = 1.0 - ci * 0.06;   // frontal channels slightly larger
+            ied += iedShape(dt) * jitter;
+          }
+        }
+
+        const y = cy + (bg + ied) * amp;
+        if (px === 0) ctx.moveTo(px, y); else ctx.lineTo(px, y);
       }
 
-      ctx.strokeStyle = base + (0.55 - ci * 0.06) + ')';
+      ctx.strokeStyle = traceColor(0.58 - ci * 0.05);
       ctx.lineWidth   = 1.1;
       ctx.stroke();
     });
 
-    t += 0.9;
-    animId = requestAnimationFrame(draw);
+    t  += 0.85;
+    raf = requestAnimationFrame(draw);
   }
 
+  /* ── Init ─────────────────────────────────────────────────────────────── */
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    cancelAnimationFrame(animId);
-    resize();
-    draw();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      cancelAnimationFrame(raf);
+      resize();
+      draw();
+    }, 80);
   });
 
   resize();
   draw();
 })();
 </script>
-
 </body>
 </html>
