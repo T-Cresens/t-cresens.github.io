@@ -7,52 +7,44 @@
 <style>
 /* ── Tokens ───────────────────────────────────────────────────────────────── */
 :root {
-  --bg:       #f2f8f4;
+  --bg:       #ffffff;
   --surface:  #ffffff;
-  --border:   #c4d8cc;
-  --text:     #0e2018;
-  --muted:    #3d6a50;
-  --faint:    #8ab09a;
-  --accent:   #0a7c45;
-  --accent-h: #0d9e58;
-  --tag-bg:   #d4f0e0;
-  --tag-text: #0a5530;
-  --chip-bg:  #e8f4ec;
-  --trace:    rgba(8,100,50,.75);
-  --glow:     rgba(8,120,60,.06);
+  --border:   #e4ddd6;
+  --text:     #1a1714;
+  --muted:    #6b6258;
+  --faint:    #b0a79e;
+  --accent:   #7a6245;
+  --accent-h: #9a7d58;
+  --tag-bg:   #f2ece5;
+  --tag-text: #5a4830;
+  --chip-bg:  #f5f1ed;
 }
 @media (prefers-color-scheme: dark) { :root {
-  --bg:#070c08; --surface:#0d1610; --border:#1c3022;
-  --text:#c8e8d0; --muted:#6aaa80; --faint:#2e5038;
-  --accent:#00e878; --accent-h:#33ff99;
-  --tag-bg:rgba(0,232,120,.10); --tag-text:#00e878;
-  --chip-bg:#0d1f12;
-  --trace:rgba(0,232,120,.82);
-  --glow:rgba(0,232,120,.05);
+  --bg:#141210; --surface:#1d1a17; --border:#2e2b26;
+  --text:#e8e2da; --muted:#9a9088; --faint:#4a4540;
+  --accent:#c4a572; --accent-h:#d4b880;
+  --tag-bg:rgba(196,165,114,.12); --tag-text:#c4a572;
+  --chip-bg:#221f1b;
 }}
 :root[data-theme="dark"] {
-  --bg:#070c08; --surface:#0d1610; --border:#1c3022;
-  --text:#c8e8d0; --muted:#6aaa80; --faint:#2e5038;
-  --accent:#00e878; --accent-h:#33ff99;
-  --tag-bg:rgba(0,232,120,.10); --tag-text:#00e878;
-  --chip-bg:#0d1f12;
-  --trace:rgba(0,232,120,.82);
-  --glow:rgba(0,232,120,.05);
+  --bg:#141210; --surface:#1d1a17; --border:#2e2b26;
+  --text:#e8e2da; --muted:#9a9088; --faint:#4a4540;
+  --accent:#c4a572; --accent-h:#d4b880;
+  --tag-bg:rgba(196,165,114,.12); --tag-text:#c4a572;
+  --chip-bg:#221f1b;
 }
 :root[data-theme="light"] {
-  --bg:#f2f8f4; --surface:#ffffff; --border:#c4d8cc;
-  --text:#0e2018; --muted:#3d6a50; --faint:#8ab09a;
-  --accent:#0a7c45; --accent-h:#0d9e58;
-  --tag-bg:#d4f0e0; --tag-text:#0a5530;
-  --chip-bg:#e8f4ec;
-  --trace:rgba(8,100,50,.75);
-  --glow:rgba(8,120,60,.06);
+  --bg:#ffffff; --surface:#ffffff; --border:#e4ddd6;
+  --text:#1a1714; --muted:#6b6258; --faint:#b0a79e;
+  --accent:#7a6245; --accent-h:#9a7d58;
+  --tag-bg:#f2ece5; --tag-text:#5a4830;
+  --chip-bg:#f5f1ed;
 }
 
 /* ── Reset ────────────────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.7;min-height:100vh}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.7;min-height:100vh;background:var(--bg)}
 a{color:inherit;text-decoration:none}
 
 /* ── Shell ────────────────────────────────────────────────────────────────── */
@@ -78,7 +70,7 @@ a{color:inherit;text-decoration:none}
 .tab-bar{border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100}
 .tab-bar-inner{display:flex;align-items:flex-end;max-width:1160px;margin:0 auto;padding:0 2rem}
 .tab-btn{
-  padding:.75rem 1.4rem;font-size:.8rem;font-weight:600;
+  padding:.75rem 1.4rem;font-size:.78rem;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);background:none;border:none;
   border-bottom:2px solid transparent;margin-bottom:-1px;
@@ -94,8 +86,8 @@ a{color:inherit;text-decoration:none}
 
 /* ── Section label ────────────────────────────────────────────────────────── */
 .sec-label{
-  font-size:.64rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:1.1rem;padding-bottom:.55rem;
+  font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:1.1rem;padding-bottom:.55rem;
   border-bottom:1px solid var(--border)
 }
 
@@ -106,28 +98,27 @@ a{color:inherit;text-decoration:none}
 
 /* ── About hero ───────────────────────────────────────────────────────────── */
 .about-hero{padding-bottom:2.5rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
-.hero-inner{display:flex;align-items:center;gap:2.2rem;flex-wrap:wrap}
+.hero-inner{display:flex;align-items:flex-start;gap:2.5rem;flex-wrap:wrap}
 .hero-text{flex:1;min-width:220px}
-.eyebrow{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
+.eyebrow{font-size:.63rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
 .site-name{
   font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
   font-size:clamp(1.9rem,5vw,3rem);font-weight:400;
   letter-spacing:-.02em;line-height:1.1;text-wrap:balance;margin-bottom:.7rem
 }
 .site-bio{font-size:.9rem;color:var(--muted);max-width:52ch;line-height:1.75}
-.portrait-wrap{flex-shrink:0}
+.portrait-wrap{flex-shrink:0;padding-top:.2rem}
 .portrait{
   width:148px;height:148px;
-  object-fit:cover;object-position:center 18%;
-  display:block;border:1px solid var(--border);
-  filter:grayscale(12%)
+  object-fit:cover;object-position:center 22%;
+  display:block;border:1px solid var(--border)
 }
-@media(max-width:480px){.portrait{width:110px;height:110px}}
+@media(max-width:480px){.portrait{width:104px;height:104px}}
 
 /* ── Contact grid ─────────────────────────────────────────────────────────── */
 .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
 .contact-item{background:var(--surface);padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.2rem}
-.contact-label{font-size:.61rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.contact-label{font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .contact-value{font-size:.86rem;color:var(--text);font-weight:500}
 .contact-item a{color:var(--text)}
 .contact-item a:hover{color:var(--accent)}
@@ -136,105 +127,89 @@ a{color:inherit;text-decoration:none}
 .timeline{display:flex;flex-direction:column;gap:1.4rem}
 .tl-item{display:grid;grid-template-columns:5.5rem 1fr;gap:0 1rem;align-items:start}
 @media(max-width:420px){.tl-item{grid-template-columns:1fr;gap:.1rem}}
-.tl-year{font-size:.7rem;font-weight:600;letter-spacing:.04em;color:var(--faint);padding-top:.18rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tl-year{font-size:.68rem;font-weight:600;letter-spacing:.03em;color:var(--faint);padding-top:.18rem;white-space:nowrap;font-variant-numeric:tabular-nums}
 .tl-role{font-size:.78rem;color:var(--muted);margin-bottom:.04rem}
 .tl-org{font-size:.92rem;font-weight:600;color:var(--text)}
-.tl-detail{font-size:.79rem;color:var(--muted);margin-top:.2rem;max-width:46ch}
+.tl-detail{font-size:.78rem;color:var(--muted);margin-top:.2rem;max-width:46ch}
 
 /* ── Skills ───────────────────────────────────────────────────────────────── */
 .skill-group{margin-bottom:1rem}
-.skill-group-label{font-size:.64rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
-.chips{display:flex;flex-wrap:wrap;gap:.32rem}
-.chip{font-size:.76rem;color:var(--muted);background:var(--chip-bg);border:1px solid var(--border);padding:.16rem .62rem}
+.skill-group-label{font-size:.63rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem}
+.chip{font-size:.75rem;color:var(--muted);background:var(--chip-bg);border:1px solid var(--border);padding:.15rem .6rem}
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 .site-footer{
   border-top:1px solid var(--border);margin-top:1rem;padding:1.75rem 0 3rem;
   display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap
 }
-.footer-copy{font-size:.75rem;color:var(--muted)}
-.footer-note{font-size:.72rem;color:var(--faint);font-style:italic}
+.footer-copy{font-size:.74rem;color:var(--muted)}
+.footer-note{font-size:.71rem;color:var(--faint);font-style:italic}
 
 /* ══ PROJECT PAGES ════════════════════════════════════════════════════════════ */
 
 .proj-hero{padding-bottom:2.5rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
-.proj-eyebrow{font-size:.64rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
+.proj-eyebrow{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem}
 .proj-title{
   font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
   font-size:clamp(1.8rem,5vw,2.8rem);font-weight:400;letter-spacing:-.02em;
   line-height:1.1;text-wrap:balance;margin-bottom:.6rem
 }
 .proj-version{
-  font-family:'Courier New',monospace;font-size:.68rem;font-weight:600;
+  font-family:'Courier New',monospace;font-size:.67rem;font-weight:600;
   letter-spacing:.08em;color:var(--tag-text);background:var(--tag-bg);
   padding:1px 8px;display:inline-block;margin-bottom:.9rem
 }
-.proj-tagline{font-size:.93rem;color:var(--muted);max-width:60ch;line-height:1.7;margin-bottom:1.4rem}
-.btn-row{display:flex;gap:.65rem;flex-wrap:wrap}
+.proj-tagline{font-size:.92rem;color:var(--muted);max-width:60ch;line-height:1.7;margin-bottom:1.4rem}
+.btn-row{display:flex;gap:.6rem;flex-wrap:wrap}
 .btn-primary{
   display:inline-flex;align-items:center;gap:.4rem;
   background:var(--accent);color:#fff;
-  font-size:.79rem;font-weight:600;letter-spacing:.04em;
-  padding:.48rem 1.1rem;border:none;cursor:pointer;transition:background .15s
+  font-size:.78rem;font-weight:600;letter-spacing:.04em;
+  padding:.46rem 1.1rem;border:none;cursor:pointer;transition:background .15s
 }
 .btn-primary:hover{background:var(--accent-h)}
 .btn-primary:focus-visible{outline:2px solid var(--accent-h);outline-offset:2px}
 .btn-secondary{
   display:inline-flex;align-items:center;gap:.4rem;
   background:transparent;color:var(--accent);
-  font-size:.79rem;font-weight:600;letter-spacing:.04em;
-  padding:.48rem 1.1rem;border:1px solid var(--accent);transition:background .15s,color .15s
+  font-size:.78rem;font-weight:600;letter-spacing:.04em;
+  padding:.46rem 1.1rem;border:1px solid var(--accent);transition:background .15s,color .15s
 }
 .btn-secondary:hover{background:var(--accent);color:#fff}
 .btn-secondary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ── Feature list ─────────────────────────────────────────────────────────── */
 .feature-intro{font-size:.9rem;color:var(--muted);line-height:1.75;margin-bottom:1rem;max-width:64ch}
-.feature-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.3rem .8rem;margin-bottom:1.6rem}
-.feature-list li{font-size:.84rem;color:var(--muted);padding:.22rem 0;display:flex;align-items:baseline;gap:.5rem}
-.feature-list li::before{content:"—";color:var(--accent);flex-shrink:0;font-size:.78rem}
+.feature-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.28rem .8rem;margin-bottom:1.6rem}
+.feature-list li{font-size:.83rem;color:var(--muted);padding:.22rem 0;display:flex;align-items:baseline;gap:.45rem}
+.feature-list li::before{content:"—";color:var(--accent);flex-shrink:0;font-size:.77rem}
 
 /* ── Trust block ──────────────────────────────────────────────────────────── */
-.trust-block{
-  border:1px solid var(--border);padding:1.1rem 1.3rem;margin-bottom:1.8rem;
-  background:var(--surface);max-width:680px
-}
-.trust-block p{font-size:.86rem;color:var(--muted);line-height:1.7}
+.trust-block{border:1px solid var(--border);padding:1.1rem 1.3rem;margin-bottom:1.8rem;background:var(--surface);max-width:680px}
+.trust-block p{font-size:.85rem;color:var(--muted);line-height:1.7}
 .trust-block p+p{margin-top:.6rem}
 
 /* ── Gallery ──────────────────────────────────────────────────────────────── */
-.gallery-label{
-  font-size:.64rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:1rem;padding-bottom:.55rem;
-  border-bottom:1px solid var(--border)
-}
+.gallery-label{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
 .gallery img{width:100%;height:auto;display:block;border:1px solid var(--border);transition:opacity .15s}
 .gallery img:hover{opacity:.88}
-.gallery-placeholder{
-  background:var(--chip-bg);border:1px dashed var(--border);
-  aspect-ratio:16/9;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:.4rem;
-  color:var(--faint);font-size:.77rem;text-align:center;padding:1rem
-}
+.gallery-placeholder{background:var(--chip-bg);border:1px dashed var(--border);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--faint);font-size:.76rem;text-align:center;padding:1rem}
 
 /* ── Collab card ──────────────────────────────────────────────────────────── */
-.collab-card{
-  display:inline-flex;align-items:center;gap:.9rem;
-  border:1px solid var(--border);padding:.8rem 1.2rem;
-  background:var(--surface);text-decoration:none;transition:background .12s
-}
-.collab-card:hover{background:var(--bg)}
+.collab-card{display:inline-flex;align-items:center;gap:.9rem;border:1px solid var(--border);padding:.8rem 1.2rem;background:var(--surface);text-decoration:none;transition:background .12s}
+.collab-card:hover{background:var(--chip-bg)}
 .collab-name{font-size:.9rem;font-weight:600;color:var(--text)}
-.collab-sub{font-size:.75rem;color:var(--muted)}
+.collab-sub{font-size:.74rem;color:var(--muted)}
 .collab-arrow{color:var(--accent);transition:transform .15s}
 .collab-card:hover .collab-arrow{transform:translateX(3px)}
 
 /* ── Tags / disclaimer ────────────────────────────────────────────────────── */
-.proj-tags{display:flex;flex-wrap:wrap;gap:.32rem;margin-bottom:1.8rem}
-.tag{font-size:.69rem;font-weight:500;color:var(--faint);background:var(--bg);border:1px solid var(--border);padding:2px 8px}
-.proj-details{font-size:.89rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;max-width:64ch}
-.disclaimer{font-size:.79rem;color:var(--muted);border-left:2px solid var(--border);padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1.8rem}
+.tag{font-size:.68rem;font-weight:500;color:var(--faint);background:var(--bg);border:1px solid var(--border);padding:2px 8px}
+.proj-details{font-size:.88rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;max-width:64ch}
+.disclaimer{font-size:.78rem;color:var(--muted);border-left:2px solid var(--border);padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6}
 
 @media(prefers-reduced-motion:reduce){*,canvas{animation:none!important;transition:none!important}}
 </style>
@@ -251,12 +226,10 @@ a{color:inherit;text-decoration:none}
   </svg>
 </button>
 
-<!-- EEG banner -->
 <div class="eeg-header">
   <canvas id="eeg" aria-hidden="true"></canvas>
 </div>
 
-<!-- Tabbladbalk -->
 <nav class="tab-bar" aria-label="Sitesecties">
   <div class="tab-bar-inner">
     <button class="tab-btn active" data-tab="over"  aria-selected="true">Over mij</button>
@@ -272,6 +245,9 @@ a{color:inherit;text-decoration:none}
 
   <div class="about-hero">
     <div class="hero-inner">
+      <div class="portrait-wrap">
+        <img class="portrait" src="photo.jpg" alt="Tijl Cresens">
+      </div>
       <div class="hero-text">
         <p class="eyebrow">Pelt, België</p>
         <h1 class="site-name">Tijl Cresens</h1>
@@ -281,17 +257,12 @@ a{color:inherit;text-decoration:none}
           Op weg naar een master in data science &amp; statistiek.
         </p>
       </div>
-      <div class="portrait-wrap">
-        <img class="portrait" src="photo.jpg" alt="Tijl Cresens">
-      </div>
     </div>
   </div>
 
   <div class="two-col">
 
-    <!-- Links: Werk + Opleiding -->
     <div>
-
       <section aria-labelledby="werk-lbl">
         <p class="sec-label" id="werk-lbl">Werk</p>
         <div class="timeline">
@@ -341,12 +312,9 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
       </section>
-
     </div>
 
-    <!-- Rechts: Contact + Vaardigheden + Projecten -->
     <div>
-
       <section aria-labelledby="contact-lbl">
         <p class="sec-label" id="contact-lbl">Contact</p>
         <div class="contact-grid">
@@ -404,16 +372,15 @@ a{color:inherit;text-decoration:none}
 
       <section aria-labelledby="proj-lbl">
         <p class="sec-label" id="proj-lbl">Projecten</p>
-        <div style="display:flex;flex-direction:column;gap:.6rem">
-          <button class="btn-primary" onclick="switchTab('creya')" style="justify-content:space-between;width:100%;max-width:260px">
+        <div style="display:flex;flex-direction:column;gap:.55rem">
+          <button class="btn-primary" onclick="switchTab('creya')" style="justify-content:space-between;width:100%;max-width:255px">
             <span>Creya.be</span><span>→</span>
           </button>
-          <button class="btn-secondary" onclick="switchTab('spike')" style="justify-content:space-between;width:100%;max-width:260px">
+          <button class="btn-secondary" onclick="switchTab('spike')" style="justify-content:space-between;width:100%;max-width:255px">
             <span>SPIKE</span><span>→</span>
           </button>
         </div>
       </section>
-
     </div>
 
     <footer class="site-footer full">
@@ -433,14 +400,9 @@ a{color:inherit;text-decoration:none}
   <div class="proj-hero">
     <p class="proj-eyebrow">Project — 2026</p>
     <h2 class="proj-title">Creya.be</h2>
-    <p class="proj-tagline">
-      Een webservice die financiële inzichten biedt in Belgische bedrijven —
-      gebouwd samen met Yenthe Jannis.
-    </p>
+    <p class="proj-tagline">Een webservice die financiële inzichten biedt in Belgische bedrijven — gebouwd samen met Yenthe Jannis.</p>
     <div class="btn-row">
-      <a class="btn-primary" href="https://creya.be" target="_blank" rel="noopener">
-        Bezoek Creya.be →
-      </a>
+      <a class="btn-primary" href="https://creya.be" target="_blank" rel="noopener">Bezoek Creya.be →</a>
     </div>
   </div>
 
@@ -500,10 +462,7 @@ a{color:inherit;text-decoration:none}
     <p class="proj-eyebrow">Nevenproject — 2026</p>
     <h2 class="proj-title">SPIKE</h2>
     <span class="proj-version">v1.0.001</span>
-    <p class="proj-tagline">
-      Seizure Pattern Intelligence &amp; Knowledge Engine — een Windows-desktopapplicatie
-      voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.
-    </p>
+    <p class="proj-tagline">Seizure Pattern Intelligence &amp; Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.</p>
     <div class="btn-row">
       <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_1.0.001/releases">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
@@ -515,13 +474,7 @@ a{color:inherit;text-decoration:none}
 
   <section>
     <p class="sec-label">Wat doet SPIKE?</p>
-    <p class="proj-details">
-      Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op
-      publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid
-      met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor
-      AED-selectie op basis van Belgische en NICE-richtlijnen.
-      Gebouwd in Python met MNE-Python, LightGBM en MAPIE.
-    </p>
+    <p class="proj-details">Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.</p>
     <div class="proj-tags">
       <span class="tag">Python</span><span class="tag">MNE-Python</span>
       <span class="tag">LightGBM</span><span class="tag">MAPIE</span>
@@ -533,24 +486,21 @@ a{color:inherit;text-decoration:none}
     <p class="gallery-label">Schermafbeeldingen</p>
     <div class="gallery">
       <div class="gallery-placeholder">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
         Schermafbeelding volgt
       </div>
       <div class="gallery-placeholder">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
         Schermafbeelding volgt
       </div>
       <div class="gallery-placeholder">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
         Schermafbeelding volgt
       </div>
     </div>
   </section>
 
-  <p class="disclaimer">
-    Persoonlijk onderzoeksproject. Niet gevalideerd als klinisch diagnostisch hulpmiddel.
-    Contact: <a href="mailto:tijl.cresens@student.kuleuven.be" style="color:var(--accent)">tijl.cresens@student.kuleuven.be</a>
-  </p>
+  <p class="disclaimer">Persoonlijk onderzoeksproject. Niet gevalideerd als klinisch diagnostisch hulpmiddel. Contact: <a href="mailto:tijl.cresens@student.kuleuven.be" style="color:var(--accent)">tijl.cresens@student.kuleuven.be</a></p>
 
 </div>
 </div>
@@ -597,35 +547,29 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
   const ctx=canvas.getContext('2d');
   let W,H,t=0,raf;
 
-  /* 5 channels — low background amplitude so IEDs dominate */
   const CH=[
-    {freq:.018, amp:.13, phase:0.0,  noise:.38},
-    {freq:.022, amp:.11, phase:1.3,  noise:.34},
-    {freq:.015, amp:.15, phase:2.6,  noise:.40},
-    {freq:.025, amp:.09, phase:3.9,  noise:.30},
-    {freq:.019, amp:.12, phase:5.2,  noise:.36},
+    {freq:.018,amp:.13,phase:0.0, noise:.38},
+    {freq:.022,amp:.11,phase:1.3, noise:.34},
+    {freq:.015,amp:.15,phase:2.6, noise:.40},
+    {freq:.025,amp:.09,phase:3.9, noise:.30},
+    {freq:.019,amp:.12,phase:5.2, noise:.36},
   ];
 
-  /* Noise LUT */
   const NOISE=new Float32Array(8192);
   for(let i=0;i<NOISE.length;i++)
     NOISE[i]=((Math.sin(i*127.1+311.7)*43758.5453)%1+1)%1*2-1;
   const nlut=x=>NOISE[((Math.floor(x*3)%NOISE.length)+NOISE.length)%NOISE.length];
 
-  /* JME polyspike-wave — prominent amplitudes */
   const IED_LEN=150;
   function iedShape(dt){
     if(dt<=0||dt>=IED_LEN) return 0;
     const spike=(c,p)=>{const d=dt-c;return p*Math.exp(-d*d/8)};
-    /* Three rapid spikes (polyspike) */
     const poly=spike(6,7.8)+spike(22,5.2)+spike(38,3.4);
-    /* Trailing slow wave */
     const dtw=dt-55;
     const slow=dtw>0?-4.6*Math.exp(-dtw*dtw/1800):0;
     return poly+slow;
   }
 
-  /* IED event queue — fire every 9-23 s */
   let iedEvents=[];
   function scheduleIED(){
     setTimeout(()=>{
@@ -655,27 +599,26 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     ctx.clearRect(0,0,W,H);
     const slotH=H/CH.length;
 
-    /* ── Glow columns at IED locations ── */
+    /* Glow columns at IED locations */
     for(const ev of iedEvents){
       const gx=ev.tx0-t;
       if(gx>-IED_LEN&&gx<W+20){
-        const grad=ctx.createLinearGradient(gx,0,gx+IED_LEN*0.7,0);
-        const gc=dark?'rgba(0,232,120,':'rgba(8,150,70,';
-        grad.addColorStop(0,gc+'0)');
-        grad.addColorStop(0.08,gc+'0.08)');
-        grad.addColorStop(0.35,gc+'0.12)');
-        grad.addColorStop(0.65,gc+'0.06)');
-        grad.addColorStop(1,gc+'0)');
+        const grad=ctx.createLinearGradient(gx,0,gx+IED_LEN*.7,0);
+        const c=dark?'rgba(196,165,114,':'rgba(100,80,50,';
+        grad.addColorStop(0,c+'0)');
+        grad.addColorStop(0.08,c+'0.07)');
+        grad.addColorStop(0.35,c+'0.11)');
+        grad.addColorStop(0.65,c+'0.05)');
+        grad.addColorStop(1,c+'0)');
         ctx.fillStyle=grad;
         ctx.fillRect(Math.max(0,gx-10),0,IED_LEN+20,H);
       }
     }
 
-    /* ── Traces ── */
+    /* Traces */
     CH.forEach((ch,ci)=>{
       const cy=slotH*ci+slotH*.5;
       const amp=slotH*.38*ch.amp;
-
       ctx.beginPath();
       for(let px=0;px<=W;px+=1.5){
         const tx=px+t;
@@ -691,12 +634,11 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
         const y=cy+(bg+ied)*amp;
         if(px===0) ctx.moveTo(px,y); else ctx.lineTo(px,y);
       }
-      /* Brighten trace during active IED */
-      const hasActive=iedEvents.some(ev=>{const d=(W*.6+t)-ev.tx0;return d>0&&d<IED_LEN;});
-      const base=.58-ci*.05;
-      const opacity=hasActive?Math.min(base+.25,.96):base;
-      ctx.strokeStyle=dark?`rgba(0,232,120,${opacity})`:`rgba(8,110,52,${opacity})`;
-      ctx.lineWidth=1.15;
+      const base=.55-ci*.05;
+      ctx.strokeStyle=dark
+        ?`rgba(196,165,114,${base})`
+        :`rgba(90,65,35,${base})`;
+      ctx.lineWidth=1.1;
       ctx.stroke();
     });
 
