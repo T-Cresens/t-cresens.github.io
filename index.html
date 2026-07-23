@@ -198,6 +198,26 @@ a{color:inherit;text-decoration:none}
 .gallery--2col{grid-template-columns:repeat(2,1fr)}
 @media(max-width:600px){.gallery,.gallery--2col{grid-template-columns:1fr}}
 
+/* ── Licenties ───────────────────────────────────────────────────────────── */
+.license-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.25rem}
+@media(max-width:660px){.license-grid{grid-template-columns:1fr}}
+.license-card{border:1px solid var(--border);padding:1.2rem 1.4rem}
+.license-type{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);margin-bottom:.55rem}
+.license-desc{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:.7rem}
+.license-cta{font-size:.78rem;color:var(--faint)}
+.license-cta a{color:var(--accent);text-decoration:none}
+.license-cta a:hover{text-decoration:underline}
+
+/* ── Referenties ─────────────────────────────────────────────────────────── */
+.ref-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0}
+.ref-list li{display:grid;grid-template-columns:1.8rem 1fr;gap:0 .5rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.65;color:var(--muted)}
+.ref-list li:last-child{border-bottom:none}
+.ref-num{color:var(--faint);font-variant-numeric:tabular-nums;padding-top:.02em;font-size:.72rem}
+.ref-body em{font-style:normal;color:var(--text)}
+.ref-doi{display:block;font-size:.72rem;margin-top:.18rem}
+.ref-doi a{color:var(--accent);text-decoration:none;word-break:break-all}
+.ref-doi a:hover{text-decoration:underline}
+
 /* ── Lightbox ─────────────────────────────────────────────────────────────── */
 .lb{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
 .lb.open{display:flex}
@@ -511,7 +531,58 @@ a{color:inherit;text-decoration:none}
     </div>
   </section>
 
-  <p class="disclaimer">Persoonlijk onderzoeksproject. Niet gevalideerd als klinisch diagnostisch hulpmiddel. Contact: <a href="mailto:tijl.cresens@student.kuleuven.be" style="color:var(--accent)">tijl.cresens@student.kuleuven.be</a></p>
+  <section>
+    <p class="sec-label">Gebruiksovereenkomsten</p>
+    <div class="license-grid">
+      <div class="license-card">
+        <p class="license-type">Eindgebruikerslicentie (EULA)</p>
+        <p class="license-desc">Inbegrepen bij de download. Gratis gebruik voor persoonlijke, educatieve en niet-commerciële onderzoeksdoeleinden. Herverspreiding, verkoop, reverse engineering en commercieel gebruik zijn niet toegestaan. De volledige tekst is beschikbaar bij installatie.</p>
+        <p class="license-cta">→ Beschikbaar bij installatie</p>
+      </div>
+      <div class="license-card">
+        <p class="license-type">Onderzoeksbronslicentie (RSL)</p>
+        <p class="license-desc">Voor onderzoekers die toegang wensen tot de broncode. Aanvraag per e-mail met vermelding van instelling, onderzoeksdoel en publicatieplannen. Vertrouwelijkheidsplicht en citatieplicht van toepassing. Geen commercieel gebruik.</p>
+        <p class="license-cta">→ <a href="mailto:tijl.cresens1@gmail.com?subject=SPIKE%20Research%20Source%20License%20Application">tijl.cresens1@gmail.com</a> — onderwerp: <em>SPIKE Research Source License Application</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Referenties</p>
+    <ol class="ref-list">
+      <li><span class="ref-num">1</span><span class="ref-body"><em>Gramfort A et al.</em> (2013). MEG and EEG data analysis with MNE-Python. <em>Front. Neurosci.</em> 7:267.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2013.00267" target="_blank" rel="noopener">doi:10.3389/fnins.2013.00267</a></span></span></li>
+      <li><span class="ref-num">2</span><span class="ref-body"><em>Hyvärinen A &amp; Oja E</em> (2000). Independent component analysis: algorithms and applications. <em>Neural Networks</em> 13:411–430.<span class="ref-doi"><a href="https://doi.org/10.1016/S0893-6080(00)00026-5" target="_blank" rel="noopener">doi:10.1016/S0893-6080(00)00026-5</a></span></span></li>
+      <li><span class="ref-num">3</span><span class="ref-body"><em>Donoghue T et al.</em> (2020). Parameterizing neural power spectra into periodic and aperiodic components. <em>Nature Neuroscience</em> 23:1655–1665.<span class="ref-doi"><a href="https://doi.org/10.1038/s41593-020-00744-x" target="_blank" rel="noopener">doi:10.1038/s41593-020-00744-x</a></span></span></li>
+      <li><span class="ref-num">4</span><span class="ref-body"><em>Kaiser JF</em> (1990). On a simple algorithm to calculate the energy of a signal. <em>ICASSP 1990.</em><span class="ref-doi"><a href="https://doi.org/10.1109/ICASSP.1990.115702" target="_blank" rel="noopener">doi:10.1109/ICASSP.1990.115702</a></span></span></li>
+      <li><span class="ref-num">5</span><span class="ref-body"><em>Ke G et al.</em> (2017). LightGBM: A highly efficient gradient boosting decision tree. <em>NeurIPS 2017.</em><span class="ref-doi"><a href="https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bea5d2f4f97e-Abstract.html" target="_blank" rel="noopener">papers.nips.cc</a></span></span></li>
+      <li><span class="ref-num">6</span><span class="ref-body"><em>Angelopoulos AN &amp; Bates S</em> (2023). A gentle introduction to conformal prediction. <em>TMLR.</em><span class="ref-doi"><a href="https://arxiv.org/abs/2107.07511" target="_blank" rel="noopener">arxiv:2107.07511</a></span></span></li>
+      <li><span class="ref-num">7</span><span class="ref-body"><em>Hirsch LJ et al.</em> (2021). ACNS Standardized Critical Care EEG Terminology 2021. <em>J. Clin. Neurophysiol.</em> 38:1–29.<span class="ref-doi"><a href="https://doi.org/10.1097/WNP.0000000000000806" target="_blank" rel="noopener">doi:10.1097/WNP.0000000000000806</a></span></span></li>
+      <li><span class="ref-num">8</span><span class="ref-body"><em>Fisher RS et al.</em> (2017). Operational classification of seizure types by the ILAE. <em>Epilepsia</em> 58:522–530.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13670" target="_blank" rel="noopener">doi:10.1111/epi.13670</a></span></span></li>
+      <li><span class="ref-num">9</span><span class="ref-body"><em>Scheffer IE et al.</em> (2017). ILAE classification of the epilepsies. <em>Epilepsia</em> 58:512–521.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13709" target="_blank" rel="noopener">doi:10.1111/epi.13709</a></span></span></li>
+      <li><span class="ref-num">10</span><span class="ref-body"><em>Synek VM</em> (1988). Prognostically important EEG coma patterns in diffuse anoxic and traumatic encephalopathies in adults. <em>J. Clin. Neurophysiol.</em> 5:161–174.<span class="ref-doi"><a href="https://doi.org/10.1097/00004691-198804000-00006" target="_blank" rel="noopener">doi:10.1097/00004691-198804000-00006</a></span></span></li>
+      <li><span class="ref-num">11</span><span class="ref-body"><em>Panayiotopoulos CP</em> (2005). <em>The Epilepsies: Seizures, Syndromes and Management.</em> Bladon Medical.</span></li>
+      <li><span class="ref-num">12</span><span class="ref-body"><em>Camfield P &amp; Camfield C</em> (2015). Lennox-Gastaut syndrome. <em>Handb. Clin. Neurol.</em> 132:167–184.<span class="ref-doi"><a href="https://doi.org/10.1016/B978-0-444-62702-5.00012-5" target="_blank" rel="noopener">doi:10.1016/B978-0-444-62702-5.00012-5</a></span></span></li>
+      <li><span class="ref-num">13</span><span class="ref-body"><em>Kellaway P</em> (1959). Neurologic status of patients with hypsarrhythmia. In: Gibbs ed., <em>Molecules and Mental Health.</em></span></li>
+      <li><span class="ref-num">14</span><span class="ref-body"><em>Kurtz P et al.</em> (2017). Ictal quantitative EEG changes associated with clinical outcomes. <em>Neurocrit. Care</em> 26:221–231.<span class="ref-doi"><a href="https://doi.org/10.1007/s12028-016-0308-3" target="_blank" rel="noopener">doi:10.1007/s12028-016-0308-3</a></span></span></li>
+      <li><span class="ref-num">15</span><span class="ref-body"><em>Iber C et al.</em> (2007). <em>The AASM Manual for the Scoring of Sleep and Associated Events.</em> AASM.</span></li>
+      <li><span class="ref-num">16</span><span class="ref-body"><em>Zijlmans M et al.</em> (2017). High-frequency oscillations as a new biomarker in epilepsy. <em>Ann. Neurol.</em> 71:169–178.<span class="ref-doi"><a href="https://doi.org/10.1002/ana.22548" target="_blank" rel="noopener">doi:10.1002/ana.22548</a></span></span></li>
+      <li><span class="ref-num">17</span><span class="ref-body"><em>Hirsch LJ</em> (2021). Focal EEG delta review (PMC12476073) — TIRDA/LRDA epileptogenicity criteria.</span></li>
+      <li><span class="ref-num">18</span><span class="ref-body"><em>Frauscher B et al.</em> (2017). High-frequency oscillations: the state of clinical research. <em>Epilepsia</em> 58:1316–1329.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13829" target="_blank" rel="noopener">doi:10.1111/epi.13829</a></span></span></li>
+      <li><span class="ref-num">19</span><span class="ref-body"><em>Ren L &amp; Stacey WC</em> (2019). Scalp EEG high-frequency oscillations: the effects of electrode montage. <em>Clin. Neurophysiol.</em> 130:368–377.<span class="ref-doi"><a href="https://doi.org/10.1016/j.clinph.2018.10.022" target="_blank" rel="noopener">doi:10.1016/j.clinph.2018.10.022</a></span></span></li>
+      <li><span class="ref-num">20</span><span class="ref-body"><em>Holler Y et al.</em> (2018). Detection of high-frequency oscillations in the ripple band: practically impossible on scalp EEG. <em>Comput. Intell. Neurosci.</em> 2018:2518214.<span class="ref-doi"><a href="https://doi.org/10.1155/2018/2518214" target="_blank" rel="noopener">doi:10.1155/2018/2518214</a></span></span></li>
+      <li><span class="ref-num">21</span><span class="ref-body"><em>Mytinger JR et al.</em> (2015). Interrater reliability of hypsarrhythmia EEG classification (IRISH). <em>Epilepsy Res.</em> 116:55–57.<span class="ref-doi"><a href="https://doi.org/10.1016/j.eplepsyres.2015.06.017" target="_blank" rel="noopener">doi:10.1016/j.eplepsyres.2015.06.017</a></span></span></li>
+      <li><span class="ref-num">22</span><span class="ref-body"><em>Obeid I &amp; Picone J</em> (2016). The Temple University Hospital EEG Data Corpus. <em>Front. Neurosci.</em> 10:196.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2016.00196" target="_blank" rel="noopener">doi:10.3389/fnins.2016.00196</a></span></span></li>
+      <li><span class="ref-num">23</span><span class="ref-body"><em>Shoeb A</em> (2009). Application of machine learning to epileptic seizure onset detection. PhD thesis, MIT. PhysioNet.<span class="ref-doi"><a href="https://physionet.org/content/chbmit/1.0.0/" target="_blank" rel="noopener">physionet.org/content/chbmit/1.0.0/</a></span></span></li>
+      <li><span class="ref-num">24</span><span class="ref-body"><em>Detti P et al.</em> (2020). Siena Scalp EEG Database. PhysioNet.<span class="ref-doi"><a href="https://doi.org/10.13026/5d4a-j163" target="_blank" rel="noopener">doi:10.13026/5d4a-j163</a></span></span></li>
+      <li><span class="ref-num">25</span><span class="ref-body"><em>van Dijk H et al.</em> (2022). TDBRAIN. <em>Scientific Data</em> 9:333.<span class="ref-doi"><a href="https://doi.org/10.1038/s41597-022-01409-z" target="_blank" rel="noopener">doi:10.1038/s41597-022-01409-z</a></span></span></li>
+      <li><span class="ref-num">26</span><span class="ref-body"><em>Babayan A et al.</em> (2019). LEMON dataset. <em>Scientific Data</em> 6:180308.<span class="ref-doi"><a href="https://doi.org/10.1038/sdata.2018.308" target="_blank" rel="noopener">doi:10.1038/sdata.2018.308</a></span></span></li>
+      <li><span class="ref-num">27</span><span class="ref-body"><em>NICE</em> (2022). Epilepsies in children, young people and adults. NG217.<span class="ref-doi"><a href="https://www.nice.org.uk/guidance/ng217" target="_blank" rel="noopener">nice.org.uk/guidance/ng217</a></span></span></li>
+      <li><span class="ref-num">28</span><span class="ref-body"><em>WHO</em> (2024). ATC/DDD Index.<span class="ref-doi"><a href="https://www.whocc.no/atc_ddd_index/" target="_blank" rel="noopener">whocc.no/atc_ddd_index/</a></span></span></li>
+      <li><span class="ref-num">29</span><span class="ref-body"><em>Kemp B et al.</em> (1992). A simple format for exchange of digitized polygraphic recordings. <em>Electroencephalogr. Clin. Neurophysiol.</em> 82:391–393.<span class="ref-doi"><a href="https://doi.org/10.1016/0013-4694(92)90009-7" target="_blank" rel="noopener">doi:10.1016/0013-4694(92)90009-7</a></span></span></li>
+    </ol>
+  </section>
+
+  <p class="disclaimer">Persoonlijk onderzoeksproject. Niet gevalideerd als klinisch diagnostisch hulpmiddel. Contact: <a href="mailto:tijl.cresens1@gmail.com" style="color:var(--accent)">tijl.cresens1@gmail.com</a></p>
 
 </div>
 </div>
