@@ -8,37 +8,37 @@
 /* ── Tokens ───────────────────────────────────────────────────────────────── */
 :root {
   --bg:       #ffffff;
-  --surface:  #ffffff;
-  --border:   #e4ddd6;
-  --text:     #1a1714;
-  --muted:    #6b6258;
-  --faint:    #b0a79e;
-  --accent:   #7a6245;
-  --accent-h: #9a7d58;
-  --tag-bg:   #f2ece5;
-  --tag-text: #5a4830;
-  --chip-bg:  #f5f1ed;
+  --surface:  #f5f8ff;
+  --border:   #d4dde8;
+  --text:     #0d1829;
+  --muted:    #4a5c73;
+  --faint:    #96a8bc;
+  --accent:   #1a56db;
+  --accent-h: #1442b5;
+  --tag-bg:   #e8f0fd;
+  --tag-text: #1442b5;
+  --chip-bg:  #eef3fc;
 }
 @media (prefers-color-scheme: dark) { :root {
-  --bg:#141210; --surface:#1d1a17; --border:#2e2b26;
-  --text:#e8e2da; --muted:#9a9088; --faint:#4a4540;
-  --accent:#c4a572; --accent-h:#d4b880;
-  --tag-bg:rgba(196,165,114,.12); --tag-text:#c4a572;
-  --chip-bg:#221f1b;
+  --bg:#0c1526; --surface:#142035; --border:#22364f;
+  --text:#dde8f4; --muted:#7a96b0; --faint:#334d66;
+  --accent:#4d8ef0; --accent-h:#6aa8f5;
+  --tag-bg:rgba(77,142,240,.14); --tag-text:#4d8ef0;
+  --chip-bg:#1a2e45;
 }}
 :root[data-theme="dark"] {
-  --bg:#141210; --surface:#1d1a17; --border:#2e2b26;
-  --text:#e8e2da; --muted:#9a9088; --faint:#4a4540;
-  --accent:#c4a572; --accent-h:#d4b880;
-  --tag-bg:rgba(196,165,114,.12); --tag-text:#c4a572;
-  --chip-bg:#221f1b;
+  --bg:#0c1526; --surface:#142035; --border:#22364f;
+  --text:#dde8f4; --muted:#7a96b0; --faint:#334d66;
+  --accent:#4d8ef0; --accent-h:#6aa8f5;
+  --tag-bg:rgba(77,142,240,.14); --tag-text:#4d8ef0;
+  --chip-bg:#1a2e45;
 }
 :root[data-theme="light"] {
-  --bg:#ffffff; --surface:#ffffff; --border:#e4ddd6;
-  --text:#1a1714; --muted:#6b6258; --faint:#b0a79e;
-  --accent:#7a6245; --accent-h:#9a7d58;
-  --tag-bg:#f2ece5; --tag-text:#5a4830;
-  --chip-bg:#f5f1ed;
+  --bg:#ffffff; --surface:#f5f8ff; --border:#d4dde8;
+  --text:#0d1829; --muted:#4a5c73; --faint:#96a8bc;
+  --accent:#1a56db; --accent-h:#1442b5;
+  --tag-bg:#e8f0fd; --tag-text:#1442b5;
+  --chip-bg:#eef3fc;
 }
 
 /* ── Reset ────────────────────────────────────────────────────────────────── */
@@ -104,20 +104,22 @@ a{color:inherit;text-decoration:none}
 .site-name{
   font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
   font-size:clamp(1.9rem,5vw,3rem);font-weight:400;
-  letter-spacing:-.02em;line-height:1.1;text-wrap:balance;margin-bottom:.7rem
+  letter-spacing:-.02em;line-height:1.1;text-wrap:balance;margin-bottom:.7rem;
+  padding-bottom:.45rem;border-bottom:3px solid var(--accent);display:inline-block
 }
 .site-bio{font-size:.9rem;color:var(--muted);max-width:52ch;line-height:1.75}
 .portrait-wrap{flex-shrink:0;padding-top:.2rem}
 .portrait{
   width:148px;height:148px;
   object-fit:cover;object-position:center 22%;
-  display:block;border:1px solid var(--border)
+  display:block;border:2px solid var(--accent);
+  box-shadow:4px 4px 0 var(--tag-bg)
 }
 @media(max-width:480px){.portrait{width:104px;height:104px}}
 
 /* ── Contact grid ─────────────────────────────────────────────────────────── */
-.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
-.contact-item{background:var(--surface);padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.2rem}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-top:3px solid var(--accent)}
+.contact-item{background:var(--bg);padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.2rem}
 .contact-label{font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .contact-value{font-size:.86rem;color:var(--text);font-weight:500}
 .contact-item a{color:var(--text)}
@@ -186,7 +188,7 @@ a{color:inherit;text-decoration:none}
 .feature-list li::before{content:"—";color:var(--accent);flex-shrink:0;font-size:.77rem}
 
 /* ── Trust block ──────────────────────────────────────────────────────────── */
-.trust-block{border:1px solid var(--border);padding:1.1rem 1.3rem;margin-bottom:1.8rem;background:var(--surface);max-width:680px}
+.trust-block{border:1px solid var(--border);border-left:3px solid var(--accent);padding:1.1rem 1.3rem;margin-bottom:1.8rem;background:var(--surface);max-width:680px}
 .trust-block p{font-size:.85rem;color:var(--muted);line-height:1.7}
 .trust-block p+p{margin-top:.6rem}
 
@@ -201,7 +203,7 @@ a{color:inherit;text-decoration:none}
 /* ── Licenties ───────────────────────────────────────────────────────────── */
 .license-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.25rem}
 @media(max-width:660px){.license-grid{grid-template-columns:1fr}}
-.license-card{border:1px solid var(--border);padding:1.2rem 1.4rem}
+.license-card{border:1px solid var(--border);padding:1.2rem 1.4rem;background:var(--surface);border-top:3px solid var(--accent)}
 .license-type{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);margin-bottom:.55rem}
 .license-desc{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:.7rem}
 .license-cta{font-size:.78rem;color:var(--faint)}
@@ -217,6 +219,23 @@ a{color:inherit;text-decoration:none}
 .ref-doi{display:block;font-size:.72rem;margin-top:.18rem}
 .ref-doi a{color:var(--accent);text-decoration:none;word-break:break-all}
 .ref-doi a:hover{text-decoration:underline}
+
+/* ── Collapsible details ─────────────────────────────────────────────────── */
+details.ref-details summary{
+  cursor:pointer;list-style:none;display:flex;align-items:center;
+  justify-content:space-between;padding:.6rem 0;
+  border-bottom:1px solid var(--border);
+  font-size:.63rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint);
+  user-select:none
+}
+details.ref-details summary::-webkit-details-marker{display:none}
+details.ref-details summary::after{
+  content:"▸";font-size:.75rem;color:var(--accent);
+  transition:transform .2s;margin-left:.5rem
+}
+details.ref-details[open] summary::after{transform:rotate(90deg)}
+details.ref-details[open] summary{margin-bottom:.75rem}
 
 /* ── Lightbox ─────────────────────────────────────────────────────────────── */
 .lb{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
@@ -241,9 +260,9 @@ a{color:inherit;text-decoration:none}
 
 /* ── Tags / disclaimer ────────────────────────────────────────────────────── */
 .proj-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1.8rem}
-.tag{font-size:.68rem;font-weight:500;color:var(--faint);background:var(--bg);border:1px solid var(--border);padding:2px 8px}
+.tag{font-size:.68rem;font-weight:600;color:var(--tag-text);background:var(--tag-bg);border:1px solid transparent;padding:2px 9px}
 .proj-details{font-size:.88rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;max-width:64ch}
-.disclaimer{font-size:.78rem;color:var(--muted);border-left:2px solid var(--border);padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6}
+.disclaimer{font-size:.78rem;color:var(--muted);border-left:3px solid var(--accent);padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6;background:var(--surface)}
 
 @media(prefers-reduced-motion:reduce){*,canvas{animation:none!important;transition:none!important}}
 </style>
@@ -548,7 +567,8 @@ a{color:inherit;text-decoration:none}
   </section>
 
   <section>
-    <p class="sec-label">Referenties</p>
+    <details class="ref-details">
+    <summary>Referenties (31)</summary>
     <ol class="ref-list">
       <li><span class="ref-num">1</span><span class="ref-body"><em>Gramfort A et al.</em> (2013). MEG and EEG data analysis with MNE-Python. <em>Front. Neurosci.</em> 7:267.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2013.00267" target="_blank" rel="noopener">doi:10.3389/fnins.2013.00267</a></span></span></li>
       <li><span class="ref-num">2</span><span class="ref-body"><em>Hyvärinen A &amp; Oja E</em> (2000). Independent component analysis: algorithms and applications. <em>Neural Networks</em> 13:411–430.<span class="ref-doi"><a href="https://doi.org/10.1016/S0893-6080(00)00026-5" target="_blank" rel="noopener">doi:10.1016/S0893-6080(00)00026-5</a></span></span></li>
@@ -582,6 +602,7 @@ a{color:inherit;text-decoration:none}
       <li><span class="ref-num">30</span><span class="ref-body"><em>Boon P et al.</em> (2021). Belgian Epilepsy Treatment Guidelines. — Prior source for AED recommendations.</span></li>
       <li><span class="ref-num">31</span><span class="ref-body"><em>Berry RB et al.</em> (2020). The AASM Manual for the Scoring of Sleep and Associated Events. Version 2.6. AASM.</span></li>
     </ol>
+    </details>
   </section>
 
   <p class="disclaimer">Persoonlijk onderzoeksproject. Niet gevalideerd als klinisch diagnostisch hulpmiddel. Contact: <a href="mailto:tijl.cresens1@gmail.com" style="color:var(--accent)">tijl.cresens1@gmail.com</a></p>
@@ -743,7 +764,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       const gx=ev.tx0-t;
       if(gx>-IED_LEN&&gx<W+20){
         const grad=ctx.createLinearGradient(gx,0,gx+IED_LEN*.7,0);
-        const c=dark?'rgba(196,165,114,':'rgba(100,80,50,';
+        const c=dark?'rgba(77,142,240,':'rgba(26,86,219,';
         grad.addColorStop(0,c+'0)');
         grad.addColorStop(0.08,c+'0.07)');
         grad.addColorStop(0.35,c+'0.11)');
@@ -775,8 +796,8 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       }
       const base=.55-ci*.05;
       ctx.strokeStyle=dark
-        ?`rgba(196,165,114,${base})`
-        :`rgba(90,65,35,${base})`;
+        ?`rgba(100,160,240,${base})`
+        :`rgba(30,70,160,${base})`;
       ctx.lineWidth=1.1;
       ctx.stroke();
     });
