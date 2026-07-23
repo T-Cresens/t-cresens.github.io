@@ -193,8 +193,20 @@ a{color:inherit;text-decoration:none}
 /* ── Gallery ──────────────────────────────────────────────────────────────── */
 .gallery-label{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.gallery img{width:100%;height:auto;display:block;border:1px solid var(--border);transition:opacity .15s}
-.gallery img:hover{opacity:.88}
+.gallery img{width:100%;height:auto;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
+.gallery img:hover{opacity:.82}
+
+/* ── Lightbox ─────────────────────────────────────────────────────────────── */
+.lb{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
+.lb.open{display:flex}
+.lb-img{max-width:92vw;max-height:90vh;object-fit:contain;display:block;user-select:none}
+.lb-close{position:fixed;top:1rem;right:1.2rem;background:none;border:none;color:#fff;font-size:2.2rem;line-height:1;cursor:pointer;opacity:.65;transition:opacity .15s;padding:.2rem .5rem}
+.lb-close:hover{opacity:1}
+.lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:3rem;line-height:1;cursor:pointer;opacity:.45;transition:opacity .15s;padding:.4rem .9rem;user-select:none}
+.lb-nav:hover{opacity:.9}
+.lb-prev{left:.2rem}
+.lb-next{right:.2rem}
+.lb-count{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.72rem;letter-spacing:.1em;font-family:system-ui,sans-serif}
 .gallery-placeholder{background:var(--chip-bg);border:1px dashed var(--border);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--faint);font-size:.76rem;text-align:center;padding:1rem}
 
 /* ── Collab card ──────────────────────────────────────────────────────────── */
@@ -432,10 +444,10 @@ a{color:inherit;text-decoration:none}
   <section style="margin-bottom:2.5rem">
     <p class="gallery-label">Schermafbeeldingen</p>
     <div class="gallery">
-      <img src="c1.png" alt="Creya — analyseoverzicht" loading="lazy">
-      <img src="c2.png" alt="Creya — financiële ratiotabel" loading="lazy">
-      <img src="c3.png" alt="Creya — sectorvergelijking" loading="lazy">
-      <img src="c4.png" alt="Creya — diagnose en score" loading="lazy">
+      <img src="c1.png" alt="Creya — analyseoverzicht" loading="lazy" class="lb-thumb" data-gallery="creya">
+      <img src="c2.png" alt="Creya — financiële ratiotabel" loading="lazy" class="lb-thumb" data-gallery="creya">
+      <img src="c3.png" alt="Creya — sectorvergelijking" loading="lazy" class="lb-thumb" data-gallery="creya">
+      <img src="c4.png" alt="Creya — diagnose en score" loading="lazy" class="lb-thumb" data-gallery="creya">
     </div>
   </section>
 
@@ -485,18 +497,20 @@ a{color:inherit;text-decoration:none}
   <section>
     <p class="gallery-label">Schermafbeeldingen</p>
     <div class="gallery">
-      <div class="gallery-placeholder">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Schermafbeelding volgt
-      </div>
-      <div class="gallery-placeholder">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Schermafbeelding volgt
-      </div>
-      <div class="gallery-placeholder">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Schermafbeelding volgt
-      </div>
+      <img src="s01.jpg" alt="SPIKE — overzicht" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s02.jpg" alt="SPIKE — EEG-analyse" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s03.jpg" alt="SPIKE — patroondetectie" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s04.jpg" alt="SPIKE — resultaten" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s05.jpg" alt="SPIKE — fenomenen" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s06.jpg" alt="SPIKE — kanaalweergave" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s07.jpg" alt="SPIKE — diagnose" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s08.jpg" alt="SPIKE — AED-advies" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s09.jpg" alt="SPIKE — exploratieve engine" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s10.jpg" alt="SPIKE — conformal prediction" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s11.jpg" alt="SPIKE — waarschijnlijkheidsinterval" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s12.jpg" alt="SPIKE — instellingen" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s13.jpg" alt="SPIKE — rapportage" loading="lazy" class="lb-thumb" data-gallery="spike">
+      <img src="s14.jpg" alt="SPIKE — about" loading="lazy" class="lb-thumb" data-gallery="spike">
     </div>
   </section>
 
@@ -505,6 +519,15 @@ a{color:inherit;text-decoration:none}
 </div>
 </div>
 
+
+<!-- Lightbox -->
+<div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Schermafbeelding">
+  <button class="lb-close" id="lbClose" aria-label="Sluiten">×</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Vorige">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Volgende">›</button>
+  <img class="lb-img" id="lbImg" alt="">
+  <span class="lb-count" id="lbCount"></span>
+</div>
 
 <script>
 /* ── Thema ───────────────────────────────────────────────────────────────── */
@@ -538,6 +561,52 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 (function(){
   const h=(location.hash||'#over').slice(1);
   if(['over','creya','spike'].includes(h)) switchTab(h);
+})();
+
+/* ── Lightbox ────────────────────────────────────────────────────────────── */
+(function(){
+  const overlay=document.getElementById('lb');
+  const lbImg=document.getElementById('lbImg');
+  const lbCount=document.getElementById('lbCount');
+  let items=[],idx=0;
+
+  function open(gallery,start){
+    items=Array.from(document.querySelectorAll('.lb-thumb[data-gallery="'+gallery+'"]'));
+    idx=start; show();
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+    document.getElementById('lbImg').focus();
+  }
+  function show(){
+    lbImg.src=items[idx].src;
+    lbImg.alt=items[idx].alt;
+    lbCount.textContent=(idx+1)+' / '+items.length;
+  }
+  function close(){
+    overlay.classList.remove('open');
+    document.body.style.overflow='';
+    lbImg.src='';
+  }
+  function prev(){idx=(idx-1+items.length)%items.length;show();}
+  function next(){idx=(idx+1)%items.length;show();}
+
+  document.querySelectorAll('.lb-thumb').forEach(function(el){
+    el.addEventListener('click',function(){
+      var gallery=el.dataset.gallery;
+      var all=Array.from(document.querySelectorAll('.lb-thumb[data-gallery="'+gallery+'"]'));
+      open(gallery,all.indexOf(el));
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click',close);
+  document.getElementById('lbPrev').addEventListener('click',prev);
+  document.getElementById('lbNext').addEventListener('click',next);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)close();});
+  document.addEventListener('keydown',function(e){
+    if(!overlay.classList.contains('open'))return;
+    if(e.key==='Escape')close();
+    if(e.key==='ArrowLeft')prev();
+    if(e.key==='ArrowRight')next();
+  });
 })();
 
 /* ── EEG canvas ──────────────────────────────────────────────────────────── */
