@@ -192,9 +192,11 @@ a{color:inherit;text-decoration:none}
 
 /* ── Gallery ──────────────────────────────────────────────────────────────── */
 .gallery-label{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.gallery img{width:100%;height:auto;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.gallery img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
 .gallery img:hover{opacity:.82}
+.gallery--2col{grid-template-columns:repeat(2,1fr)}
+@media(max-width:600px){.gallery,.gallery--2col{grid-template-columns:1fr}}
 
 /* ── Lightbox ─────────────────────────────────────────────────────────────── */
 .lb{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
@@ -443,7 +445,7 @@ a{color:inherit;text-decoration:none}
 
   <section style="margin-bottom:2.5rem">
     <p class="gallery-label">Schermafbeeldingen</p>
-    <div class="gallery">
+    <div class="gallery gallery--2col">
       <img src="c1.png" alt="Creya — analyseoverzicht" loading="lazy" class="lb-thumb" data-gallery="creya">
       <img src="c2.png" alt="Creya — financiële ratiotabel" loading="lazy" class="lb-thumb" data-gallery="creya">
       <img src="c3.png" alt="Creya — sectorvergelijking" loading="lazy" class="lb-thumb" data-gallery="creya">
