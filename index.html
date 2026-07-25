@@ -1189,7 +1189,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 (function(){
   var H=300,GY=234,LY=243,ULY=42,PLX=96,PH=57,DH=27;
   var isMob='ontouchstart' in window||window.innerWidth<600;
-  var W=isMob?window.innerWidth:Math.min(820,window.innerWidth-36);
+  var W=window.innerWidth;
   var wrap,gc,gctx,looping=false,rafId;
   var LVLS=['Myoclonic buildup','Pre-ictal','Ictal'];
   var g={state:'idle',tick:0,off:0,score:0,hi:+(localStorage.getItem('nr_hi')||0),
@@ -1313,9 +1313,9 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 
   function build(){
     wrap=document.createElement('div');
-    wrap.style.cssText='position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);'+
-      'z-index:9998;background:var(--surface);border:1px solid var(--accent);'+
-      'box-shadow:0 8px 40px rgba(26,86,219,.30);flex-direction:column;gap:0;display:none';
+    wrap.style.cssText='position:fixed;left:0;right:0;top:0;'+
+      'z-index:9998;background:var(--bg);border-bottom:1px solid var(--border);'+
+      'flex-direction:column;gap:0;display:none';
     var hdr=document.createElement('div');
     hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;'+
       'padding:.28rem .55rem;border-bottom:1px solid var(--border)';
@@ -1362,12 +1362,12 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     if(type==='jump'){
       if(g.state==='idle'){g.state='running';audStart();return;}
       if(g.state==='dead'){reset();audStart();return;}
-      if(!g.duck&&g.ply>=GY-1) g.pvy=-9.0;
+      if(!g.duck&&g.ply>=GY-1) g.pvy=-13.4;
     }
     if(type==='duck'){
       g.duckHeld=!!val;
       /* ↓ mid-air = fast fall (gravity snap) */
-      if(!!val&&g.state==='running'&&g.ply<GY-2) g.pvy=22;
+      if(!!val&&g.state==='running'&&g.ply<GY-2) g.pvy=33;
     }
   }
 
@@ -1485,7 +1485,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       g.obs=g.obs.filter(function(o){return o.x>-44;});
 
       /* Physics */
-      g.pvy+=0.52;g.ply+=g.pvy;
+      g.pvy+=0.77;g.ply+=g.pvy;
       if(g.ply>=GY){g.ply=GY;g.pvy=0;}
 
       /* Collision */
