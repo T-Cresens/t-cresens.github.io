@@ -1197,14 +1197,15 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 
   /* ── Web Audio sequencer (32-bit electro) ── */
   var A={ctx:null,mast:null,nxt:0,step:0,timer:null};
-  var FQ={C3:130.81,G3:196,A3:220,F3:174.61,
-    C5:523.25,E5:659.25,G5:784,A5:880,C6:1046.5};
-  /* Pre-ictal melody: ascending/descending arc in A-minor pentatonic */
-  var M1=['E5','G5','A5','C6','A5','G5','E5','G5'];
-  /* Ictal melody: same notes, jumpier intervals */
-  var M2=['C6','A5','C6','G5','E5','A5','G5','E5'];
-  /* Ictal bass: i-V-vi-IV walk in C */
-  var BS=['C3','C3','G3','G3','A3','A3','F3','F3'];
+  /* Melody chord tones per bass root (A-natural-minor context) */
+  var FQ={B4:493.88,C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:784,A5:880,B5:987.77,C6:1046.5};
+  var CHORD={A:[FQ.A5,FQ.E5,FQ.C5],E:[FQ.E5,FQ.G5,FQ.B5],
+             F:[FQ.F5,FQ.A5,FQ.C6],C:[FQ.C5,FQ.G5,FQ.E5],B:[FQ.B4,FQ.D5,FQ.F5]};
+  /* Bass Hz: A16 E16 F16 C8 B8 / A16 F16 E16 C8 B8 (128-step cycle) */
+  var BFHZ={A:110,E:165,F:175,C:131,B:124};
+  function broot(s){s%=128;return s<16?'A':s<32?'E':s<48?'F':s<56?'C':s<64?'B':s<80?'A':s<96?'F':s<112?'E':s<120?'C':'B';}
+  /* Electro arpeggio rhythm: 16-step gate pattern */
+  var MRH=[1,0,1,0,1,0,0,1,1,0,1,0,1,0,0,1];
 
   function audInit(){
     if(A.ctx) return;
@@ -1217,7 +1218,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     audStop();A.step=0;A.nxt=A.ctx.currentTime+.05;
     (function sched(){
       while(A.nxt<A.ctx.currentTime+.15){
-        audTick(A.nxt,A.step);A.nxt+=.1875;A.step=(A.step+1)%8;
+        audTick(A.nxt,A.step);A.nxt+=.1875;A.step=(A.step+1)%128;
       }
       A.timer=setTimeout(sched,50);
     })();
@@ -1254,12 +1255,12 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
   }
   function audTick(t,s){
     var lv=g.lvl;
-    if(lv===0){if(s===0||s===4) osc('square',FQ.C5*.5,t,.35,.025);return;}
-    osc('square',FQ[lv===1?M1[s]:M2[s]],t,.14,.07);
-    if(lv>=2){
-      osc('sawtooth',FQ[BS[s]],t,.20,.09);
-      if(s%4===0) kick(t);if(s%4===2) snare(t);hat(t);
-    }
+    if(lv===0){if(s%8===0) osc('sine',110,t,.8,.016);return;}
+    var r=broot(s),ch=CHORD[r],pos=s%16;
+    var cn=ch[Math.floor(pos/4)%3]; // cycle root→5th→3rd→root per bar
+    if(MRH[pos]) osc('square',cn,t,.06,.055);
+    if(s%2===0) osc('sawtooth',BFHZ[r],t,.20,.085);
+    if(lv>=2){if(s%4===0) kick(t);if(s%4===2) snare(t);hat(t);}
   }
 
   /* ── Triggers ── */
