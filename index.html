@@ -196,10 +196,9 @@ a{color:inherit;text-decoration:none}
 .gallery-label{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
 .gal-wrap{position:relative}
 .gal-outer{overflow:hidden}
-.gal-track{display:flex;gap:.75rem;transition:transform .35s ease;will-change:transform}
-.gal-track img{flex:0 0 calc(33.333% - .5rem);aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
+.gal-track{display:flex;gap:.75rem;transition:transform .62s cubic-bezier(0.4,0,0.2,1);will-change:transform}
+.gal-track img{flex:0 0 auto;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
 .gal-track img:hover{opacity:.82}
-.gal-wrap[data-cols="2"] .gal-track img{flex:0 0 calc(50% - .375rem)}
 .gal-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;
   background:var(--accent);color:#fff;border:none;width:2rem;height:2.4rem;
   font-size:1.3rem;line-height:1;cursor:pointer;opacity:.85;display:flex;
@@ -208,8 +207,7 @@ a{color:inherit;text-decoration:none}
 .gal-arrow:disabled{opacity:.2;cursor:default;background:var(--border);color:var(--muted)}
 .gal-prev{left:0}.gal-next{right:0}
 .gal-counter{text-align:center;font-size:.7rem;color:var(--faint);margin-top:.45rem;font-variant-numeric:tabular-nums}
-@media(max-width:720px){.gal-track img{flex:0 0 calc(50% - .375rem)}}
-@media(max-width:480px){.gal-track img,.gal-wrap[data-cols="2"] .gal-track img{flex:0 0 100%}}
+/* carousel image pixel widths set by JS via ResizeObserver */
 
 /* ── Lang toggle ──────────────────────────────────────────────────────────── */
 .lang-btn{
@@ -861,36 +859,58 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
   const ctx=canvas.getContext('2d');
   let W,H,t=0,raf;
 
+  // JME-typical channels: frontal predominance for IEDs, varied background rhythms
   const CH=[
-    {freq:.018,amp:.13,phase:0.0, noise:.38},
-    {freq:.022,amp:.11,phase:1.3, noise:.34},
-    {freq:.015,amp:.15,phase:2.6, noise:.40},
-    {freq:.025,amp:.09,phase:3.9, noise:.30},
-    {freq:.019,amp:.12,phase:5.2, noise:.36},
+    {freq:.0175,amp:.13,phase:0.00,noise:.40,envFreq:.00028,envAmp:.32,iedScale:1.40}, // Fp1 — frontal
+    {freq:.0215,amp:.11,phase:1.37,noise:.35,envFreq:.00041,envAmp:.25,iedScale:1.20}, // F3
+    {freq:.0152,amp:.15,phase:2.63,noise:.42,envFreq:.00019,envAmp:.30,iedScale:1.00}, // C3
+    {freq:.0248,amp:.09,phase:3.91,noise:.31,envFreq:.00052,envAmp:.20,iedScale:0.82}, // P3
+    {freq:.0193,amp:.12,phase:5.18,noise:.37,envFreq:.00034,envAmp:.24,iedScale:0.68}, // O1
   ];
 
-  const NOISE=new Float32Array(8192);
-  for(let i=0;i<NOISE.length;i++)
-    NOISE[i]=((Math.sin(i*127.1+311.7)*43758.5453)%1+1)%1*2-1;
-  const nlut=x=>NOISE[((Math.floor(x*3)%NOISE.length)+NOISE.length)%NOISE.length];
+  // Two independent noise tables for different frequency drift characters
+  const NOISE=new Float32Array(8192),NOISE2=new Float32Array(8192);
+  for(let i=0;i<8192;i++){
+    NOISE[i] =((Math.sin(i*127.1+311.7 )*43758.5453)%1+1)%1*2-1;
+    NOISE2[i]=((Math.sin(i*93.7 +1573.2)*31415.9265)%1+1)%1*2-1;
+  }
+  const nlut =(x,r=3)=>NOISE [((Math.floor(x*r)%8192)+8192)%8192];
+  const nlut2=(x,r=1)=>NOISE2[((Math.floor(x*r)%8192)+8192)%8192];
 
-  const IED_LEN=150;
-  function iedShape(dt){
-    if(dt<=0||dt>=IED_LEN) return 0;
-    const spike=(c,p)=>{const d=dt-c;return p*Math.exp(-d*d/8)};
-    const poly=spike(6,7.8)+spike(22,5.2)+spike(38,3.4);
-    const dtw=dt-55;
-    const slow=dtw>0?-4.6*Math.exp(-dtw*dtw/1800):0;
-    return poly+slow;
+  // Build a per-event IED shape with randomised polyspike count, positions and slow-wave
+  function makeIEDParams(){
+    const n=1+Math.floor(Math.random()*3); // 1–3 polyspikes (JME realistic)
+    const spikes=[];
+    let pos=3+Math.random()*5;
+    for(let i=0;i<n;i++){
+      spikes.push({c:pos, p:4.5+Math.random()*4.5-i*0.6});
+      pos+=10+Math.random()*12;
+    }
+    const swOffset=pos+4+Math.random()*8;
+    const swDepth =-(2.8+Math.random()*2.4);
+    const swWidth =1200+Math.random()*1000;
+    const totalLen=swOffset+90;
+    return {spikes,swOffset,swDepth,swWidth,totalLen};
+  }
+  function iedShape(dt,ev){
+    if(dt<=0||dt>=ev.totalLen) return 0;
+    let v=0;
+    for(const s of ev.spikes){const d=dt-s.c;v+=s.p*Math.exp(-d*d/7);}
+    const dtw=dt-ev.swOffset;
+    return v+(dtw>0?ev.swDepth*Math.exp(-dtw*dtw/ev.swWidth):0);
   }
 
   let iedEvents=[];
   function scheduleIED(){
     setTimeout(()=>{
-      iedEvents.push({tx0:t+W});
+      const ev=makeIEDParams();
+      ev.tx0=t+W;
+      // Small per-channel timing jitter (0–4 px) — channels don't fire in perfect sync
+      ev.jitter=CH.map(()=>Math.random()*4);
+      iedEvents.push(ev);
       if(iedEvents.length>6) iedEvents.shift();
       scheduleIED();
-    },9000+Math.random()*14000);
+    },8000+Math.random()*16000);
   }
   scheduleIED();
 
@@ -916,8 +936,8 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     /* Glow columns at IED locations */
     for(const ev of iedEvents){
       const gx=ev.tx0-t;
-      if(gx>-IED_LEN&&gx<W+20){
-        const grad=ctx.createLinearGradient(gx,0,gx+IED_LEN*.7,0);
+      if(gx>-ev.totalLen&&gx<W+20){
+        const grad=ctx.createLinearGradient(gx,0,gx+ev.totalLen*.7,0);
         const c=dark?'rgba(77,142,240,':'rgba(26,86,219,';
         grad.addColorStop(0,c+'0)');
         grad.addColorStop(0.08,c+'0.07)');
@@ -925,7 +945,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
         grad.addColorStop(0.65,c+'0.05)');
         grad.addColorStop(1,c+'0)');
         ctx.fillStyle=grad;
-        ctx.fillRect(Math.max(0,gx-10),0,IED_LEN+20,H);
+        ctx.fillRect(Math.max(0,gx-10),0,ev.totalLen+20,H);
       }
     }
 
@@ -936,14 +956,21 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       ctx.beginPath();
       for(let px=0;px<=W;px+=1.5){
         const tx=px+t;
-        const bg=Math.sin(tx*ch.freq*Math.PI*2+ch.phase)
-                +.28*Math.sin(tx*ch.freq*5.1*Math.PI*2+ch.phase*.7)
-                +.10*Math.sin(tx*ch.freq*12*Math.PI*2)
-                +nlut(tx*.38)*ch.noise*.16;
+        // Slow amplitude envelope — each channel breathes independently
+        const env=0.72+0.28*(0.5+0.5*Math.sin(tx*ch.envFreq*Math.PI*2+ch.phase*.4));
+        // Background: dominant rhythm + harmonics + two noise layers (different speeds)
+        const bg=(
+          Math.sin(tx*ch.freq*Math.PI*2+ch.phase)
+          +.28*Math.sin(tx*ch.freq*5.1*Math.PI*2+ch.phase*.7)
+          +.10*Math.sin(tx*ch.freq*12 *Math.PI*2+ch.phase*.3)
+          +.05*Math.sin(tx*ch.freq*23 *Math.PI*2+ch.phase*1.1)
+          +nlut (tx*.38+ci*1.9)*ch.noise*.18   // high-freq noise
+          +nlut2(tx*.09+ci*3.1)*ch.noise*.11   // low-freq drift
+        )*env;
         let ied=0;
         for(const ev of iedEvents){
-          const dt=tx-ev.tx0;
-          if(dt>0&&dt<IED_LEN) ied+=iedShape(dt)*(1-ci*.03);
+          const dt=tx-ev.tx0-ev.jitter[ci];
+          if(dt>0&&dt<ev.totalLen) ied+=iedShape(dt,ev)*ch.iedScale;
         }
         const y=cy+(bg+ied)*amp;
         if(px===0) ctx.moveTo(px,y); else ctx.lineTo(px,y);
@@ -971,63 +998,59 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 /* ── Carousel ────────────────────────────────────────────────────────────── */
 (function(){
   document.querySelectorAll('.gal-wrap').forEach(function(wrap){
+    var outer=wrap.querySelector('.gal-outer');
     var track=wrap.querySelector('.gal-track');
     var imgs=Array.from(track.querySelectorAll('img'));
     var counter=wrap.querySelector('.gal-counter');
     var prevBtn=wrap.querySelector('.gal-prev');
     var nextBtn=wrap.querySelector('.gal-next');
-    var idx=0;
-    var timer=null;
-    var userPaused=false;
+    var idx=0,timer=null,started=false;
 
     function cols(){
-      var w=window.innerWidth;
-      var def=parseInt(wrap.dataset.cols)||3;
+      var w=window.innerWidth,def=parseInt(wrap.dataset.cols)||3;
       if(w<=480) return 1;
       if(w<=720) return Math.min(2,def);
       return def;
     }
-    function itemW(){
-      // Read actual rendered width so we never use a stale 0 at paint time
-      if(imgs[0]){var r=imgs[0].getBoundingClientRect();if(r.width>0) return r.width;}
-      var c=cols();
-      return (track.parentElement.offsetWidth-(c-1)*12)/c;
+    function applyWidths(iw){
+      imgs.forEach(function(img){
+        img.style.flexBasis=iw+'px';
+        img.style.minWidth =iw+'px';
+        img.style.maxWidth =iw+'px';
+      });
     }
     function update(){
-      var c=cols();
+      var c=cols(),ow=outer.offsetWidth;
+      if(ow<=0) return;
+      var iw=Math.floor((ow-(c-1)*12)/c);
       var max=Math.max(0,imgs.length-c);
       idx=Math.min(idx,max);
-      var iw=itemW();
-      if(iw>0) track.style.transform='translateX(-'+(idx*(iw+12))+'px)';
+      applyWidths(iw);
+      track.style.transform='translateX(-'+(idx*(iw+12))+'px)';
       if(counter) counter.textContent=(idx+1)+' – '+Math.min(idx+c,imgs.length)+' / '+imgs.length;
-      prevBtn.disabled=idx===0;
-      nextBtn.disabled=idx>=max;
+      prevBtn.disabled=(idx===0);
+      nextBtn.disabled=(idx>=max);
     }
     function advance(){
       var c=cols(),max=Math.max(0,imgs.length-c);
-      idx=(idx>=max)?0:idx+1;
-      update();
+      idx=(idx>=max)?0:idx+1; update();
     }
-    function startAuto(){
-      if(timer) clearInterval(timer);
-      timer=setInterval(advance,6000);
-    }
-    function onUserNav(fn){
-      fn();
-      userPaused=true;
-      if(timer){clearInterval(timer);timer=null;}
-    }
+    function startAuto(){if(!timer)timer=setInterval(advance,6000);}
+    function onUserNav(fn){fn();clearInterval(timer);timer=null;}
+
     prevBtn.addEventListener('click',function(){onUserNav(function(){if(idx>0){idx--;update();}});});
     nextBtn.addEventListener('click',function(){onUserNav(function(){
-      var max=Math.max(0,imgs.length-cols());
-      if(idx<max){idx++;update();}
+      var max=Math.max(0,imgs.length-cols());if(idx<max){idx++;update();}
     });});
-    window.addEventListener('resize',update);
-    // Double rAF: first ensures paint, second ensures layout is measurable
-    requestAnimationFrame(function(){requestAnimationFrame(function(){
+
+    // ResizeObserver fires as soon as outer has real dimensions — works even when
+    // the carousel is inside a tab that was hidden at page load time
+    var ro=new ResizeObserver(function(){
       update();
-      startAuto();
-    });});
+      if(!started&&outer.offsetWidth>0){started=true;startAuto();}
+    });
+    ro.observe(outer);
+    window.addEventListener('resize',update);
   });
 })();
 
