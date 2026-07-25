@@ -972,11 +972,13 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 (function(){
   document.querySelectorAll('.gal-wrap').forEach(function(wrap){
     var track=wrap.querySelector('.gal-track');
-    var imgs=track.querySelectorAll('img');
+    var imgs=Array.from(track.querySelectorAll('img'));
     var counter=wrap.querySelector('.gal-counter');
     var prevBtn=wrap.querySelector('.gal-prev');
     var nextBtn=wrap.querySelector('.gal-next');
     var idx=0;
+    var timer=null;
+    var userPaused=false;
 
     function cols(){
       var w=window.innerWidth;
@@ -986,30 +988,46 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       return def;
     }
     function itemW(){
+      // Read actual rendered width so we never use a stale 0 at paint time
+      if(imgs[0]){var r=imgs[0].getBoundingClientRect();if(r.width>0) return r.width;}
       var c=cols();
-      var gap=12;
-      return (track.parentElement.offsetWidth-(c-1)*gap)/c;
+      return (track.parentElement.offsetWidth-(c-1)*12)/c;
     }
     function update(){
       var c=cols();
       var max=Math.max(0,imgs.length-c);
       idx=Math.min(idx,max);
       var iw=itemW();
-      track.style.transform='translateX(-'+(idx*(iw+12))+'px)';
-      // fix each img width
-      Array.from(imgs).forEach(function(img){img.style.flexBasis=iw+'px';img.style.minWidth=iw+'px'});
+      if(iw>0) track.style.transform='translateX(-'+(idx*(iw+12))+'px)';
       if(counter) counter.textContent=(idx+1)+' – '+Math.min(idx+c,imgs.length)+' / '+imgs.length;
       prevBtn.disabled=idx===0;
       nextBtn.disabled=idx>=max;
     }
-    prevBtn.addEventListener('click',function(){if(idx>0){idx--;update();}});
-    nextBtn.addEventListener('click',function(){
+    function advance(){
+      var c=cols(),max=Math.max(0,imgs.length-c);
+      idx=(idx>=max)?0:idx+1;
+      update();
+    }
+    function startAuto(){
+      if(timer) clearInterval(timer);
+      timer=setInterval(advance,6000);
+    }
+    function onUserNav(fn){
+      fn();
+      userPaused=true;
+      if(timer){clearInterval(timer);timer=null;}
+    }
+    prevBtn.addEventListener('click',function(){onUserNav(function(){if(idx>0){idx--;update();}});});
+    nextBtn.addEventListener('click',function(){onUserNav(function(){
       var max=Math.max(0,imgs.length-cols());
       if(idx<max){idx++;update();}
-    });
+    });});
     window.addEventListener('resize',update);
-    // wait for layout
-    requestAnimationFrame(update);
+    // Double rAF: first ensures paint, second ensures layout is measurable
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      update();
+      startAuto();
+    });});
   });
 })();
 
