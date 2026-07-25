@@ -265,9 +265,129 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 .disclaimer{font-size:.78rem;color:var(--muted);border-left:3px solid var(--accent);padding:.5rem .9rem;margin-top:2rem;max-width:60ch;line-height:1.6;background:var(--surface)}
 
 @media(prefers-reduced-motion:reduce){*,canvas{animation:none!important;transition:none!important}}
+
+/* ── Cookie banner ───────────────────────────────────────────────────────── */
+#ck-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:800;
+  background:#fff;border-top:3px solid var(--accent);
+  box-shadow:0 -4px 24px rgba(0,0,0,.10);
+  padding:1.1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1.5rem;flex-wrap:wrap
+}
+@media(prefers-color-scheme:dark){#ck-banner{background:#0c1526}}
+:root[data-theme="dark"] #ck-banner{background:#0c1526}
+:root[data-theme="light"] #ck-banner{background:#fff}
+#ck-banner.hidden{display:none}
+.ck-text{flex:1;min-width:200px}
+.ck-text strong{font-size:.85rem;color:var(--text);display:block;margin-bottom:.25rem}
+.ck-text p{font-size:.77rem;color:var(--muted);line-height:1.55;max-width:72ch}
+.ck-text a{color:var(--accent);text-decoration:underline}
+.ck-btns{display:flex;gap:.5rem;flex-wrap:wrap;flex-shrink:0}
+.ck-btn{font-size:.75rem;font-weight:600;padding:.38rem .95rem;border:none;cursor:pointer;letter-spacing:.03em}
+.ck-btn-accept{background:var(--accent);color:#fff}
+.ck-btn-accept:hover{background:var(--accent-h)}
+.ck-btn-manage{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.ck-btn-manage:hover{background:var(--tag-bg)}
+.ck-btn-decline{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.ck-btn-decline:hover{background:var(--surface)}
+
+/* Cookie modal */
+#ck-modal{
+  display:none;position:fixed;inset:0;z-index:810;
+  background:rgba(0,0,0,.45);align-items:center;justify-content:center
+}
+#ck-modal.open{display:flex}
+.ck-modal-box{
+  background:#fff;width:100%;max-width:520px;margin:1rem;
+  border-top:4px solid var(--accent);
+  box-shadow:0 8px 40px rgba(0,0,0,.18)
+}
+:root[data-theme="dark"] .ck-modal-box{background:#142035}
+@media(prefers-color-scheme:dark){.ck-modal-box{background:#142035}}
+.ck-modal-head{padding:1.2rem 1.5rem .8rem;border-bottom:1px solid var(--border)}
+.ck-modal-head h2{font-size:.95rem;font-weight:700;color:var(--text)}
+.ck-modal-body{padding:1rem 1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.ck-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.ck-row-text strong{font-size:.82rem;color:var(--text);display:block;margin-bottom:.18rem}
+.ck-row-text span{font-size:.75rem;color:var(--muted);line-height:1.5}
+/* Toggle switch */
+.ck-toggle{position:relative;width:38px;height:22px;flex-shrink:0;margin-top:.1rem}
+.ck-toggle input{opacity:0;width:0;height:0}
+.ck-slider{
+  position:absolute;inset:0;background:var(--border);cursor:pointer;
+  transition:background .2s;border-radius:22px
+}
+.ck-slider:before{
+  content:"";position:absolute;width:16px;height:16px;border-radius:50%;
+  background:#fff;left:3px;top:3px;transition:transform .2s
+}
+.ck-toggle input:checked+.ck-slider{background:var(--accent)}
+.ck-toggle input:checked+.ck-slider:before{transform:translateX(16px)}
+.ck-toggle input:disabled+.ck-slider{opacity:.55;cursor:not-allowed}
+.ck-modal-foot{
+  padding:.9rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;gap:.5rem;justify-content:flex-end
+}
 </style>
 </head>
 <body>
+
+<!-- ══ COOKIE BANNER ══════════════════════════════════════════════════════════ -->
+<div id="ck-banner" class="hidden" role="region" aria-label="Cookiemelding">
+  <div class="ck-text">
+    <strong>🍪 Deze website gebruikt cookies</strong>
+    <p>Wij gebruiken functionele cookies om uw voorkeuren (zoals kleurthema) op te slaan. Er worden geen tracking- of advertentiecookies gebruikt. U kunt uw keuze op elk moment wijzigen.</p>
+  </div>
+  <div class="ck-btns">
+    <button class="ck-btn ck-btn-accept" id="ckAccept">Alles accepteren</button>
+    <button class="ck-btn ck-btn-manage" id="ckManage">Voorkeuren beheren</button>
+    <button class="ck-btn ck-btn-decline" id="ckDecline">Weigeren</button>
+  </div>
+</div>
+
+<!-- Cookie modal -->
+<div id="ck-modal" role="dialog" aria-modal="true" aria-labelledby="ck-modal-title">
+  <div class="ck-modal-box">
+    <div class="ck-modal-head">
+      <h2 id="ck-modal-title">Cookievoorkeuren beheren</h2>
+    </div>
+    <div class="ck-modal-body">
+      <div class="ck-row">
+        <div class="ck-row-text">
+          <strong>Noodzakelijke cookies</strong>
+          <span>Vereist voor de basisfunctionaliteit van de website. Kunnen niet worden uitgeschakeld.</span>
+        </div>
+        <label class="ck-toggle"><input type="checkbox" checked disabled><span class="ck-slider"></span></label>
+      </div>
+      <div class="ck-row">
+        <div class="ck-row-text">
+          <strong>Functionele cookies</strong>
+          <span>Slaan uw voorkeur voor licht/donker kleurthema op (localStorage). Geen persoonsgegevens.</span>
+        </div>
+        <label class="ck-toggle"><input type="checkbox" id="ck-func" checked><span class="ck-slider"></span></label>
+      </div>
+      <div class="ck-row">
+        <div class="ck-row-text">
+          <strong>Analytische cookies</strong>
+          <span>Worden momenteel niet gebruikt op deze website.</span>
+        </div>
+        <label class="ck-toggle"><input type="checkbox" id="ck-analytics" disabled><span class="ck-slider"></span></label>
+      </div>
+      <div class="ck-row">
+        <div class="ck-row-text">
+          <strong>Marketingcookies</strong>
+          <span>Worden momenteel niet gebruikt op deze website.</span>
+        </div>
+        <label class="ck-toggle"><input type="checkbox" id="ck-marketing" disabled><span class="ck-slider"></span></label>
+      </div>
+    </div>
+    <div class="ck-modal-foot">
+      <button class="ck-btn ck-btn-decline" id="ckModalDecline">Alles weigeren</button>
+      <button class="ck-btn ck-btn-accept" id="ckModalSave">Opslaan</button>
+    </div>
+  </div>
+</div>
 
 <button class="theme-btn" id="themeToggle" aria-label="Kleurthema wisselen">
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -812,6 +932,51 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     rt=setTimeout(()=>{cancelAnimationFrame(raf);resize();draw();},80);
   });
   resize(); draw();
+})();
+
+/* ── Cookie consent ──────────────────────────────────────────────────────── */
+(function(){
+  const KEY='ck_consent';
+  const banner=document.getElementById('ck-banner');
+  const modal=document.getElementById('ck-modal');
+
+  function save(val){
+    localStorage.setItem(KEY,JSON.stringify(val));
+    banner.classList.add('hidden');
+    modal.classList.remove('open');
+  }
+
+  // Show banner if no prior choice
+  if(!localStorage.getItem(KEY)){
+    banner.classList.remove('hidden');
+  }
+
+  document.getElementById('ckAccept').addEventListener('click',function(){
+    save({necessary:true,functional:true,analytics:false,marketing:false});
+  });
+  document.getElementById('ckDecline').addEventListener('click',function(){
+    save({necessary:true,functional:false,analytics:false,marketing:false});
+    localStorage.removeItem('theme'); // remove theme pref if functional declined
+  });
+  document.getElementById('ckManage').addEventListener('click',function(){
+    modal.classList.add('open');
+  });
+  document.getElementById('ckModalDecline').addEventListener('click',function(){
+    save({necessary:true,functional:false,analytics:false,marketing:false});
+    localStorage.removeItem('theme');
+  });
+  document.getElementById('ckModalSave').addEventListener('click',function(){
+    var func=document.getElementById('ck-func').checked;
+    save({necessary:true,functional:func,analytics:false,marketing:false});
+    if(!func) localStorage.removeItem('theme');
+  });
+  // Close modal on backdrop click
+  modal.addEventListener('click',function(e){
+    if(e.target===modal) modal.classList.remove('open');
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') modal.classList.remove('open');
+  });
 })();
 </script>
 </body>
