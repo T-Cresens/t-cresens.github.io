@@ -192,13 +192,35 @@ a{color:inherit;text-decoration:none}
 .trust-block p{font-size:.85rem;color:var(--muted);line-height:1.7}
 .trust-block p+p{margin-top:.6rem}
 
-/* ── Gallery ──────────────────────────────────────────────────────────────── */
+/* ── Gallery carousel ─────────────────────────────────────────────────────── */
 .gallery-label{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border)}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.gallery img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
-.gallery img:hover{opacity:.82}
-.gallery--2col{grid-template-columns:repeat(2,1fr)}
-@media(max-width:600px){.gallery,.gallery--2col{grid-template-columns:1fr}}
+.gal-wrap{position:relative}
+.gal-outer{overflow:hidden}
+.gal-track{display:flex;gap:.75rem;transition:transform .35s ease;will-change:transform}
+.gal-track img{flex:0 0 calc(33.333% - .5rem);aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--border);transition:opacity .15s;cursor:pointer}
+.gal-track img:hover{opacity:.82}
+.gal-wrap[data-cols="2"] .gal-track img{flex:0 0 calc(50% - .375rem)}
+.gal-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+  background:var(--accent);color:#fff;border:none;width:2rem;height:2.4rem;
+  font-size:1.3rem;line-height:1;cursor:pointer;opacity:.85;display:flex;
+  align-items:center;justify-content:center}
+.gal-arrow:hover{opacity:1;background:var(--accent-h)}
+.gal-arrow:disabled{opacity:.2;cursor:default;background:var(--border);color:var(--muted)}
+.gal-prev{left:0}.gal-next{right:0}
+.gal-counter{text-align:center;font-size:.7rem;color:var(--faint);margin-top:.45rem;font-variant-numeric:tabular-nums}
+@media(max-width:720px){.gal-track img{flex:0 0 calc(50% - .375rem)}}
+@media(max-width:480px){.gal-track img,.gal-wrap[data-cols="2"] .gal-track img{flex:0 0 100%}}
+
+/* ── Lang toggle ──────────────────────────────────────────────────────────── */
+.lang-btn{
+  position:fixed;top:1rem;right:3.5rem;height:34px;padding:0 .6rem;
+  border:1px solid var(--border);background:var(--surface);color:var(--muted);
+  cursor:pointer;display:flex;align-items:center;gap:0;font-size:.72rem;
+  font-weight:700;letter-spacing:.04em;z-index:200
+}
+.lang-btn span{padding:0 .3rem}
+.lang-btn span.active{color:var(--accent)}
+.lang-btn:hover{border-color:var(--accent)}
 
 /* ── Licenties ───────────────────────────────────────────────────────────── */
 .license-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.25rem}
@@ -389,6 +411,7 @@ details.ref-details[open] summary{margin-bottom:.75rem}
   </div>
 </div>
 
+<button class="lang-btn" id="langToggle" aria-label="Taal wisselen"><span class="active" id="lang-nl">NL</span><span style="color:var(--border)">|</span><span id="lang-en">EN</span></button>
 <button class="theme-btn" id="themeToggle" aria-label="Kleurthema wisselen">
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
     <circle cx="8" cy="8" r="3.2"/>
@@ -405,7 +428,7 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 
 <nav class="tab-bar" aria-label="Sitesecties">
   <div class="tab-bar-inner">
-    <button class="tab-btn active" data-tab="over"  aria-selected="true">Over mij</button>
+    <button class="tab-btn active" data-tab="over"  aria-selected="true" data-i18n="tab.over">Over mij</button>
     <button class="tab-btn"        data-tab="creya" aria-selected="false">Creya</button>
     <button class="tab-btn"        data-tab="spike" aria-selected="false">SPIKE</button>
   </div>
@@ -422,13 +445,9 @@ details.ref-details[open] summary{margin-bottom:.75rem}
         <img class="portrait" src="photo2.jpg" alt="Tijl Cresens">
       </div>
       <div class="hero-text">
-        <p class="eyebrow">Pelt, België</p>
+        <p class="eyebrow" data-i18n="about.eyebrow">Pelt, België</p>
         <h1 class="site-name">Tijl Cresens</h1>
-        <p class="site-bio">
-          3de bachelorstudent Toegepaste Economische Wetenschappen aan de KU Leuven
-          (Productie &amp; Logistiek, Financiering &amp; Accountancy).
-          Op weg naar een master in data science &amp; statistiek.
-        </p>
+        <p class="site-bio" data-i18n="about.bio">3de bachelorstudent Toegepaste Economische Wetenschappen aan de KU Leuven (Productie &amp; Logistiek, Financiering &amp; Accountancy). Op weg naar een master in data science &amp; statistiek.</p>
       </div>
     </div>
   </div>
@@ -437,49 +456,49 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 
     <div>
       <section aria-labelledby="werk-lbl">
-        <p class="sec-label" id="werk-lbl">Werk</p>
+        <p class="sec-label" id="werk-lbl" data-i18n="sec.work">Werk</p>
         <div class="timeline">
           <div class="tl-item">
-            <span class="tl-year">2026 – heden</span>
+            <span class="tl-year" data-i18n="tl.1.year">2026 – heden</span>
             <div>
-              <p class="tl-role">Medeoprichter</p>
+              <p class="tl-role" data-i18n="tl.1.role">Medeoprichter</p>
               <p class="tl-org">Creya.be</p>
-              <p class="tl-detail">Financieel analyseplatform voor Belgische bedrijven — opgericht samen met Yenthe Jannis.</p>
+              <p class="tl-detail" data-i18n="tl.1.detail">Financieel analyseplatform voor Belgische bedrijven — opgericht samen met Yenthe Jannis.</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-year">2023 – 2026</span>
             <div>
-              <p class="tl-role">Receptionist — jobstudent</p>
+              <p class="tl-role" data-i18n="tl.2.role">Receptionist — jobstudent</p>
               <p class="tl-org">Basic-Fit, Noord-Limburg</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-year">2020 – 2023</span>
             <div>
-              <p class="tl-role">IT-technicus — jobstudent</p>
+              <p class="tl-role" data-i18n="tl.3.role">IT-technicus — jobstudent</p>
               <p class="tl-org">Vip Computers BV</p>
-              <p class="tl-detail">Hardwareherstelling en klantenondersteuning.</p>
+              <p class="tl-detail" data-i18n="tl.3.detail">Hardwareherstelling en klantenondersteuning.</p>
             </div>
           </div>
         </div>
       </section>
 
       <section aria-labelledby="opl-lbl">
-        <p class="sec-label" id="opl-lbl">Opleiding</p>
+        <p class="sec-label" id="opl-lbl" data-i18n="sec.education">Opleiding</p>
         <div class="timeline">
           <div class="tl-item">
             <span class="tl-year">2023 – 2026</span>
             <div>
-              <p class="tl-role">Bachelor Toegepaste Economische Wetenschappen (TEW)</p>
+              <p class="tl-role" data-i18n="tl.edu1.role">Bachelor Toegepaste Economische Wetenschappen (TEW)</p>
               <p class="tl-org">KU Leuven</p>
-              <p class="tl-detail">Majors: Productie &amp; Logistiek · Financiering &amp; Accountancy</p>
+              <p class="tl-detail" data-i18n="tl.edu1.detail">Majors: Productie &amp; Logistiek · Financiering &amp; Accountancy</p>
             </div>
           </div>
           <div class="tl-item">
             <span class="tl-year">– 2023</span>
             <div>
-              <p class="tl-role">Secundair — Wetenschappen &amp; Wiskunde</p>
+              <p class="tl-role" data-i18n="tl.edu2.role">Secundair — Wetenschappen &amp; Wiskunde</p>
               <p class="tl-org">Wico Neerpelt</p>
             </div>
           </div>
@@ -489,10 +508,10 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 
     <div>
       <section aria-labelledby="contact-lbl">
-        <p class="sec-label" id="contact-lbl">Contact</p>
+        <p class="sec-label" id="contact-lbl" data-i18n="sec.contact">Contact</p>
         <div class="contact-grid">
           <div class="contact-item">
-            <span class="contact-label">Telefoon</span>
+            <span class="contact-label" data-i18n="ct.phone">Telefoon</span>
             <a class="contact-value" href="tel:+32483658946">+32 483 658 946</a>
           </div>
           <div class="contact-item">
@@ -500,11 +519,11 @@ details.ref-details[open] summary{margin-bottom:.75rem}
             <a class="contact-value" href="mailto:tijl@creya.be">tijl@creya.be</a>
           </div>
           <div class="contact-item">
-            <span class="contact-label">E-mail — SPIKE / KU Leuven</span>
+            <span class="contact-label" data-i18n="ct.email.spike">E-mail — SPIKE / KU Leuven</span>
             <a class="contact-value" href="mailto:tijl.cresens@student.kuleuven.be">tijl.cresens@student.kuleuven.be</a>
           </div>
           <div class="contact-item">
-            <span class="contact-label">E-mail — Overig</span>
+            <span class="contact-label" data-i18n="ct.email.other">E-mail — Overig</span>
             <a class="contact-value" href="mailto:tijl@ts33.be">tijl@ts33.be</a>
           </div>
           <div class="contact-item">
@@ -515,32 +534,33 @@ details.ref-details[open] summary{margin-bottom:.75rem}
       </section>
 
       <section aria-labelledby="vaard-lbl">
-        <p class="sec-label" id="vaard-lbl">Vaardigheden</p>
+        <p class="sec-label" id="vaard-lbl" data-i18n="sec.skills">Vaardigheden</p>
         <div class="skill-group">
-          <p class="skill-group-label">Vertrouwd met</p>
+          <p class="skill-group-label" data-i18n="sk.proficient">Vertrouwd met</p>
           <div class="chips">
             <span class="chip">Excel — solver, PowerQuery</span>
-            <span class="chip">Lineair programmeren (Lindo)</span>
+            <span class="chip" data-i18n="sk.lp">Lineair programmeren (Lindo)</span>
             <span class="chip">STATA-SE</span>
             <span class="chip">Power BI</span>
-            <span class="chip">Computerhardware</span>
-            <span class="chip">Nederlands — moedertaal</span>
-            <span class="chip">Engels — vloeiend</span>
+            <span class="chip" data-i18n="sk.hw">Computerhardware</span>
+            <span class="chip" data-i18n="sk.dutch">Nederlands — moedertaal</span>
+            <span class="chip" data-i18n="sk.english">Engels — vloeiend</span>
           </div>
         </div>
         <div class="skill-group">
-          <p class="skill-group-label">Aan het leren</p>
+          <p class="skill-group-label" data-i18n="sk.learning">Aan het leren</p>
           <div class="chips">
             <span class="chip">Python 3</span>
-            <span class="chip">Econometrie</span>
-            <span class="chip">Machine learning</span>
-            <span class="chip">Reële analyse</span>
+            <span class="chip" data-i18n="sk.econometrics">Econometrie</span>
+            <span class="chip" data-i18n="sk.ml">Machine learning</span>
+            <span class="chip" data-i18n="sk.ra">Reële analyse</span>
+            <span class="chip">R</span>
           </div>
         </div>
       </section>
 
       <section aria-labelledby="proj-lbl">
-        <p class="sec-label" id="proj-lbl">Projecten</p>
+        <p class="sec-label" id="proj-lbl" data-i18n="sec.projects">Projecten</p>
         <div style="display:flex;flex-direction:column;gap:.55rem">
           <button class="btn-primary" onclick="switchTab('creya')" style="justify-content:space-between;width:100%;max-width:255px">
             <span>Creya.be</span><span>→</span>
@@ -554,7 +574,7 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 
     <footer class="site-footer full">
       <span class="footer-copy">© 2026 Tijl Cresens</span>
-      <span class="footer-note">Belgisch kampioen bankdrukken 2023</span>
+      <span class="footer-note" data-i18n="footer.note">Belgisch kampioen bankdrukken 2023</span>
     </footer>
 
   </div>
@@ -567,44 +587,51 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 <div class="wrap">
 
   <div class="proj-hero">
-    <p class="proj-eyebrow">Project — 2026</p>
+    <p class="proj-eyebrow" data-i18n="creya.eyebrow">Project — 2026</p>
     <h2 class="proj-title">Creya.be</h2>
-    <p class="proj-tagline">Een webservice die financiële inzichten biedt in Belgische bedrijven — gebouwd samen met Yenthe Jannis.</p>
+    <p class="proj-tagline" data-i18n="creya.tagline">Een webservice die financiële inzichten biedt in Belgische bedrijven — gebouwd samen met Yenthe Jannis.</p>
     <div class="btn-row">
-      <a class="btn-primary" href="https://creya.be" target="_blank" rel="noopener">Bezoek Creya.be →</a>
+      <a class="btn-primary" href="https://creya.be" target="_blank" rel="noopener" data-i18n="creya.visit">Bezoek Creya.be →</a>
     </div>
   </div>
 
   <section style="margin-bottom:2.5rem">
-    <p class="sec-label">Wat biedt Creya?</p>
-    <p class="feature-intro">Met enkel een BTW-nummer of bedrijfsnaam krijg je onmiddellijk toegang tot:</p>
+    <p class="sec-label" data-i18n="creya.sec">Wat biedt Creya?</p>
+    <p class="feature-intro" data-i18n="creya.intro">Met enkel een BTW-nummer of bedrijfsnaam krijg je onmiddellijk toegang tot:</p>
     <ul class="feature-list">
-      <li>20+ ratio's en kerngegevens</li>
-      <li>Waarderingen (DCF, multiples, NAV)</li>
-      <li>Kredietrange en aanbevolen kredietlimiet</li>
-      <li>Horizontale evolutie doorheen de jaren</li>
-      <li>Gezondheids- en outperformancescore (SOPR)</li>
-      <li>Tijdlijn van neerleggingen en events</li>
-      <li>Sectorvergelijking via boxplots</li>
-      <li>Diagnose + oplossingenvenster (AI)</li>
-      <li>Financiële structuursimulator</li>
-      <li>Optimalisatietool voor financiële structuur</li>
-      <li>Kerninfo: revisor, participaties, bestuurders</li>
-      <li>AI-analyse per bedrijf of situatie</li>
+      <li data-i18n="cf.1">20+ ratio's en kerngegevens</li>
+      <li data-i18n="cf.2">Waarderingen (DCF, multiples, NAV)</li>
+      <li data-i18n="cf.3">Kredietrange en aanbevolen kredietlimiet</li>
+      <li data-i18n="cf.4">Horizontale evolutie doorheen de jaren</li>
+      <li data-i18n="cf.5">Gezondheids- en outperformancescore (SOPR)</li>
+      <li data-i18n="cf.6">Tijdlijn van neerleggingen en events</li>
+      <li data-i18n="cf.7">Sectorvergelijking via boxplots</li>
+      <li data-i18n="cf.8">Diagnose + oplossingenvenster (AI)</li>
+      <li data-i18n="cf.9">Financiële structuursimulator</li>
+      <li data-i18n="cf.10">Optimalisatietool voor financiële structuur</li>
+      <li data-i18n="cf.11">Kerninfo: revisor, participaties, bestuurders</li>
+      <li data-i18n="cf.12">AI-analyse per bedrijf of situatie</li>
     </ul>
     <div class="trust-block">
-      <p><strong>Vertrouwensnetwerk</strong> — zoals LinkedIn maar voor bedrijven. Bedrijven en bestuurders kunnen zichzelf verifiëren en relaties vastleggen: leverancier, moeder, dochter, ...</p>
-      <p>Geverifieerde partijen kunnen extra data opladen — zoals tussentijdse balansen — zichtbaar voor het publiek, hun vertrouwelingen, of enkel voor zichzelf. Zo overbrugt Creya de tijdskloof van officiële neerleggingen.</p>
+      <p data-i18n="creya.trust1"><strong>Vertrouwensnetwerk</strong> — zoals LinkedIn maar voor bedrijven. Bedrijven en bestuurders kunnen zichzelf verifiëren en relaties vastleggen: leverancier, moeder, dochter, ...</p>
+      <p data-i18n="creya.trust2">Geverifieerde partijen kunnen extra data opladen — zoals tussentijdse balansen — zichtbaar voor het publiek, hun vertrouwelingen, of enkel voor zichzelf. Zo overbrugt Creya de tijdskloof van officiële neerleggingen.</p>
     </div>
   </section>
 
   <section style="margin-bottom:2.5rem">
-    <p class="gallery-label">Schermafbeeldingen</p>
-    <div class="gallery gallery--2col">
-      <img src="c1.png" alt="Creya — analyseoverzicht" loading="lazy" class="lb-thumb" data-gallery="creya">
-      <img src="c2.png" alt="Creya — financiële ratiotabel" loading="lazy" class="lb-thumb" data-gallery="creya">
-      <img src="c3.png" alt="Creya — sectorvergelijking" loading="lazy" class="lb-thumb" data-gallery="creya">
-      <img src="c4.png" alt="Creya — diagnose en score" loading="lazy" class="lb-thumb" data-gallery="creya">
+    <p class="gallery-label" data-i18n="lbl.screenshots">Schermafbeeldingen</p>
+    <div class="gal-wrap" data-cols="2" data-gallery-id="creya">
+      <div class="gal-outer">
+        <div class="gal-track">
+          <img src="c1.png" alt="Creya — analyseoverzicht" loading="lazy" class="lb-thumb" data-gallery="creya">
+          <img src="c2.png" alt="Creya — financiële ratiotabel" loading="lazy" class="lb-thumb" data-gallery="creya">
+          <img src="c3.png" alt="Creya — sectorvergelijking" loading="lazy" class="lb-thumb" data-gallery="creya">
+          <img src="c4.png" alt="Creya — diagnose en score" loading="lazy" class="lb-thumb" data-gallery="creya">
+        </div>
+      </div>
+      <button class="gal-arrow gal-prev" aria-label="Vorige">‹</button>
+      <button class="gal-arrow gal-next" aria-label="Volgende">›</button>
+      <p class="gal-counter"></p>
     </div>
   </section>
 
@@ -613,7 +640,7 @@ details.ref-details[open] summary{margin-bottom:.75rem}
     <a class="collab-card" href="https://www.linkedin.com/in/yenthe-jannis-0979272a1/" target="_blank" rel="noopener">
       <div>
         <p class="collab-name">Yenthe Jannis</p>
-        <p class="collab-sub">Medeoprichter · LinkedIn</p>
+        <p class="collab-sub" data-i18n="creya.collab.sub">Medeoprichter · LinkedIn</p>
       </div>
       <span class="collab-arrow">→</span>
     </a>
@@ -628,21 +655,21 @@ details.ref-details[open] summary{margin-bottom:.75rem}
 <div class="wrap">
 
   <div class="proj-hero">
-    <p class="proj-eyebrow">Nevenproject — 2026</p>
+    <p class="proj-eyebrow" data-i18n="spike.eyebrow">Nevenproject — 2026</p>
     <h2 class="proj-title">SPIKE</h2>
     <span class="proj-version">v1.0.001</span>
-    <p class="proj-tagline">Seizure Pattern Intelligence &amp; Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.</p>
+    <p class="proj-tagline" data-i18n="spike.tagline">Seizure Pattern Intelligence &amp; Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.</p>
     <div class="btn-row">
       <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_PUBLIC/releases/download/v1.0.001/SPIKE_Setup_v1.0.001.exe">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
-        Downloaden — Windows
+        <span data-i18n="spike.download">Downloaden — Windows</span>
       </a>
     </div>
   </div>
 
   <section>
-    <p class="sec-label">Wat doet SPIKE?</p>
-    <p class="proj-details">Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.</p>
+    <p class="sec-label" data-i18n="spike.what">Wat doet SPIKE?</p>
+    <p class="proj-details" data-i18n="spike.desc">Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.</p>
     <div class="proj-tags">
       <span class="tag">Python</span><span class="tag">MNE-Python</span>
       <span class="tag">LightGBM</span><span class="tag">MAPIE</span>
@@ -651,22 +678,29 @@ details.ref-details[open] summary{margin-bottom:.75rem}
   </section>
 
   <section>
-    <p class="gallery-label">Schermafbeeldingen</p>
-    <div class="gallery">
-      <img src="s01.jpg" alt="SPIKE — overzicht" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s02.jpg" alt="SPIKE — EEG-analyse" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s03.jpg" alt="SPIKE — patroondetectie" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s04.jpg" alt="SPIKE — resultaten" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s05.jpg" alt="SPIKE — fenomenen" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s06.jpg" alt="SPIKE — kanaalweergave" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s07.jpg" alt="SPIKE — diagnose" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s08.jpg" alt="SPIKE — AED-advies" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s09.jpg" alt="SPIKE — exploratieve engine" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s10.jpg" alt="SPIKE — conformal prediction" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s11.jpg" alt="SPIKE — waarschijnlijkheidsinterval" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s12.jpg" alt="SPIKE — instellingen" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s13.jpg" alt="SPIKE — rapportage" loading="lazy" class="lb-thumb" data-gallery="spike">
-      <img src="s14.jpg" alt="SPIKE — about" loading="lazy" class="lb-thumb" data-gallery="spike">
+    <p class="gallery-label" data-i18n="lbl.screenshots">Schermafbeeldingen</p>
+    <div class="gal-wrap" data-cols="3" data-gallery-id="spike">
+      <div class="gal-outer">
+        <div class="gal-track">
+          <img src="s01.jpg" alt="SPIKE — overzicht" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s02.jpg" alt="SPIKE — EEG-analyse" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s03.jpg" alt="SPIKE — patroondetectie" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s04.jpg" alt="SPIKE — resultaten" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s05.jpg" alt="SPIKE — fenomenen" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s06.jpg" alt="SPIKE — kanaalweergave" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s07.jpg" alt="SPIKE — diagnose" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s08.jpg" alt="SPIKE — AED-advies" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s09.jpg" alt="SPIKE — exploratieve engine" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s10.jpg" alt="SPIKE — conformal prediction" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s11.jpg" alt="SPIKE — waarschijnlijkheidsinterval" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s12.jpg" alt="SPIKE — databronnen" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s13.jpg" alt="SPIKE — referenties" loading="lazy" class="lb-thumb" data-gallery="spike">
+          <img src="s14.jpg" alt="SPIKE — modelprestaties" loading="lazy" class="lb-thumb" data-gallery="spike">
+        </div>
+      </div>
+      <button class="gal-arrow gal-prev" aria-label="Vorige">‹</button>
+      <button class="gal-arrow gal-next" aria-label="Volgende">›</button>
+      <p class="gal-counter"></p>
     </div>
   </section>
 
@@ -932,6 +966,135 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     rt=setTimeout(()=>{cancelAnimationFrame(raf);resize();draw();},80);
   });
   resize(); draw();
+})();
+
+/* ── Carousel ────────────────────────────────────────────────────────────── */
+(function(){
+  document.querySelectorAll('.gal-wrap').forEach(function(wrap){
+    var track=wrap.querySelector('.gal-track');
+    var imgs=track.querySelectorAll('img');
+    var counter=wrap.querySelector('.gal-counter');
+    var prevBtn=wrap.querySelector('.gal-prev');
+    var nextBtn=wrap.querySelector('.gal-next');
+    var idx=0;
+
+    function cols(){
+      var w=window.innerWidth;
+      var def=parseInt(wrap.dataset.cols)||3;
+      if(w<=480) return 1;
+      if(w<=720) return Math.min(2,def);
+      return def;
+    }
+    function itemW(){
+      var c=cols();
+      var gap=12;
+      return (track.parentElement.offsetWidth-(c-1)*gap)/c;
+    }
+    function update(){
+      var c=cols();
+      var max=Math.max(0,imgs.length-c);
+      idx=Math.min(idx,max);
+      var iw=itemW();
+      track.style.transform='translateX(-'+(idx*(iw+12))+'px)';
+      // fix each img width
+      Array.from(imgs).forEach(function(img){img.style.flexBasis=iw+'px';img.style.minWidth=iw+'px'});
+      if(counter) counter.textContent=(idx+1)+' – '+Math.min(idx+c,imgs.length)+' / '+imgs.length;
+      prevBtn.disabled=idx===0;
+      nextBtn.disabled=idx>=max;
+    }
+    prevBtn.addEventListener('click',function(){if(idx>0){idx--;update();}});
+    nextBtn.addEventListener('click',function(){
+      var max=Math.max(0,imgs.length-cols());
+      if(idx<max){idx++;update();}
+    });
+    window.addEventListener('resize',update);
+    // wait for layout
+    requestAnimationFrame(update);
+  });
+})();
+
+/* ── Language toggle ─────────────────────────────────────────────────────── */
+(function(){
+  var T={
+    nl:{
+      'tab.over':'Over mij','about.eyebrow':'Pelt, België',
+      'about.bio':'3de bachelorstudent Toegepaste Economische Wetenschappen aan de KU Leuven (Productie & Logistiek, Financiering & Accountancy). Op weg naar een master in data science & statistiek.',
+      'sec.work':'Werk','sec.education':'Opleiding','sec.contact':'Contact','sec.skills':'Vaardigheden','sec.projects':'Projecten',
+      'tl.1.year':'2026 – heden','tl.1.role':'Medeoprichter','tl.1.detail':'Financieel analyseplatform voor Belgische bedrijven — opgericht samen met Yenthe Jannis.',
+      'tl.2.role':'Receptionist — jobstudent','tl.3.role':'IT-technicus — jobstudent','tl.3.detail':'Hardwareherstelling en klantenondersteuning.',
+      'tl.edu1.role':'Bachelor Toegepaste Economische Wetenschappen (TEW)','tl.edu1.detail':'Majors: Productie & Logistiek · Financiering & Accountancy',
+      'tl.edu2.role':'Secundair — Wetenschappen & Wiskunde',
+      'ct.phone':'Telefoon','ct.email.spike':'E-mail — SPIKE / KU Leuven','ct.email.other':'E-mail — Overig',
+      'sk.proficient':'Vertrouwd met','sk.learning':'Aan het leren',
+      'sk.lp':'Lineair programmeren (Lindo)','sk.hw':'Computerhardware','sk.dutch':'Nederlands — moedertaal','sk.english':'Engels — vloeiend',
+      'sk.econometrics':'Econometrie','sk.ml':'Machine learning','sk.ra':'Reële analyse',
+      'footer.note':'Belgisch kampioen bankdrukken 2023',
+      'lbl.screenshots':'Schermafbeeldingen',
+      'creya.eyebrow':'Project — 2026','creya.tagline':'Een webservice die financiële inzichten biedt in Belgische bedrijven — gebouwd samen met Yenthe Jannis.',
+      'creya.visit':'Bezoek Creya.be →','creya.sec':'Wat biedt Creya?','creya.intro':'Met enkel een BTW-nummer of bedrijfsnaam krijg je onmiddellijk toegang tot:',
+      'cf.1':"20+ ratio's en kerngegevens",'cf.2':'Waarderingen (DCF, multiples, NAV)','cf.3':'Kredietrange en aanbevolen kredietlimiet',
+      'cf.4':'Horizontale evolutie doorheen de jaren','cf.5':'Gezondheids- en outperformancescore (SOPR)','cf.6':'Tijdlijn van neerleggingen en events',
+      'cf.7':'Sectorvergelijking via boxplots','cf.8':'Diagnose + oplossingenvenster (AI)','cf.9':'Financiële structuursimulator',
+      'cf.10':'Optimalisatietool voor financiële structuur','cf.11':'Kerninfo: revisor, participaties, bestuurders','cf.12':'AI-analyse per bedrijf of situatie',
+      'creya.trust1':'<strong>Vertrouwensnetwerk</strong> — zoals LinkedIn maar voor bedrijven. Bedrijven en bestuurders kunnen zichzelf verifiëren en relaties vastleggen: leverancier, moeder, dochter, ...',
+      'creya.trust2':'Geverifieerde partijen kunnen extra data opladen — zoals tussentijdse balansen — zichtbaar voor het publiek, hun vertrouwelingen, of enkel voor zichzelf. Zo overbrugt Creya de tijdskloof van officiële neerleggingen.',
+      'creya.collab.sub':'Medeoprichter · LinkedIn',
+      'spike.eyebrow':'Nevenproject — 2026','spike.tagline':'Seizure Pattern Intelligence & Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.',
+      'spike.download':'Downloaden — Windows','spike.what':'Wat doet SPIKE?',
+      'spike.desc':'Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.'
+    },
+    en:{
+      'tab.over':'About me','about.eyebrow':'Pelt, Belgium',
+      'about.bio':'3rd-year Bachelor student Applied Economics at KU Leuven (Operations & Logistics, Finance & Accounting). Working towards a master in data science & statistics.',
+      'sec.work':'Work','sec.education':'Education','sec.contact':'Contact','sec.skills':'Skills','sec.projects':'Projects',
+      'tl.1.year':'2026 – present','tl.1.role':'Co-founder','tl.1.detail':'Financial analysis platform for Belgian companies — founded together with Yenthe Jannis.',
+      'tl.2.role':'Receptionist — student job','tl.3.role':'IT technician — student job','tl.3.detail':'Hardware repair and customer support.',
+      'tl.edu1.role':'Bachelor Applied Economics (TEW)','tl.edu1.detail':'Majors: Operations & Logistics · Finance & Accounting',
+      'tl.edu2.role':'Secondary — Sciences & Mathematics',
+      'ct.phone':'Phone','ct.email.spike':'E-mail — SPIKE / KU Leuven','ct.email.other':'E-mail — Other',
+      'sk.proficient':'Proficient in','sk.learning':'Currently learning',
+      'sk.lp':'Linear programming (Lindo)','sk.hw':'Computer hardware','sk.dutch':'Dutch — native','sk.english':'English — fluent',
+      'sk.econometrics':'Econometrics','sk.ml':'Machine learning','sk.ra':'Real analysis',
+      'footer.note':'Belgian bench press champion 2023',
+      'lbl.screenshots':'Screenshots',
+      'creya.eyebrow':'Project — 2026','creya.tagline':'A web service providing financial insights into Belgian companies — built together with Yenthe Jannis.',
+      'creya.visit':'Visit Creya.be →','creya.sec':'What does Creya offer?','creya.intro':'With just a VAT number or company name you get instant access to:',
+      'cf.1':'20+ ratios and key metrics','cf.2':'Valuations (DCF, multiples, NAV)','cf.3':'Credit range and recommended credit limit',
+      'cf.4':'Historical trend analysis over the years','cf.5':'Health and outperformance score (SOPR)','cf.6':'Timeline of filings and events',
+      'cf.7':'Sector comparison via boxplots','cf.8':'Diagnosis + solution window (AI)','cf.9':'Financial structure simulator',
+      'cf.10':'Optimisation tool for financial structure','cf.11':'Key info: auditor, participations, directors','cf.12':'AI analysis per company or situation',
+      'creya.trust1':'<strong>Trust network</strong> — like LinkedIn but for companies. Companies and directors can verify themselves and record relationships: supplier, parent, subsidiary, ...',
+      'creya.trust2':'Verified parties can upload extra data — such as interim balance sheets — visible to the public, their connections, or only themselves. This bridges the time gap of official filings.',
+      'creya.collab.sub':'Co-founder · LinkedIn',
+      'spike.eyebrow':'Side project — 2026','spike.tagline':'Seizure Pattern Intelligence & Knowledge Engine — a Windows desktop application for EEG pattern analysis and epilepsy decision support.',
+      'spike.download':'Download — Windows','spike.what':'What does SPIKE do?',
+      'spike.desc':'Reads clinical EEG files (.edf), applies pattern detection models trained on public datasets (TUH, CHB-MIT, Siena, TUEP), and computes an epilepsy probability with a conformal prediction interval. Includes a decision-support tab for AED selection based on Belgian and NICE guidelines. Built in Python with MNE-Python, LightGBM and MAPIE.'
+    }
+  };
+
+  var lang=localStorage.getItem('lang')||'nl';
+  var nlBtn=document.getElementById('lang-nl');
+  var enBtn=document.getElementById('lang-en');
+
+  function applyLang(l){
+    lang=l;
+    localStorage.setItem('lang',l);
+    nlBtn.classList.toggle('active',l==='nl');
+    enBtn.classList.toggle('active',l==='en');
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key=el.dataset.i18n;
+      if(!T[l][key]) return;
+      // use innerHTML for keys that contain HTML tags
+      if(T[l][key].indexOf('<')!==-1) el.innerHTML=T[l][key];
+      else el.textContent=T[l][key];
+    });
+  }
+
+  document.getElementById('langToggle').addEventListener('click',function(){
+    applyLang(lang==='nl'?'en':'nl');
+  });
+
+  applyLang(lang);
 })();
 
 /* ── Cookie consent ──────────────────────────────────────────────────────── */
