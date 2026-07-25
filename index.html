@@ -1184,95 +1184,155 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 
 /* ── Neuron Run (secret minigame) ───────────────────────────────────────────
    Triggers: triple-click the EEG banner  OR  press ↓ on the SPIKE tab
+   Levels:   Myoclonic buildup → Pre-ictal → Ictal → (death) Post-ictal
 ─────────────────────────────────────────────────────────────────────────── */
 (function(){
-  var H=160, GY=H-38, LY=GY+6; // canvas height, ground y, eeg line y
+  /* Layout: neuron runs between two EEG lines
+     Upper line (ULY): overhead spikes hang DOWN → duck
+     Lower line (LY):  ground spikes rise UP   → jump              */
+  var H=202, GY=158, LY=164, ULY=28, PLX=90, PH=38, DH=18;
   var W=Math.min(580,window.innerWidth-36);
   var wrap,gc,gctx,looping=false,rafId;
+  var LVLS=['Myoclonic buildup','Pre-ictal','Ictal'];
 
   var g={
-    state:'idle', tick:0, bgOff:0,
-    score:0, hi:+(localStorage.getItem('nr_hi')||0),
-    speed:3.2, ply:GY, pvy:0,
-    obs:[], nextObs:120
+    state:'idle',tick:0,off:0,
+    score:0,hi:+(localStorage.getItem('nr_hi')||0),
+    spd:2.8,ply:GY,pvy:0,
+    duck:false,duckHeld:false,
+    obs:[],nxt:145,lvl:0
   };
 
-  /* ── Triggers ─────────────────────────────────────────────── */
+  /* Triggers */
   var banner=document.getElementById('eeg');
-  if(banner){
-    var bc=0,bt;
-    banner.addEventListener('click',function(){
-      bc++;clearTimeout(bt);
-      if(bc>=3){bc=0;open();}else bt=setTimeout(function(){bc=0;},700);
-    });
-  }
+  if(banner){var bc=0,bt;
+    banner.addEventListener('click',function(){bc++;clearTimeout(bt);
+      if(bc>=3){bc=0;openGame();}else bt=setTimeout(function(){bc=0;},700);});}
   document.addEventListener('keydown',function(e){
-    if(e.code==='ArrowDown'&&window.location.hash==='#spike'){e.preventDefault();open();}
-  });
+    if(e.code==='ArrowDown'&&window.location.hash==='#spike'){e.preventDefault();openGame();}});
 
-  /* ── Open / build ─────────────────────────────────────────── */
-  function open(){
-    if(!gc) build();
-    wrap.style.display='flex';
-    if(!looping){looping=true;frame();}
-  }
+  function openGame(){if(!gc)build();wrap.style.display='flex';if(!looping){looping=true;frame();}}
 
   function build(){
     wrap=document.createElement('div');
     wrap.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;z-index:9998;'+
       'background:var(--surface);border:1px solid var(--accent);'+
       'box-shadow:0 6px 28px rgba(26,86,219,.22);flex-direction:column;gap:0;display:none';
-
     var hdr=document.createElement('div');
     hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;'+
-      'padding:.3rem .55rem;border-bottom:1px solid var(--border)';
-    hdr.innerHTML='<span style="font-size:.58rem;font-weight:800;letter-spacing:.13em;color:var(--accent)">NEURON RUN</span>'+
-      '<button id="nr-x" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.2rem;line-height:1;padding:0 .15rem">×</button>';
-
+      'padding:.28rem .55rem;border-bottom:1px solid var(--border)';
+    hdr.innerHTML='<span style="font-size:.58rem;font-weight:800;letter-spacing:.13em;'+
+      'color:var(--accent)">NEURON RUN</span>'+
+      '<button id="nr-x" style="background:none;border:none;cursor:pointer;'+
+      'color:var(--muted);font-size:1.2rem;line-height:1;padding:0 .15rem">×</button>';
     gc=document.createElement('canvas');
-    gc.width=W;gc.height=H;
-    gc.style.cssText='display:block;cursor:pointer';
+    gc.width=W;gc.height=H;gc.style.cssText='display:block;cursor:pointer';
     gctx=gc.getContext('2d');
-
     var hint=document.createElement('div');
-    hint.style.cssText='padding:.2rem .55rem;font-size:.52rem;color:var(--faint);text-align:center';
-    hint.textContent='SPACE or CLICK to jump';
-
+    hint.style.cssText='padding:.18rem .55rem;font-size:.52rem;color:var(--faint);text-align:center';
+    hint.textContent='SPACE / ↑ to jump  ·  ↓ to duck (hold)';
     wrap.appendChild(hdr);wrap.appendChild(gc);wrap.appendChild(hint);
     document.body.appendChild(wrap);
-
     hdr.querySelector('#nr-x').addEventListener('click',function(){
-      looping=false;cancelAnimationFrame(rafId);wrap.style.display='none';
-    });
-    gc.addEventListener('click',jump);
+      looping=false;cancelAnimationFrame(rafId);wrap.style.display='none';});
+    gc.addEventListener('click',function(){inp('jump');});
     document.addEventListener('keydown',function(e){
-      if(!looping||wrap.style.display==='none') return;
-      if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();jump();}
-    });
+      if(!looping||!wrap||wrap.style.display==='none') return;
+      if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();inp('jump');}
+      if(e.code==='ArrowDown'){e.preventDefault();inp('duck',true);}});
+    document.addEventListener('keyup',function(e){if(e.code==='ArrowDown')inp('duck',false);});
+  }
+
+  function inp(type,val){
+    if(!wrap||wrap.style.display==='none') return;
+    if(type==='jump'){
+      if(g.state==='idle'){g.state='running';return;}
+      if(g.state==='dead'){reset();return;}
+      if(!g.duck&&g.ply>=GY-1) g.pvy=-9.0;
+    }
+    if(type==='duck'){g.duckHeld=!!val;if(g.state==='running')g.duck=(!!val&&g.ply>=GY-1);}
   }
 
   function reset(){
-    g.state='running';g.tick=0;g.bgOff=0;g.score=0;g.speed=3.2;
-    g.ply=GY;g.pvy=0;g.obs=[];g.nextObs=120;
-  }
-  function jump(){
-    if(!wrap||wrap.style.display==='none') return;
-    if(g.state==='idle'){g.state='running';return;}
-    if(g.state==='dead'){reset();return;}
-    if(g.ply>=GY-1) g.pvy=-10.8;
+    g.state='running';g.tick=0;g.off=0;g.score=0;g.spd=2.8;
+    g.ply=GY;g.pvy=0;g.duck=false;g.duckHeld=false;g.obs=[];g.nxt=145;g.lvl=0;
   }
 
-  /* ── Drawing helpers ──────────────────────────────────────── */
   function dk(){
     return document.documentElement.getAttribute('data-theme')==='dark'||
       (!document.documentElement.getAttribute('data-theme')&&
        window.matchMedia('(prefers-color-scheme:dark)').matches);
   }
 
-  function drawNeuron(x,y,running,dead){
+  /* Bezier IED spike — dir 1=rises from LY, dir -1=hangs from ULY */
+  function drawSpike(cx,baseY,h,dir){
+    var d=dk(),cc=d?'rgba(77,142,240,':'rgba(26,86,219,';
+    var tipY=baseY-dir*h, bw=Math.max(3,h*.085);
+    var grd=dir===1?gctx.createLinearGradient(cx,tipY,cx,baseY)
+                   :gctx.createLinearGradient(cx,baseY,cx,tipY);
+    if(dir===1){grd.addColorStop(0,cc+'.9)');grd.addColorStop(.42,cc+'.36)');grd.addColorStop(1,cc+'.05)');}
+    else       {grd.addColorStop(0,cc+'.05)');grd.addColorStop(.58,cc+'.36)');grd.addColorStop(1,cc+'.9)');}
+    /* Bezier: asymmetric EEG spike shape — steeper rise, gentler fall */
+    gctx.beginPath();
+    gctx.moveTo(cx-bw*2.4,baseY);
+    gctx.bezierCurveTo(cx-bw*.9,baseY, cx-1.2,tipY+dir*4, cx,tipY);
+    gctx.bezierCurveTo(cx+1.2,tipY+dir*4, cx+bw*1.7,baseY, cx+bw*3.0,baseY);
+    gctx.closePath();
+    gctx.fillStyle=grd;gctx.fill();
+    gctx.strokeStyle=d?'rgba(140,195,255,.75)':'rgba(28,90,205,.7)';
+    gctx.lineWidth=.9;gctx.stroke();
+    /* Tip glow */
+    var glw=gctx.createRadialGradient(cx,tipY,0,cx,tipY,12);
+    glw.addColorStop(0,cc+'.32)');glw.addColorStop(1,cc+'0)');
+    gctx.fillStyle=glw;gctx.beginPath();gctx.arc(cx,tipY,12,0,Math.PI*2);gctx.fill();
+    /* Slow-wave trough after upward spike */
+    if(dir===1){
+      gctx.strokeStyle=d?'rgba(77,142,240,.18)':'rgba(26,86,219,.14)';
+      gctx.lineWidth=1.1;gctx.beginPath();
+      gctx.moveTo(cx+bw*3.0,baseY);
+      gctx.quadraticCurveTo(cx+bw*3.0+18,baseY+9,cx+bw*3.0+38,baseY);
+      gctx.stroke();
+    }
+  }
+
+  /* EEG line — lineY=y, dir: 1=ground line (spikes up), -1=upper line (spikes down) */
+  function drawLine(lineY,dir){
+    var d=dk(),lv=g.lvl;
+    var amp=2.3+lv*.9, hf=.070+lv*.009, nf=.186+lv*.011;
+    gctx.beginPath();
+    for(var lx=0;lx<=W;lx++){
+      var noise=Math.sin((lx+g.off)*hf)*amp+Math.sin((lx+g.off)*nf)*(amp*.48);
+      if(lv===2) noise+=Math.sin((lx+g.off)*.44)*(amp*.26); /* ictal fast osc */
+      var sh=0;
+      g.obs.forEach(function(o){
+        if(o.dir!==dir) return;
+        var dx=lx-o.x,hw=o.w*1.88;
+        if(Math.abs(dx)<hw) sh=Math.max(sh,o.h*(1-dx*dx/(hw*hw)));
+      });
+      var ly=lineY+noise-dir*sh;
+      if(lx===0) gctx.moveTo(lx,ly);else gctx.lineTo(lx,ly);
+    }
+    var al=.68+lv*.07;
+    gctx.strokeStyle=d?'rgba(77,130,220,'+al+')':'rgba(26,70,180,'+al+')';
+    gctx.lineWidth=1.25+lv*.14;gctx.stroke();
+  }
+
+  /* Neuron character */
+  function drawNeuron(x,y,run,dead,duck){
     var c=gctx,d=dk();
-    var col=d?'#4d8ef0':'#1a56db', col2=d?'#8ab4f8':'#3d7de8', col3=d?'#c8e0fc':'#dce9fd';
+    var col=d?'#4d8ef0':'#1a56db',col2=d?'#8ab4f8':'#3d7de8',col3=d?'#c8e0fc':'#dce9fd';
     c.save();c.translate(Math.round(x),Math.round(y));
+
+    if(duck){
+      /* Crouching: soma near ground, dendrites splay horizontally */
+      c.beginPath();c.arc(0,-9,8.5,0,Math.PI*2);c.fillStyle=col;c.fill();
+      c.beginPath();c.arc(-.4,-9.5,3.8,0,Math.PI*2);c.fillStyle=col2;c.fill();
+      c.beginPath();c.arc(-.4,-9.5,1.7,0,Math.PI*2);c.fillStyle=col3;c.fill();
+      c.strokeStyle=col;c.lineWidth=1.3;
+      [[-1,0,-17,-5],[-1,0,-16,1],[-1,0,-14,7],[1,0,17,-5],[1,0,16,1],[1,0,14,7]].forEach(function(l){
+        c.beginPath();c.moveTo(l[0],l[1]);c.lineTo(l[2],l[3]);c.stroke();});
+      c.restore();return;
+    }
 
     /* Dendrites */
     c.strokeStyle=col;c.lineWidth=1.4;
@@ -1281,150 +1341,133 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       c.beginPath();c.moveTo(ex*.2,-14+ey*.2);c.lineTo(ex,-14+ey);c.stroke();
       [r-.4,r+.4].forEach(function(r2){
         c.beginPath();c.moveTo(ex,-14+ey);
-        c.lineTo(ex+Math.sin(r2)*5,-14+ey-Math.cos(r2)*5);c.stroke();
-      });
-    });
+        c.lineTo(ex+Math.sin(r2)*5,-14+ey-Math.cos(r2)*5);c.stroke();});});
 
     /* Soma + nucleus + nucleolus */
     c.beginPath();c.arc(0,-14,9.5,0,Math.PI*2);c.fillStyle=col;c.fill();
     c.beginPath();c.arc(-.5,-14.5,4.5,0,Math.PI*2);c.fillStyle=col2;c.fill();
     c.beginPath();c.arc(-.5,-14.5,2,0,Math.PI*2);c.fillStyle=col3;c.fill();
-
-    /* Axon hillock */
     c.strokeStyle=col;c.lineWidth=2;
     c.beginPath();c.moveTo(0,-4.5);c.lineTo(0,0);c.stroke();
 
     if(dead){
-      /* X eyes */
       c.strokeStyle=col3;c.lineWidth=1.8;
       [[-4,-17,-2,-15],[-2,-17,-4,-15],[2,-17,4,-15],[4,-17,2,-15]].forEach(function(l){
-        c.beginPath();c.moveTo(l[0],l[1]);c.lineTo(l[2],l[3]);c.stroke();
-      });
-      /* Static discharge arc */
-      c.strokeStyle=d?'rgba(77,142,240,.55)':'rgba(26,86,219,.5)';c.lineWidth=1.1;
+        c.beginPath();c.moveTo(l[0],l[1]);c.lineTo(l[2],l[3]);c.stroke();});
+      c.strokeStyle=d?'rgba(77,142,240,.5)':'rgba(26,86,219,.45)';c.lineWidth=1.1;
       c.beginPath();c.moveTo(0,-24);c.lineTo(5,-29);c.lineTo(-3,-34);c.lineTo(4,-39);c.stroke();
-      /* Slumped legs */
       c.strokeStyle=col;c.lineWidth=2;
       c.beginPath();c.moveTo(0,0);c.lineTo(9,11);c.stroke();
       c.beginPath();c.moveTo(0,0);c.lineTo(-4,11);c.stroke();
     } else {
-      var sw=running?Math.sin(g.tick*.33)*24:0;
+      var sw=run?Math.sin(g.tick*.33)*24:0;
       [sw,-sw].forEach(function(s){
-        var r=s*Math.PI/180;
-        var tx=Math.sin(r)*8,ty=8+Math.cos(r)*2;
+        var r=s*Math.PI/180,tx=Math.sin(r)*8,ty=8+Math.cos(r)*2;
         c.beginPath();c.moveTo(0,0);c.lineTo(tx,ty);
-        c.lineTo(tx+Math.sin(r+.5)*5,ty+Math.cos(r+.5)*4);c.stroke();
-      });
-      /* Action potential spark on takeoff */
-      if(g.pvy<-7){
-        c.strokeStyle=d?'rgba(100,180,255,.55)':'rgba(26,86,219,.45)';c.lineWidth=1.1;
-        c.beginPath();c.moveTo(0,-24);c.lineTo(4,-29);c.lineTo(-3,-34);c.stroke();
-      }
+        c.lineTo(tx+Math.sin(r+.5)*5,ty+Math.cos(r+.5)*4);c.stroke();});
+      if(g.pvy<-6){
+        c.strokeStyle=d?'rgba(100,180,255,.52)':'rgba(26,86,219,.42)';c.lineWidth=1.1;
+        c.beginPath();c.moveTo(0,-24);c.lineTo(4,-29);c.lineTo(-3,-34);c.stroke();}
     }
     c.restore();
   }
 
-  /* ── Game loop ────────────────────────────────────────────── */
+  function die(){g.state='dead';if(g.score>g.hi){g.hi=g.score;localStorage.setItem('nr_hi',g.hi);}}
+
   function frame(){
     if(!looping) return;
     rafId=requestAnimationFrame(frame);
     var d=dk();
 
-    gctx.fillStyle=d?'#0d1829':'#f0f5ff';
-    gctx.fillRect(0,0,W,H);
-
     if(g.state==='running'){
-      g.tick++;g.bgOff+=g.speed;
-      g.score+=Math.ceil(g.speed*.5);
-      g.speed=3.2+g.score/1700;
+      g.tick++;g.off+=g.spd;
+      g.score+=Math.ceil(g.spd*.4);
+      g.spd=2.8+g.score/2000;
+      g.lvl=g.score<900?0:g.score<2600?1:2;
 
-      g.nextObs-=g.speed;
-      if(g.nextObs<=0){
-        g.obs.push({x:W+20,h:24+Math.random()*38,w:8+Math.random()*6});
-        g.nextObs=118+Math.random()*155;
+      /* Propagate held duck to ground state */
+      if(g.duckHeld&&g.ply>=GY-1) g.duck=true;
+      if(!g.duckHeld) g.duck=false;
+
+      /* Spawn obstacles */
+      g.nxt-=g.spd;
+      if(g.nxt<=0){
+        var last=g.obs[g.obs.length-1],lastDown=last&&last.dir===-1;
+        /* Overhead (duck): level 1+ only, never consecutive */
+        var overhead=g.lvl>=1&&!lastDown&&Math.random()<(g.lvl===1?.30:.44);
+        if(overhead){
+          /* h chosen so it hits standing player (PH=38, playerTop=120) but misses ducking (DH=18, top=140)
+             spikeBottom = ULY+h must be in (120, 140): h in (92, 112) */
+          g.obs.push({x:W+20,h:94+Math.random()*16,w:10+Math.random()*4,dir:-1});
+        } else {
+          g.obs.push({x:W+20,h:22+Math.random()*(28+g.lvl*10),w:8+Math.random()*6,dir:1});
+        }
+        g.nxt=Math.max(88,148-g.lvl*18)+Math.random()*118;
       }
-      g.obs.forEach(function(o){o.x-=g.speed;});
-      g.obs=g.obs.filter(function(o){return o.x>-30;});
+      g.obs.forEach(function(o){o.x-=g.spd;});
+      g.obs=g.obs.filter(function(o){return o.x>-44;});
 
-      g.pvy+=0.52;g.ply+=g.pvy;
-      if(g.ply>=GY){g.ply=GY;g.pvy=0;}
+      /* Physics (no movement while ducking on ground) */
+      if(!g.duck){g.pvy+=0.52;g.ply+=g.pvy;if(g.ply>=GY){g.ply=GY;g.pvy=0;}}
 
-      /* Triangle collision — narrow at tip, wide at base */
-      var PLX=90;
+      /* Collision */
+      var ptop=g.ply-(g.duck?DH:PH);
       g.obs.forEach(function(o){
         if(g.state!=='running') return;
-        var fromLine=LY-g.ply, t=fromLine/o.h;
-        if(t<0||t>1) return;
-        var spikeHW=o.w*.6*(1-t);
-        if(Math.abs(o.x-PLX)<spikeHW+6){
-          g.state='dead';
-          if(g.score>g.hi){g.hi=g.score;localStorage.setItem('nr_hi',g.hi);}
+        if(o.dir===1){
+          /* Ground spike — triangle-accurate */
+          var fl=LY-g.ply,t=fl/o.h;
+          if(t<0||t>1) return;
+          if(Math.abs(o.x-PLX)<o.w*.58*(1-t)+5) die();
+        } else {
+          /* Overhead spike — width at player head height */
+          var bot=ULY+o.h;
+          if(bot>ptop+2){
+            var tV=Math.min(1,Math.max(0,(ptop-ULY)/o.h));
+            if(Math.abs(o.x-PLX)<o.w*(1-tV)*.62+5) die();
+          }
         }
       });
     }
 
-    /* EEG baseline with spikes */
-    gctx.beginPath();
-    for(var lx=0;lx<=W;lx++){
-      var noise=Math.sin((lx+g.bgOff)*.071)*2.6+Math.sin((lx+g.bgOff)*.19)*1.3;
-      var sh=0;
-      g.obs.forEach(function(o){
-        var d2=lx-o.x,hw=o.w*1.9;
-        if(Math.abs(d2)<hw) sh=Math.max(sh,o.h*(1-d2*d2/(hw*hw)));
-      });
-      var ly=LY+noise-sh;
-      if(lx===0) gctx.moveTo(lx,ly); else gctx.lineTo(lx,ly);
-    }
-    gctx.strokeStyle=d?'rgba(77,130,220,.8)':'rgba(26,70,180,.75)';
-    gctx.lineWidth=1.6;gctx.stroke();
+    /* ── Draw ── */
+    gctx.fillStyle=d?'#0d1829':'#f0f5ff';
+    gctx.fillRect(0,0,W,H);
 
-    /* IED spike shapes */
-    g.obs.forEach(function(o){
-      var cc=d?'rgba(77,142,240,':'rgba(26,86,219,';
-      var grd=gctx.createLinearGradient(o.x,LY-o.h,o.x,LY);
-      grd.addColorStop(0,cc+'.85)');grd.addColorStop(.55,cc+'.3)');grd.addColorStop(1,cc+'.04)');
-      gctx.beginPath();
-      gctx.moveTo(o.x,LY);
-      gctx.lineTo(o.x-o.w*.6,LY-o.h*.28);
-      gctx.lineTo(o.x,LY-o.h);
-      gctx.lineTo(o.x+o.w*.6,LY-o.h*.28);
-      gctx.closePath();
-      gctx.fillStyle=grd;gctx.fill();
-      gctx.strokeStyle=d?'rgba(100,160,240,.9)':'rgba(26,86,219,.88)';
-      gctx.lineWidth=1.2;gctx.stroke();
-      /* Tip glow */
-      var glw=gctx.createRadialGradient(o.x,LY-o.h,0,o.x,LY-o.h,14);
-      glw.addColorStop(0,cc+'.28)');glw.addColorStop(1,cc+'0)');
-      gctx.fillStyle=glw;
-      gctx.beginPath();gctx.arc(o.x,LY-o.h,14,0,Math.PI*2);gctx.fill();
-    });
+    drawLine(ULY,-1);   /* upper line — overhead spikes go down */
+    drawLine(LY, 1);    /* lower line — ground spikes go up    */
 
-    /* Player */
-    drawNeuron(90,g.ply,g.state==='running',g.state==='dead');
+    g.obs.forEach(function(o){drawSpike(o.x,o.dir===1?LY:ULY,o.h,o.dir);});
+
+    drawNeuron(PLX,g.ply,g.state==='running',g.state==='dead',g.duck);
+
+    /* Level label */
+    var lvlName=g.state==='dead'?'Post-ictal':LVLS[g.lvl]||LVLS[2];
+    gctx.fillStyle=d?'rgba(77,142,240,.4)':'rgba(26,86,219,.3)';
+    gctx.font='600 9px system-ui,sans-serif';gctx.textAlign='left';
+    gctx.fillText(lvlName.toUpperCase(),8,15);
 
     /* Score */
     gctx.font='700 11px monospace';gctx.textAlign='right';
-    gctx.fillStyle=d?'rgba(77,142,240,.38)':'rgba(26,86,219,.28)';
-    gctx.fillText('HI '+String(g.hi).padStart(5,'0'),W-8,16);
+    gctx.fillStyle=d?'rgba(77,142,240,.34)':'rgba(26,86,219,.24)';
+    gctx.fillText('HI '+String(g.hi).padStart(5,'0'),W-8,15);
     gctx.fillStyle=d?'rgba(77,142,240,.88)':'rgba(26,86,219,.85)';
-    gctx.fillText(String(g.score).padStart(5,'0'),W-8,31);
+    gctx.fillText(String(g.score).padStart(5,'0'),W-8,29);
     gctx.textAlign='left';
 
-    /* Messages */
     if(g.state==='idle'){
       gctx.fillStyle=d?'rgba(77,142,240,.65)':'rgba(26,86,219,.6)';
       gctx.font='700 11px system-ui,sans-serif';gctx.textAlign='center';
-      gctx.fillText('PRESS SPACE OR CLICK TO START',W/2,H*.48);
-      gctx.textAlign='left';
+      gctx.fillText('SPACE / CLICK TO START',W/2,H*.52);gctx.textAlign='left';
     } else if(g.state==='dead'){
-      gctx.fillStyle=d?'rgba(255,255,255,.1)':'rgba(26,86,219,.06)';
-      gctx.fillRect(W/2-145,H*.43,290,46);
-      gctx.fillStyle=d?'rgba(77,142,240,.9)':'rgba(26,86,219,.9)';
-      gctx.font='700 12px system-ui,sans-serif';gctx.textAlign='center';
-      gctx.fillText('REFRACTORY PERIOD',W/2,H*.52);
-      gctx.fillStyle=d?'rgba(77,142,240,.65)':'rgba(26,86,219,.6)';
+      gctx.fillStyle=d?'rgba(0,8,36,.55)':'rgba(228,236,255,.72)';
+      gctx.fillRect(W/2-150,H*.41,300,52);
+      gctx.fillStyle=d?'rgba(77,142,240,.92)':'rgba(26,86,219,.92)';
+      gctx.font='700 13px system-ui,sans-serif';gctx.textAlign='center';
+      gctx.fillText('POST-ICTAL',W/2,H*.52);
+      gctx.fillStyle=d?'rgba(77,142,240,.6)':'rgba(26,86,219,.56)';
       gctx.font='10px system-ui,sans-serif';
-      gctx.fillText('score '+g.score+'  ·  SPACE or click to retry',W/2,H*.66);
+      gctx.fillText('score '+g.score+'  ·  SPACE or click to recover',W/2,H*.65);
       gctx.textAlign='left';
     }
   }
