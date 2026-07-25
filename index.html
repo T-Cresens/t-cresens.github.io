@@ -1195,16 +1195,16 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
   var g={state:'idle',tick:0,off:0,score:0,hi:+(localStorage.getItem('nr_hi')||0),
     spd:2.8,ply:GY,pvy:0,duck:false,duckHeld:false,obs:[],nxt:145,lvl:0};
 
-  /* ── Web Audio sequencer (32-bit electro) ── */
-  var A={ctx:null,mast:null,nxt:0,step:0,timer:null};
-  /* Melody chord tones per bass root (A-natural-minor context) */
+  /* ── Web Audio: wobble bass + beat-synced filter sweep ── */
+  var A={ctx:null,mast:null,nxt:0,step:0,timer:null,
+         bassOsc:null,filter:null,bassGain:null,lvl:0,lastRoot:null};
+  /* Melody chord tones (A natural minor) */
   var FQ={B4:493.88,C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:784,A5:880,B5:987.77,C6:1046.5};
   var CHORD={A:[FQ.A5,FQ.E5,FQ.C5],E:[FQ.E5,FQ.G5,FQ.B5],
              F:[FQ.F5,FQ.A5,FQ.C6],C:[FQ.C5,FQ.G5,FQ.E5],B:[FQ.B4,FQ.D5,FQ.F5]};
-  /* Bass Hz: A16 E16 F16 C8 B8 / A16 F16 E16 C8 B8 (128-step cycle) */
+  /* Bass Hz: A16 E16 F16 C8 B8 / A16 F16 E16 C8 B8 */
   var BFHZ={A:110,E:165,F:175,C:131,B:124};
   function broot(s){s%=128;return s<16?'A':s<32?'E':s<48?'F':s<56?'C':s<64?'B':s<80?'A':s<96?'F':s<112?'E':s<120?'C':'B';}
-  /* Electro arpeggio rhythm: 16-step gate pattern */
   var MRH=[1,0,1,0,1,0,0,1,1,0,1,0,1,0,0,1];
 
   function audInit(){
@@ -1215,7 +1215,16 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
   function audStart(){
     audInit();if(!A.ctx) return;
     if(A.ctx.state==='suspended') A.ctx.resume();
-    audStop();A.step=0;A.nxt=A.ctx.currentTime+.05;
+    audStop();
+    A.step=0;A.nxt=A.ctx.currentTime+.05;A.lvl=0;A.lastRoot=null;
+    /* Sustained bass chain: sawtooth → resonant lowpass → gain → master */
+    A.bassOsc=A.ctx.createOscillator();
+    A.bassOsc.type='sawtooth';A.bassOsc.frequency.value=110;
+    A.filter=A.ctx.createBiquadFilter();
+    A.filter.type='lowpass';A.filter.frequency.value=120;A.filter.Q.value=11;
+    A.bassGain=A.ctx.createGain();A.bassGain.gain.value=.06;
+    A.bassOsc.connect(A.filter);A.filter.connect(A.bassGain);A.bassGain.connect(A.mast);
+    A.bassOsc.start();
     (function sched(){
       while(A.nxt<A.ctx.currentTime+.15){
         audTick(A.nxt,A.step);A.nxt+=.1875;A.step=(A.step+1)%128;
@@ -1223,7 +1232,12 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       A.timer=setTimeout(sched,50);
     })();
   }
-  function audStop(){clearTimeout(A.timer);A.timer=null;}
+  function audStop(){
+    clearTimeout(A.timer);A.timer=null;
+    if(A.bassOsc){try{A.bassOsc.stop();}catch(e){}A.bassOsc=null;}
+    if(A.filter){A.filter.disconnect();A.filter=null;}
+    if(A.bassGain){A.bassGain.disconnect();A.bassGain=null;}
+  }
   function osc(type,freq,t,dur,vol){
     if(!A.ctx) return;
     var o=A.ctx.createOscillator(),ga=A.ctx.createGain();
@@ -1254,12 +1268,36 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
     ga.gain.value=.04;src.connect(fl);fl.connect(ga);ga.connect(A.mast);src.start(t);
   }
   function audTick(t,s){
-    var lv=g.lvl;
-    if(lv===0){if(s%8===0) osc('sine',110,t,.8,.016);return;}
-    var r=broot(s),ch=CHORD[r],pos=s%16;
-    var cn=ch[Math.floor(pos/4)%3]; // cycle root→5th→3rd→root per bar
-    if(MRH[pos]) osc('square',cn,t,.06,.055);
-    if(s%2===0) osc('sawtooth',BFHZ[r],t,.20,.085);
+    /* Snap audio level on bar boundary so transitions land on the beat */
+    if(s%16===0) A.lvl=g.lvl;
+    var lv=A.lvl;
+
+    /* Update sustained bass root when section changes */
+    var r=broot(s);
+    if(r!==A.lastRoot){A.lastRoot=r;if(A.bassOsc) A.bassOsc.frequency.setTargetAtTime(BFHZ[r],t,.04);}
+
+    /* Beat-synced woop-woop: schedule filter sweep every quarter note */
+    if(s%4===0 && A.filter && A.bassGain){
+      var bd=.375; /* quarter note = 2 × 8th notes */
+      if(lv===0){
+        A.bassGain.gain.setTargetAtTime(.05,t,.3);
+        A.filter.frequency.setValueAtTime(80,t);
+      } else {
+        var pk=lv>=2?2400:1600;
+        A.bassGain.gain.setTargetAtTime(.15,t,.3);
+        A.filter.frequency.setValueAtTime(120,t);
+        A.filter.frequency.exponentialRampToValueAtTime(pk,t+bd/2);
+        A.filter.frequency.exponentialRampToValueAtTime(120,t+bd);
+      }
+    }
+
+    /* Melody stabs (level 1+) */
+    if(lv>=1){
+      var ch=CHORD[r],pos=s%16;
+      if(MRH[pos]) osc('square',ch[Math.floor(pos/4)%3],t,.06,.055);
+    }
+
+    /* Drums (level 2) */
     if(lv>=2){if(s%4===0) kick(t);if(s%4===2) snare(t);hat(t);}
   }
 
