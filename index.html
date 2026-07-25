@@ -1187,13 +1187,13 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
    Levels:   Myoclonic buildup → Pre-ictal → Ictal → (death) Post-ictal
 ─────────────────────────────────────────────────────────────────────────── */
 (function(){
-  var H=202,GY=158,LY=164,ULY=28,PLX=90,PH=38,DH=18;
+  var H=300,GY=234,LY=243,ULY=42,PLX=96,PH=57,DH=27;
   var isMob='ontouchstart' in window||window.innerWidth<600;
-  var W=isMob?window.innerWidth:Math.min(580,window.innerWidth-36);
+  var W=isMob?window.innerWidth:Math.min(820,window.innerWidth-36);
   var wrap,gc,gctx,looping=false,rafId;
   var LVLS=['Myoclonic buildup','Pre-ictal','Ictal'];
   var g={state:'idle',tick:0,off:0,score:0,hi:+(localStorage.getItem('nr_hi')||0),
-    spd:2.8,ply:GY,pvy:0,duck:false,duckHeld:false,obs:[],nxt:145,lvl:0};
+    spd:2.8,ply:GY,pvy:0,duck:false,duckHeld:false,obs:[],nxt:200,lvl:0};
 
   /* ── Web Audio: wobble bass + beat-synced filter sweep ── */
   var A={ctx:null,mast:null,nxt:0,step:0,timer:null,
@@ -1313,10 +1313,9 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 
   function build(){
     wrap=document.createElement('div');
-    wrap.style.cssText=(isMob?'position:fixed;left:0;right:0;bottom:0;'
-      :'position:fixed;right:1.5rem;bottom:1.5rem;')+
+    wrap.style.cssText='position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);'+
       'z-index:9998;background:var(--surface);border:1px solid var(--accent);'+
-      'box-shadow:0 6px 28px rgba(26,86,219,.22);flex-direction:column;gap:0;display:none';
+      'box-shadow:0 8px 40px rgba(26,86,219,.30);flex-direction:column;gap:0;display:none';
     var hdr=document.createElement('div');
     hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;'+
       'padding:.28rem .55rem;border-bottom:1px solid var(--border)';
@@ -1374,7 +1373,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
 
   function reset(){
     g.state='running';g.tick=0;g.off=0;g.score=0;g.spd=2.8;
-    g.ply=GY;g.pvy=0;g.duck=false;g.duckHeld=false;g.obs=[];g.nxt=145;g.lvl=0;
+    g.ply=GY;g.pvy=0;g.duck=false;g.duckHeld=false;g.obs=[];g.nxt=200;g.lvl=0;
   }
 
   function dk(){
@@ -1476,9 +1475,9 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
         var last=g.obs[g.obs.length-1],lastDown=last&&last.dir===-1;
         var overhead=g.lvl>=1&&!lastDown&&Math.random()<(g.lvl===1?.30:.44);
         if(overhead){
-          g.obs.push({x:W+20,h:94+Math.random()*16,w:10+Math.random()*4,dir:-1});
+          g.obs.push({x:W+20,h:140+Math.random()*24,w:15+Math.random()*6,dir:-1});
         } else {
-          g.obs.push({x:W+20,h:22+Math.random()*(28+g.lvl*10),w:8+Math.random()*6,dir:1});
+          g.obs.push({x:W+20,h:33+Math.random()*(42+g.lvl*15),w:12+Math.random()*9,dir:1});
         }
         g.nxt=(55+Math.random()*70)*g.spd;
       }
