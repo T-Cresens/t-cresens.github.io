@@ -453,6 +453,7 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
     <button class="tab-btn active" data-tab="over"  aria-selected="true" data-i18n="tab.over">Over mij</button>
     <button class="tab-btn"        data-tab="creya" aria-selected="false">Creya</button>
     <button class="tab-btn"        data-tab="spike" aria-selected="false">SPIKE</button>
+    <button class="tab-btn"        data-tab="tdbrain" aria-selected="false">TDBRAIN</button>
   </div>
 </nav>
 
@@ -588,6 +589,9 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
           </button>
           <button class="btn-secondary" onclick="switchTab('spike')" style="justify-content:space-between;width:100%;max-width:255px">
             <span>SPIKE</span><span>→</span>
+          </button>
+          <button class="btn-secondary" onclick="switchTab('tdbrain')" style="justify-content:space-between;width:100%;max-width:255px">
+            <span>TDBRAIN</span><span>→</span>
           </button>
         </div>
       </section>
@@ -815,6 +819,23 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
 </div>
 
 
+<!-- ══ TDBRAIN ════════════════════════════════════════════════════════════════ -->
+<div id="tab-tdbrain" class="tab-panel" role="tabpanel">
+<div class="wrap">
+
+  <div class="proj-hero">
+    <p class="proj-eyebrow" data-i18n="tdbrain.eyebrow">Competitie — 2026</p>
+    <h2 class="proj-title">TDBRAIN Challenge</h2>
+    <p class="proj-tagline" data-i18n="tdbrain.tagline">Deelnemer aan de TDBRAIN Challenge van Brainclinics — een onderzoekscompetitie rond het TDBRAIN EEG-datasetproject.</p>
+    <div class="btn-row">
+      <a class="btn-primary" href="https://brainclinics.com/research/articles/tdbrain-challenge" target="_blank" rel="noopener" data-i18n="tdbrain.visit">Bekijk de TDBRAIN Challenge →</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
 <!-- Lightbox -->
 <div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Schermafbeelding">
   <button class="lb-close" id="lbClose" aria-label="Sluiten">×</button>
@@ -855,7 +876,7 @@ function switchTab(id){
 document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
 (function(){
   const h=(location.hash||'#over').slice(1);
-  if(['over','creya','spike'].includes(h)) switchTab(h);
+  if(['over','creya','spike','tdbrain'].includes(h)) switchTab(h);
 })();
 
 /* ── Lightbox ────────────────────────────────────────────────────────────── */
@@ -1134,7 +1155,9 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'creya.collab.sub':'Medeoprichter · LinkedIn',
       'spike.eyebrow':'Nevenproject — 2026','spike.tagline':'Seizure Pattern Intelligence & Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.',
       'spike.download':'Downloaden — Windows','spike.older':'Oudere versies','spike.what':'Wat doet SPIKE?',
-      'spike.desc':'Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.'
+      'spike.desc':'Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.',
+      'tdbrain.eyebrow':'Competitie — 2026','tdbrain.tagline':'Deelnemer aan de TDBRAIN Challenge van Brainclinics — een onderzoekscompetitie rond het TDBRAIN EEG-datasetproject.',
+      'tdbrain.visit':'Bekijk de TDBRAIN Challenge →'
     },
     en:{
       'tab.over':'About me','about.eyebrow':'Pelt, Belgium',
@@ -1161,7 +1184,9 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'creya.collab.sub':'Co-founder · LinkedIn',
       'spike.eyebrow':'Side project — 2026','spike.tagline':'Seizure Pattern Intelligence & Knowledge Engine — a Windows desktop application for EEG pattern analysis and epilepsy decision support.',
       'spike.download':'Download — Windows','spike.older':'Older versions','spike.what':'What does SPIKE do?',
-      'spike.desc':'Reads clinical EEG files (.edf), applies pattern detection models trained on public datasets (TUH, CHB-MIT, Siena, TUEP), and computes an epilepsy probability with a conformal prediction interval. Includes a decision-support tab for AED selection based on Belgian and NICE guidelines. Built in Python with MNE-Python, LightGBM and MAPIE.'
+      'spike.desc':'Reads clinical EEG files (.edf), applies pattern detection models trained on public datasets (TUH, CHB-MIT, Siena, TUEP), and computes an epilepsy probability with a conformal prediction interval. Includes a decision-support tab for AED selection based on Belgian and NICE guidelines. Built in Python with MNE-Python, LightGBM and MAPIE.',
+      'tdbrain.eyebrow':'Competition — 2026','tdbrain.tagline':'Participant in the TDBRAIN Challenge by Brainclinics — a research competition built around the TDBRAIN EEG dataset project.',
+      'tdbrain.visit':'View the TDBRAIN Challenge →'
     }
   };
 
