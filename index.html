@@ -296,6 +296,11 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
 .lb-count{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.72rem;letter-spacing:.1em;font-family:system-ui,sans-serif}
 .gallery-placeholder{background:var(--chip-bg);border:1px dashed var(--border);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--faint);font-size:.76rem;text-align:center;padding:1rem}
 
+/* ── Demo video ───────────────────────────────────────────────────────────── */
+.demo-video{display:block;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--border)}
+.demo-cap{font-size:.76rem;color:var(--muted);margin-top:.6rem;margin-bottom:2.4rem;line-height:1.5}
+.perf-sec{margin-bottom:2.4rem}
+
 /* ── Collab card ──────────────────────────────────────────────────────────── */
 .collab-card{display:inline-flex;align-items:center;gap:.9rem;border:1px solid var(--border);padding:.8rem 1.2rem;background:var(--surface);text-decoration:none;transition:background .12s}
 .collab-card:hover{background:var(--chip-bg)}
@@ -741,30 +746,22 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
   </section>
 
   <section>
-    <p class="gallery-label" data-i18n="lbl.screenshots">Schermafbeeldingen</p>
-    <div class="gal-wrap" data-cols="3" data-gallery-id="spike">
-      <div class="gal-outer">
-        <div class="gal-track">
-          <img src="s01.jpg" alt="SPIKE — overzicht" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s02.jpg" alt="SPIKE — EEG-analyse" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s03.jpg" alt="SPIKE — patroondetectie" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s04.jpg" alt="SPIKE — resultaten" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s05.jpg" alt="SPIKE — fenomenen" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s06.jpg" alt="SPIKE — kanaalweergave" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s07.jpg" alt="SPIKE — diagnose" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s08.jpg" alt="SPIKE — AED-advies" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s09.jpg" alt="SPIKE — exploratieve engine" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s10.jpg" alt="SPIKE — conformal prediction" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s11.jpg" alt="SPIKE — waarschijnlijkheidsinterval" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s12.jpg" alt="SPIKE — databronnen" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s13.jpg" alt="SPIKE — referenties" loading="lazy" class="lb-thumb" data-gallery="spike">
-          <img src="s14.jpg" alt="SPIKE — modelprestaties" loading="lazy" class="lb-thumb" data-gallery="spike">
-        </div>
+    <p class="gallery-label" data-i18n="lbl.demo">Demovideo</p>
+    <video class="demo-video" controls preload="metadata" playsinline poster="spike_demo_poster.jpg">
+      <source src="spike_demo.mp4" type="video/mp4">
+    </video>
+    <p class="demo-cap" data-i18n="spike.demo.cap">Een synthetische EEG-opname met juveniele myoclonische epilepsie, van analyse tot behandelplan (2:43). Muziek: eigen nummer „ion".</p>
+  </section>
+
+  <section class="perf-sec">
+    <p class="sec-label" data-i18n="spike.perf">Prestaties</p>
+    <a class="collab-card" href="SPIKE_holdout_results.pdf" target="_blank" rel="noopener">
+      <div>
+        <p class="collab-name" data-i18n="spike.perf.title">Resultaten op ongeziene patiënten (PDF)</p>
+        <p class="collab-sub" data-i18n="spike.perf.sub">ROC AUC en valse alarmen per uur EEG, per gebeurtenis en artefact — boommodel, deep learning en de 50/50-stemming</p>
       </div>
-      <button class="gal-arrow gal-prev" aria-label="Vorige">‹</button>
-      <button class="gal-arrow gal-next" aria-label="Volgende">›</button>
-      <p class="gal-counter"></p>
-    </div>
+      <span class="collab-arrow">→</span>
+    </a>
   </section>
 
   <section>
@@ -1183,6 +1180,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'spike.download':'Downloaden — Windows','spike.older':'Oudere versies','spike.what':'Wat doet SPIKE?',
       'spike.desc':'Leest klinische EEG-bestanden (.edf). Een deep-learningmodel en een boommodel (gradient boosting) stemmen samen: ze stellen aanvallen, LPD\'s, GPD\'s en artefacten voor, en kleuren elke elektrode naargelang hoe epileptiform de activiteit eruitziet. Spike-wave-voorstellen worden getoetst aan drie IFCN-criteria. Elk voorstel kan bevestigd, aangepast of verworpen worden. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen, met een interactiematrix en een exporteerbaar behandelplan. Getraind op publieke datasets (TUH EEG-corpora, TDBRAIN). Gebouwd in Python met MNE-Python, PyTorch, LightGBM en XGBoost.',
       'spike.portable':'Draagbare versie (zip)','spike.refs':'Referenties (35)',
+      'lbl.demo':'Demovideo','spike.perf':'Prestaties','spike.demo.cap':'Een synthetische EEG-opname met juveniele myoclonische epilepsie, van analyse tot behandelplan (2:43). Muziek: eigen nummer „ion".','spike.perf.title':'Resultaten op ongeziene patiënten (PDF)','spike.perf.sub':'ROC AUC en valse alarmen per uur EEG, per gebeurtenis en artefact — boommodel, deep learning en de 50/50-stemming',
       'tdbrain.eyebrow':'Competitie — 2026','tdbrain.tagline':'Deelnemer aan de TDBRAIN Challenge van Brainclinics — een onderzoekscompetitie rond het TDBRAIN EEG-datasetproject.',
       'tdbrain.visit':'Bekijk de TDBRAIN Challenge →'
     },
@@ -1213,6 +1211,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'spike.download':'Download — Windows','spike.older':'Older versions','spike.what':'What does SPIKE do?',
       'spike.desc':'Reads clinical EEG files (.edf). A deep-learning model and a gradient-boosted tree model vote together: they propose seizures, LPDs, GPDs and artefacts, and colour each electrode by how epileptiform its activity looks. Spike-wave proposals are checked against three IFCN criteria. Every proposal can be confirmed, edited or rejected. Includes a decision-support tab for AED selection based on Belgian and NICE guidelines, with a drug interaction matrix and an exportable treatment plan. Trained on public datasets (TUH EEG corpora, TDBRAIN). Built in Python with MNE-Python, PyTorch, LightGBM and XGBoost.',
       'spike.portable':'Portable version (zip)','spike.refs':'References (35)',
+      'lbl.demo':'Demo video','spike.perf':'Performance','spike.demo.cap':'A synthetic EEG recording of juvenile myoclonic epilepsy, from analysis to treatment plan (2:43). Music: "ion", my own track.','spike.perf.title':'Results on held-out patients (PDF)','spike.perf.sub':'ROC AUC and false alarms per hour of EEG, per event and artefact — tree model, deep learning and the 50/50 vote',
       'tdbrain.eyebrow':'Competition — 2026','tdbrain.tagline':'Participant in the TDBRAIN Challenge by Brainclinics — a research competition built around the TDBRAIN EEG dataset project.',
       'tdbrain.visit':'View the TDBRAIN Challenge →'
     }
