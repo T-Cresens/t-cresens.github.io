@@ -234,6 +234,8 @@ a{color:inherit;text-decoration:none}
 .ref-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0}
 .ref-list li{display:grid;grid-template-columns:1.8rem 1fr;gap:0 .5rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.78rem;line-height:1.65;color:var(--muted)}
 .ref-list li:last-child{border-bottom:none}
+.ref-group{font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:1.1rem 0 .15rem}
+.ref-group:first-of-type{margin-top:.2rem}
 .ref-num{color:var(--faint);font-variant-numeric:tabular-nums;padding-top:.02em;font-size:.72rem}
 .ref-body em{font-style:normal;color:var(--text)}
 .ref-doi{display:block;font-size:.72rem;margin-top:.18rem}
@@ -560,6 +562,7 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
             <span class="chip">Excel — solver, PowerQuery</span>
             <span class="chip" data-i18n="sk.lp">Lineair programmeren (Lindo)</span>
             <span class="chip">STATA-SE</span>
+            <span class="chip" data-i18n="sk.sas">SAS 9.4 Base Programming — licentie</span>
             <span class="chip">Power BI</span>
             <span class="chip" data-i18n="sk.hw">Computerhardware</span>
             <span class="chip" data-i18n="sk.dutch">Nederlands — moedertaal</span>
@@ -678,17 +681,27 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
   <div class="proj-hero">
     <p class="proj-eyebrow" data-i18n="spike.eyebrow">Nevenproject — 2026</p>
     <h2 class="proj-title">SPIKE</h2>
-    <span class="proj-version">v1.2.005</span>
+    <span class="proj-version">V2.0</span>
     <p class="proj-tagline" data-i18n="spike.tagline">Seizure Pattern Intelligence &amp; Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.</p>
     <div class="btn-row">
-      <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_PUBLIC/releases/download/v1.2.005/SPIKE_Setup_v1.2.005.exe">
+      <a class="btn-primary" href="https://github.com/T-Cresens/SPIKE_PUBLIC/releases/download/v2.0/SPIKE_Setup_V2.0.exe">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
         <span data-i18n="spike.download">Downloaden — Windows</span>
+      </a>
+      <a class="btn-secondary" href="https://github.com/T-Cresens/SPIKE_PUBLIC/releases/download/v2.0/SPIKE_V2.0_Windows.zip">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
+        <span data-i18n="spike.portable">Draagbare versie (zip)</span>
       </a>
     </div>
     <details class="older-v">
       <summary data-i18n="spike.older">Oudere versies</summary>
       <ul class="older-v-list">
+        <li>
+          <a href="https://github.com/T-Cresens/SPIKE_PUBLIC/releases/download/v1.2.005/SPIKE_Setup_v1.2.005.exe">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
+            SPIKE v1.2.005 — Windows
+          </a>
+        </li>
         <li>
           <a href="https://github.com/T-Cresens/SPIKE_PUBLIC/releases/download/v1.0.005/SPIKE_Setup_v1.0.005.exe">
             <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5Z"/><path d="M3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
@@ -719,10 +732,10 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
 
   <section>
     <p class="sec-label" data-i18n="spike.what">Wat doet SPIKE?</p>
-    <p class="proj-details" data-i18n="spike.desc">Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.</p>
+    <p class="proj-details" data-i18n="spike.desc">Leest klinische EEG-bestanden (.edf). Een deep-learningmodel en een boommodel (gradient boosting) stemmen samen: ze stellen aanvallen, LPD's, GPD's en artefacten voor, en kleuren elke elektrode naargelang hoe epileptiform de activiteit eruitziet. Spike-wave-voorstellen worden getoetst aan drie IFCN-criteria. Elk voorstel kan bevestigd, aangepast of verworpen worden. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen, met een interactiematrix en een exporteerbaar behandelplan. Getraind op publieke datasets (TUH EEG-corpora, TDBRAIN). Gebouwd in Python met MNE-Python, PyTorch, LightGBM en XGBoost.</p>
     <div class="proj-tags">
-      <span class="tag">Python</span><span class="tag">MNE-Python</span>
-      <span class="tag">LightGBM</span><span class="tag">MAPIE</span>
+      <span class="tag">Python</span><span class="tag">MNE-Python</span><span class="tag">PyTorch</span>
+      <span class="tag">LightGBM</span><span class="tag">XGBoost</span>
       <span class="tag">NiceGUI</span><span class="tag">Windows 10 / 11</span>
     </div>
   </section>
@@ -772,39 +785,56 @@ details.older-v[open] summary::after{transform:rotate(90deg)}
 
   <section>
     <details class="ref-details">
-    <summary>Referenties (31)</summary>
-    <ol class="ref-list">
-      <li><span class="ref-num">1</span><span class="ref-body"><em>Gramfort A et al.</em> (2013). MEG and EEG data analysis with MNE-Python. <em>Front. Neurosci.</em> 7:267.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2013.00267" target="_blank" rel="noopener">doi:10.3389/fnins.2013.00267</a></span></span></li>
-      <li><span class="ref-num">2</span><span class="ref-body"><em>Hyvärinen A &amp; Oja E</em> (2000). Independent component analysis: algorithms and applications. <em>Neural Networks</em> 13:411–430.<span class="ref-doi"><a href="https://doi.org/10.1016/S0893-6080(00)00026-5" target="_blank" rel="noopener">doi:10.1016/S0893-6080(00)00026-5</a></span></span></li>
-      <li><span class="ref-num">3</span><span class="ref-body"><em>Donoghue T et al.</em> (2020). Parameterizing neural power spectra into periodic and aperiodic components. <em>Nature Neuroscience</em> 23:1655–1665.<span class="ref-doi"><a href="https://doi.org/10.1038/s41593-020-00744-x" target="_blank" rel="noopener">doi:10.1038/s41593-020-00744-x</a></span></span></li>
-      <li><span class="ref-num">4</span><span class="ref-body"><em>Kaiser JF</em> (1990). On a simple algorithm to calculate the energy of a signal. <em>ICASSP 1990.</em><span class="ref-doi"><a href="https://doi.org/10.1109/ICASSP.1990.115702" target="_blank" rel="noopener">doi:10.1109/ICASSP.1990.115702</a></span></span></li>
-      <li><span class="ref-num">5</span><span class="ref-body"><em>Ke G et al.</em> (2017). LightGBM: A highly efficient gradient boosting decision tree. <em>NeurIPS 2017.</em><span class="ref-doi"><a href="https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bea5d2f4f97e-Abstract.html" target="_blank" rel="noopener">papers.nips.cc</a></span></span></li>
-      <li><span class="ref-num">6</span><span class="ref-body"><em>Angelopoulos AN &amp; Bates S</em> (2023). A gentle introduction to conformal prediction. <em>TMLR.</em><span class="ref-doi"><a href="https://arxiv.org/abs/2107.07511" target="_blank" rel="noopener">arxiv:2107.07511</a></span></span></li>
-      <li><span class="ref-num">7</span><span class="ref-body"><em>Hirsch LJ et al.</em> (2021). ACNS Standardized Critical Care EEG Terminology 2021. <em>J. Clin. Neurophysiol.</em> 38:1–29.<span class="ref-doi"><a href="https://doi.org/10.1097/WNP.0000000000000806" target="_blank" rel="noopener">doi:10.1097/WNP.0000000000000806</a></span></span></li>
-      <li><span class="ref-num">8</span><span class="ref-body"><em>Fisher RS et al.</em> (2017). Operational classification of seizure types by the ILAE. <em>Epilepsia</em> 58:522–530.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13670" target="_blank" rel="noopener">doi:10.1111/epi.13670</a></span></span></li>
-      <li><span class="ref-num">9</span><span class="ref-body"><em>Scheffer IE et al.</em> (2017). ILAE classification of the epilepsies. <em>Epilepsia</em> 58:512–521.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13709" target="_blank" rel="noopener">doi:10.1111/epi.13709</a></span></span></li>
-      <li><span class="ref-num">10</span><span class="ref-body"><em>Synek VM</em> (1988). Prognostically important EEG coma patterns in diffuse anoxic and traumatic encephalopathies in adults. <em>J. Clin. Neurophysiol.</em> 5:161–174.<span class="ref-doi"><a href="https://doi.org/10.1097/00004691-198804000-00006" target="_blank" rel="noopener">doi:10.1097/00004691-198804000-00006</a></span></span></li>
-      <li><span class="ref-num">11</span><span class="ref-body"><em>Panayiotopoulos CP</em> (2005). <em>The Epilepsies: Seizures, Syndromes and Management.</em> Bladon Medical.</span></li>
-      <li><span class="ref-num">12</span><span class="ref-body"><em>Camfield P &amp; Camfield C</em> (2015). Lennox-Gastaut syndrome. <em>Handb. Clin. Neurol.</em> 132:167–184.<span class="ref-doi"><a href="https://doi.org/10.1016/B978-0-444-62702-5.00012-5" target="_blank" rel="noopener">doi:10.1016/B978-0-444-62702-5.00012-5</a></span></span></li>
-      <li><span class="ref-num">13</span><span class="ref-body"><em>Kellaway P</em> (1959). Neurologic status of patients with hypsarrhythmia. In: Gibbs ed., <em>Molecules and Mental Health.</em></span></li>
-      <li><span class="ref-num">14</span><span class="ref-body"><em>Kurtz P et al.</em> (2017). Ictal quantitative EEG changes associated with clinical outcomes. <em>Neurocrit. Care</em> 26:221–231.<span class="ref-doi"><a href="https://doi.org/10.1007/s12028-016-0308-3" target="_blank" rel="noopener">doi:10.1007/s12028-016-0308-3</a></span></span></li>
-      <li><span class="ref-num">15</span><span class="ref-body"><em>Iber C et al.</em> (2007). <em>The AASM Manual for the Scoring of Sleep and Associated Events.</em> AASM.</span></li>
-      <li><span class="ref-num">16</span><span class="ref-body"><em>Zijlmans M et al.</em> (2017). High-frequency oscillations as a new biomarker in epilepsy. <em>Ann. Neurol.</em> 71:169–178.<span class="ref-doi"><a href="https://doi.org/10.1002/ana.22548" target="_blank" rel="noopener">doi:10.1002/ana.22548</a></span></span></li>
-      <li><span class="ref-num">17</span><span class="ref-body"><em>Hirsch LJ</em> (2021). Focal EEG delta review (PMC12476073) — TIRDA/LRDA epileptogenicity criteria.</span></li>
-      <li><span class="ref-num">18</span><span class="ref-body"><em>Frauscher B et al.</em> (2017). High-frequency oscillations: the state of clinical research. <em>Epilepsia</em> 58:1316–1329.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13829" target="_blank" rel="noopener">doi:10.1111/epi.13829</a></span></span></li>
-      <li><span class="ref-num">19</span><span class="ref-body"><em>Ren L &amp; Stacey WC</em> (2019). Scalp EEG high-frequency oscillations: the effects of electrode montage. <em>Clin. Neurophysiol.</em> 130:368–377.<span class="ref-doi"><a href="https://doi.org/10.1016/j.clinph.2018.10.022" target="_blank" rel="noopener">doi:10.1016/j.clinph.2018.10.022</a></span></span></li>
-      <li><span class="ref-num">20</span><span class="ref-body"><em>Holler Y et al.</em> (2018). Detection of high-frequency oscillations in the ripple band: practically impossible on scalp EEG. <em>Comput. Intell. Neurosci.</em> 2018:2518214.<span class="ref-doi"><a href="https://doi.org/10.1155/2018/2518214" target="_blank" rel="noopener">doi:10.1155/2018/2518214</a></span></span></li>
-      <li><span class="ref-num">21</span><span class="ref-body"><em>Mytinger JR et al.</em> (2015). Interrater reliability of hypsarrhythmia EEG classification (IRISH). <em>Epilepsy Res.</em> 116:55–57.<span class="ref-doi"><a href="https://doi.org/10.1016/j.eplepsyres.2015.06.017" target="_blank" rel="noopener">doi:10.1016/j.eplepsyres.2015.06.017</a></span></span></li>
-      <li><span class="ref-num">22</span><span class="ref-body"><em>Obeid I &amp; Picone J</em> (2016). The Temple University Hospital EEG Data Corpus. <em>Front. Neurosci.</em> 10:196.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2016.00196" target="_blank" rel="noopener">doi:10.3389/fnins.2016.00196</a></span></span></li>
-      <li><span class="ref-num">23</span><span class="ref-body"><em>Shoeb A</em> (2009). Application of machine learning to epileptic seizure onset detection. PhD thesis, MIT. PhysioNet.<span class="ref-doi"><a href="https://physionet.org/content/chbmit/1.0.0/" target="_blank" rel="noopener">physionet.org/content/chbmit/1.0.0/</a></span></span></li>
-      <li><span class="ref-num">24</span><span class="ref-body"><em>Detti P et al.</em> (2020). Siena Scalp EEG Database. PhysioNet.<span class="ref-doi"><a href="https://doi.org/10.13026/5d4a-j163" target="_blank" rel="noopener">doi:10.13026/5d4a-j163</a></span></span></li>
-      <li><span class="ref-num">25</span><span class="ref-body"><em>van Dijk H et al.</em> (2022). TDBRAIN. <em>Scientific Data</em> 9:333.<span class="ref-doi"><a href="https://doi.org/10.1038/s41597-022-01409-z" target="_blank" rel="noopener">doi:10.1038/s41597-022-01409-z</a></span></span></li>
-      <li><span class="ref-num">26</span><span class="ref-body"><em>Babayan A et al.</em> (2019). LEMON dataset. <em>Scientific Data</em> 6:180308.<span class="ref-doi"><a href="https://doi.org/10.1038/sdata.2018.308" target="_blank" rel="noopener">doi:10.1038/sdata.2018.308</a></span></span></li>
-      <li><span class="ref-num">27</span><span class="ref-body"><em>NICE</em> (2022). Epilepsies in children, young people and adults. NG217.<span class="ref-doi"><a href="https://www.nice.org.uk/guidance/ng217" target="_blank" rel="noopener">nice.org.uk/guidance/ng217</a></span></span></li>
-      <li><span class="ref-num">28</span><span class="ref-body"><em>WHO</em> (2024). ATC/DDD Index.<span class="ref-doi"><a href="https://www.whocc.no/atc_ddd_index/" target="_blank" rel="noopener">whocc.no/atc_ddd_index/</a></span></span></li>
-      <li><span class="ref-num">29</span><span class="ref-body"><em>Kemp B et al.</em> (1992). A simple format for exchange of digitized polygraphic recordings. <em>Electroencephalogr. Clin. Neurophysiol.</em> 82:391–393.<span class="ref-doi"><a href="https://doi.org/10.1016/0013-4694(92)90009-7" target="_blank" rel="noopener">doi:10.1016/0013-4694(92)90009-7</a></span></span></li>
-      <li><span class="ref-num">30</span><span class="ref-body"><em>Boon P et al.</em> (2021). Belgian Epilepsy Treatment Guidelines. — Prior source for AED recommendations.</span></li>
-      <li><span class="ref-num">31</span><span class="ref-body"><em>Berry RB et al.</em> (2020). The AASM Manual for the Scoring of Sleep and Associated Events. Version 2.6. AASM.</span></li>
+    <summary data-i18n="spike.refs">Referenties (35)</summary>
+    <p class="ref-group">Datasets</p>
+    <ol class="ref-list" start="1">
+      <li><span class="ref-num">1</span><span class="ref-body"><em>Obeid I &amp; Picone J</em> (2016). The Temple University Hospital EEG Data Corpus. Front. Neurosci. 10:196.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2016.00196" target="_blank" rel="noopener">doi:10.3389/fnins.2016.00196</a></span></span></li>
+      <li><span class="ref-num">2</span><span class="ref-body"><em>Shah V et al.</em> (2018). The Temple University Hospital Seizure Detection Corpus (TUSZ). Front. Neuroinform. 12:83.<span class="ref-doi"><a href="https://doi.org/10.3389/fninf.2018.00083" target="_blank" rel="noopener">doi:10.3389/fninf.2018.00083</a></span></span></li>
+      <li><span class="ref-num">3</span><span class="ref-body"><em>Harati A et al.</em> (2015). Improved EEG event classification using differential energy (TUEV). IEEE SPMB 2015:1–4.<span class="ref-doi"><a href="https://doi.org/10.1109/SPMB.2015.7405421" target="_blank" rel="noopener">doi:10.1109/SPMB.2015.7405421</a></span></span></li>
+      <li><span class="ref-num">4</span><span class="ref-body"><em>Hamid A et al.</em> (2020). The Temple University Artifact Corpus: an annotated corpus of EEG artifacts (TUAR). IEEE SPMB 2020.<span class="ref-doi"><a href="https://doi.org/10.1109/SPMB50085.2020.9353647" target="_blank" rel="noopener">doi:10.1109/SPMB50085.2020.9353647</a></span></span></li>
+      <li><span class="ref-num">5</span><span class="ref-body"><em>Veloso L et al.</em> (2017). Big data resources for EEGs: enabling deep learning research (TUEP). IEEE SPMB 2017.<span class="ref-doi"><a href="https://doi.org/10.1109/SPMB.2017.8257044" target="_blank" rel="noopener">doi:10.1109/SPMB.2017.8257044</a></span></span></li>
+      <li><span class="ref-num">6</span><span class="ref-body"><em>van Dijk H et al.</em> (2022). The two decades brainclinics research archive for insights in neurophysiology (TDBRAIN). Sci. Data 9:333.<span class="ref-doi"><a href="https://doi.org/10.1038/s41597-022-01409-z" target="_blank" rel="noopener">doi:10.1038/s41597-022-01409-z</a></span></span></li>
+      <li><span class="ref-num">7</span><span class="ref-body"><em>Shoeb A</em> (2009). Application of machine learning to epileptic seizure onset detection and treatment (CHB-MIT Scalp EEG Database). PhD thesis, MIT; PhysioNet.<span class="ref-doi"><a href="https://physionet.org/content/chbmit/1.0.0/" target="_blank" rel="noopener">physionet.org/content/chbmit/1.0.0/</a></span></span></li>
+      <li><span class="ref-num">8</span><span class="ref-body"><em>Detti P et al.</em> (2020). Siena Scalp EEG Database. PhysioNet.<span class="ref-doi"><a href="https://doi.org/10.13026/5d4a-j060" target="_blank" rel="noopener">doi:10.13026/5d4a-j060</a></span></span></li>
+      <li><span class="ref-num">9</span><span class="ref-body"><em>Babayan A et al.</em> (2019). A mind-brain-body dataset of MRI, EEG, cognition, emotion, and peripheral physiology in young and old adults (LEMON). Sci. Data 6:180308.<span class="ref-doi"><a href="https://doi.org/10.1038/sdata.2018.308" target="_blank" rel="noopener">doi:10.1038/sdata.2018.308</a></span></span></li>
+      <li><span class="ref-num">10</span><span class="ref-body"><em>Kemp B et al.</em> (1992). A simple format for exchange of digitized polygraphic recordings (EDF). Electroencephalogr. Clin. Neurophysiol. 82:391–393.<span class="ref-doi"><a href="https://doi.org/10.1016/0013-4694(92)90009-7" target="_blank" rel="noopener">doi:10.1016/0013-4694(92)90009-7</a></span></span></li>
+    </ol>
+    <p class="ref-group">Signal processing</p>
+    <ol class="ref-list" start="11">
+      <li><span class="ref-num">11</span><span class="ref-body"><em>Gramfort A et al.</em> (2013). MEG and EEG data analysis with MNE-Python. Front. Neurosci. 7:267.<span class="ref-doi"><a href="https://doi.org/10.3389/fnins.2013.00267" target="_blank" rel="noopener">doi:10.3389/fnins.2013.00267</a></span></span></li>
+      <li><span class="ref-num">12</span><span class="ref-body"><em>Hyvärinen A &amp; Oja E</em> (2000). Independent component analysis: algorithms and applications. Neural Networks 13:411–430.<span class="ref-doi"><a href="https://doi.org/10.1016/S0893-6080(00)00026-5" target="_blank" rel="noopener">doi:10.1016/S0893-6080(00)00026-5</a></span></span></li>
+      <li><span class="ref-num">13</span><span class="ref-body"><em>Donoghue T et al.</em> (2020). Parameterizing neural power spectra into periodic and aperiodic components. Nat. Neurosci. 23:1655–1665.<span class="ref-doi"><a href="https://doi.org/10.1038/s41593-020-00744-x" target="_blank" rel="noopener">doi:10.1038/s41593-020-00744-x</a></span></span></li>
+      <li><span class="ref-num">14</span><span class="ref-body"><em>Kaiser JF</em> (1990). On a simple algorithm to calculate the &#x27;energy&#x27; of a signal. ICASSP 1990:381–384.<span class="ref-doi"><a href="https://doi.org/10.1109/ICASSP.1990.115702" target="_blank" rel="noopener">doi:10.1109/ICASSP.1990.115702</a></span></span></li>
+      <li><span class="ref-num">15</span><span class="ref-body"><em>Hjorth B</em> (1970). EEG analysis based on time domain properties. Electroencephalogr. Clin. Neurophysiol. 29:306–310.<span class="ref-doi"><a href="https://doi.org/10.1016/0013-4694(70)90143-4" target="_blank" rel="noopener">doi:10.1016/0013-4694(70)90143-4</a></span></span></li>
+    </ol>
+    <p class="ref-group">Machine learning</p>
+    <ol class="ref-list" start="16">
+      <li><span class="ref-num">16</span><span class="ref-body"><em>Ke G et al.</em> (2017). LightGBM: a highly efficient gradient boosting decision tree. NeurIPS 2017.<span class="ref-doi"><a href="https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html" target="_blank" rel="noopener">papers.nips.cc</a></span></span></li>
+      <li><span class="ref-num">17</span><span class="ref-body"><em>Chen T &amp; Guestrin C</em> (2016). XGBoost: a scalable tree boosting system. KDD 2016:785–794.<span class="ref-doi"><a href="https://doi.org/10.1145/2939672.2939785" target="_blank" rel="noopener">doi:10.1145/2939672.2939785</a></span></span></li>
+      <li><span class="ref-num">18</span><span class="ref-body"><em>Paszke A et al.</em> (2019). PyTorch: an imperative style, high-performance deep learning library. NeurIPS 2019.<span class="ref-doi"><a href="https://arxiv.org/abs/1912.01703" target="_blank" rel="noopener">arxiv:1912.01703</a></span></span></li>
+      <li><span class="ref-num">19</span><span class="ref-body"><em>Vaswani A et al.</em> (2017). Attention is all you need. NeurIPS 2017.<span class="ref-doi"><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arxiv:1706.03762</a></span></span></li>
+      <li><span class="ref-num">20</span><span class="ref-body"><em>Angelopoulos AN &amp; Bates S</em> (2021). A gentle introduction to conformal prediction and distribution-free uncertainty quantification. arXiv:2107.07511.<span class="ref-doi"><a href="https://arxiv.org/abs/2107.07511" target="_blank" rel="noopener">arxiv:2107.07511</a></span></span></li>
+    </ol>
+    <p class="ref-group">EEG terminology and spike-wave check</p>
+    <ol class="ref-list" start="21">
+      <li><span class="ref-num">21</span><span class="ref-body"><em>Kane N et al.</em> (2017). A revised glossary of terms most commonly used by clinical electroencephalographers and updated proposal for the report format of the EEG findings. Revision 2017. Clin. Neurophysiol. Pract. 2:170–185.<span class="ref-doi"><a href="https://doi.org/10.1016/j.cnp.2017.07.002" target="_blank" rel="noopener">doi:10.1016/j.cnp.2017.07.002</a></span></span></li>
+      <li><span class="ref-num">22</span><span class="ref-body"><em>Kural MA et al.</em> (2020). Criteria for defining interictal epileptiform discharges in EEG: a clinical validation study. Neurology 94.<span class="ref-doi"><a href="https://doi.org/10.1212/WNL.0000000000009439" target="_blank" rel="noopener">doi:10.1212/WNL.0000000000009439</a></span></span></li>
+      <li><span class="ref-num">23</span><span class="ref-body"><em>Kural MA et al.</em> (2020). Optimized set of criteria for defining interictal epileptiform EEG discharges. Clin. Neurophysiol. 131:2250–2254.<span class="ref-doi"><a href="https://doi.org/10.1016/j.clinph.2020.06.026" target="_blank" rel="noopener">doi:10.1016/j.clinph.2020.06.026</a></span></span></li>
+      <li><span class="ref-num">24</span><span class="ref-body"><em>Jing J et al.</em> (2020). Interrater reliability of experts in identifying interictal epileptiform discharges in electroencephalograms. JAMA Neurol. 77:49–57.<span class="ref-doi"><a href="https://doi.org/10.1001/jamaneurol.2019.3531" target="_blank" rel="noopener">doi:10.1001/jamaneurol.2019.3531</a></span></span></li>
+      <li><span class="ref-num">25</span><span class="ref-body"><em>Hirsch LJ et al.</em> (2021). American Clinical Neurophysiology Society&#x27;s standardized critical care EEG terminology: 2021 version. J. Clin. Neurophysiol. 38:1–29.<span class="ref-doi"><a href="https://doi.org/10.1097/WNP.0000000000000806" target="_blank" rel="noopener">doi:10.1097/WNP.0000000000000806</a></span></span></li>
+    </ol>
+    <p class="ref-group">Classification and AED advice</p>
+    <ol class="ref-list" start="26">
+      <li><span class="ref-num">26</span><span class="ref-body"><em>Fisher RS et al.</em> (2017). Operational classification of seizure types by the International League Against Epilepsy. Epilepsia 58:522–530.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13670" target="_blank" rel="noopener">doi:10.1111/epi.13670</a></span></span></li>
+      <li><span class="ref-num">27</span><span class="ref-body"><em>Scheffer IE et al.</em> (2017). ILAE classification of the epilepsies. Epilepsia 58:512–521.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13709" target="_blank" rel="noopener">doi:10.1111/epi.13709</a></span></span></li>
+      <li><span class="ref-num">28</span><span class="ref-body"><em>NICE</em> (2022). Epilepsies in children, young people and adults. NG217.<span class="ref-doi"><a href="https://www.nice.org.uk/guidance/ng217" target="_blank" rel="noopener">nice.org.uk/guidance/ng217</a></span></span></li>
+      <li><span class="ref-num">29</span><span class="ref-body"><em>Boon P et al.</em> (2021). Belgian Epilepsy Treatment Guidelines. Acta Neurol. Belg. Source for AED recommendations.</span></li>
+      <li><span class="ref-num">30</span><span class="ref-body"><em>Zaccara G &amp; Perucca E</em> (2014). Interactions between antiepileptic drugs, and between antiepileptic drugs and other drugs. Epileptic Disord. 16:409–431.<span class="ref-doi"><a href="https://doi.org/10.1684/epd.2014.0714" target="_blank" rel="noopener">doi:10.1684/epd.2014.0714</a></span></span></li>
+      <li><span class="ref-num">31</span><span class="ref-body"><em>Gaston TE et al.</em> (2017). Interactions between cannabidiol and commonly used antiepileptic drugs. Epilepsia 58:1586–1592.<span class="ref-doi"><a href="https://doi.org/10.1111/epi.13852" target="_blank" rel="noopener">doi:10.1111/epi.13852</a></span></span></li>
+      <li><span class="ref-num">32</span><span class="ref-body"><em>Karaźniewicz-Łada M et al.</em> (2021). Pharmacokinetic drug–drug interactions among antiepileptic drugs, including CBD, drugs used to treat COVID-19 and nutrients. Int. J. Mol. Sci. 22:9582.<span class="ref-doi"><a href="https://doi.org/10.3390/ijms22179582" target="_blank" rel="noopener">doi:10.3390/ijms22179582</a></span></span></li>
+      <li><span class="ref-num">33</span><span class="ref-body"><em>Smith MC et al.</em> (2022). Dose adjustment of concomitant antiseizure medications during cenobamate treatment. Neurol. Ther. 11:1705–1720.<span class="ref-doi"><a href="https://doi.org/10.1007/s40120-022-00400-5" target="_blank" rel="noopener">doi:10.1007/s40120-022-00400-5</a></span></span></li>
+      <li><span class="ref-num">34</span><span class="ref-body"><em>European Medicines Agency</em>. Summaries of Product Characteristics (SmPCs) of the individual AEDs: dosing and many interaction entries.<span class="ref-doi"><a href="https://www.ema.europa.eu/" target="_blank" rel="noopener">ema.europa.eu/</a></span></span></li>
+      <li><span class="ref-num">35</span><span class="ref-body"><em>WHO</em> (2024). ATC/DDD Index.<span class="ref-doi"><a href="https://www.whocc.no/atc_ddd_index/" target="_blank" rel="noopener">whocc.no/atc_ddd_index/</a></span></span></li>
     </ol>
     </details>
   </section>
@@ -1137,7 +1167,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'ct.email.spike':'E-mail — SPIKE / KU Leuven','ct.email.other':'E-mail — Overig',
       'sk.proficient':'Vertrouwd met','sk.learning':'Aan het leren',
       'sk.lp':'Lineair programmeren (Lindo)','sk.hw':'Computerhardware','sk.dutch':'Nederlands — moedertaal','sk.english':'Engels — vloeiend',
-      'sk.econometrics':'Econometrie','sk.ml':'Machine learning',
+      'sk.econometrics':'Econometrie','sk.ml':'Machine learning','sk.sas':'SAS 9.4 Base Programming — licentie',
       'footer.note':'Belgisch kampioen bankdrukken 2023',
       'lbl.screenshots':'Schermafbeeldingen',
       'creya.eyebrow':'Project — 2026','creya.tagline':'Een webservice die financiële inzichten biedt in Belgische bedrijven — gebouwd samen met Yenthe Jannis.',
@@ -1151,7 +1181,8 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'creya.collab.sub':'Medeoprichter · LinkedIn',
       'spike.eyebrow':'Nevenproject — 2026','spike.tagline':'Seizure Pattern Intelligence & Knowledge Engine — een Windows-desktopapplicatie voor EEG-patroonanalyse en beslissingsondersteuning bij epilepsie.',
       'spike.download':'Downloaden — Windows','spike.older':'Oudere versies','spike.what':'Wat doet SPIKE?',
-      'spike.desc':'Leest klinische EEG-bestanden (.edf), past patroondetectiemodellen toe getraind op publieke datasets (TUH, CHB-MIT, Siena, TUEP), en berekent een epilepsiewaarschijnlijkheid met een conformal prediction-interval. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen. Gebouwd in Python met MNE-Python, LightGBM en MAPIE.',
+      'spike.desc':'Leest klinische EEG-bestanden (.edf). Een deep-learningmodel en een boommodel (gradient boosting) stemmen samen: ze stellen aanvallen, LPD\'s, GPD\'s en artefacten voor, en kleuren elke elektrode naargelang hoe epileptiform de activiteit eruitziet. Spike-wave-voorstellen worden getoetst aan drie IFCN-criteria. Elk voorstel kan bevestigd, aangepast of verworpen worden. Bevat een beslissingsondersteunend tabblad voor AED-selectie op basis van Belgische en NICE-richtlijnen, met een interactiematrix en een exporteerbaar behandelplan. Getraind op publieke datasets (TUH EEG-corpora, TDBRAIN). Gebouwd in Python met MNE-Python, PyTorch, LightGBM en XGBoost.',
+      'spike.portable':'Draagbare versie (zip)','spike.refs':'Referenties (35)',
       'tdbrain.eyebrow':'Competitie — 2026','tdbrain.tagline':'Deelnemer aan de TDBRAIN Challenge van Brainclinics — een onderzoekscompetitie rond het TDBRAIN EEG-datasetproject.',
       'tdbrain.visit':'Bekijk de TDBRAIN Challenge →'
     },
@@ -1166,7 +1197,7 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'ct.email.spike':'E-mail — SPIKE / KU Leuven','ct.email.other':'E-mail — Other',
       'sk.proficient':'Proficient in','sk.learning':'Currently learning',
       'sk.lp':'Linear programming (Lindo)','sk.hw':'Computer hardware','sk.dutch':'Dutch — native','sk.english':'English — fluent',
-      'sk.econometrics':'Econometrics','sk.ml':'Machine learning',
+      'sk.econometrics':'Econometrics','sk.ml':'Machine learning','sk.sas':'SAS 9.4 Base Programming — license',
       'footer.note':'Belgian bench press champion 2023',
       'lbl.screenshots':'Screenshots',
       'creya.eyebrow':'Project — 2026','creya.tagline':'A web service providing financial insights into Belgian companies — built together with Yenthe Jannis.',
@@ -1180,7 +1211,8 @@ document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>
       'creya.collab.sub':'Co-founder · LinkedIn',
       'spike.eyebrow':'Side project — 2026','spike.tagline':'Seizure Pattern Intelligence & Knowledge Engine — a Windows desktop application for EEG pattern analysis and epilepsy decision support.',
       'spike.download':'Download — Windows','spike.older':'Older versions','spike.what':'What does SPIKE do?',
-      'spike.desc':'Reads clinical EEG files (.edf), applies pattern detection models trained on public datasets (TUH, CHB-MIT, Siena, TUEP), and computes an epilepsy probability with a conformal prediction interval. Includes a decision-support tab for AED selection based on Belgian and NICE guidelines. Built in Python with MNE-Python, LightGBM and MAPIE.',
+      'spike.desc':'Reads clinical EEG files (.edf). A deep-learning model and a gradient-boosted tree model vote together: they propose seizures, LPDs, GPDs and artefacts, and colour each electrode by how epileptiform its activity looks. Spike-wave proposals are checked against three IFCN criteria. Every proposal can be confirmed, edited or rejected. Includes a decision-support tab for AED selection based on Belgian and NICE guidelines, with a drug interaction matrix and an exportable treatment plan. Trained on public datasets (TUH EEG corpora, TDBRAIN). Built in Python with MNE-Python, PyTorch, LightGBM and XGBoost.',
+      'spike.portable':'Portable version (zip)','spike.refs':'References (35)',
       'tdbrain.eyebrow':'Competition — 2026','tdbrain.tagline':'Participant in the TDBRAIN Challenge by Brainclinics — a research competition built around the TDBRAIN EEG dataset project.',
       'tdbrain.visit':'View the TDBRAIN Challenge →'
     }
